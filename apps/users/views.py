@@ -21,13 +21,14 @@ UserModel: Type[User] = get_user_model()
 class UserListCreateView(ListCreateAPIView):
     serializer_class = UserSerializer
     queryset = UserModel.objects.all()
+    permission_classes = AllowAny,
 
-    def get_permissions(self):
-        if self.request.method == 'POST':
-            return AllowAny(),
-        if self.request.method == 'GET':
-            return IsAdminUser(),
-        return IsAuthenticated(),
+    # def get_permissions(self):
+    #     if self.request.method == 'POST':
+    #         return AllowAny(),
+    #     if self.request.method == 'GET':
+    #         return IsAdminUser(),
+    #     return IsAuthenticated(),
 
 
 class ChangeUserService(GenericAPIView):
@@ -122,3 +123,6 @@ class UserDeactivateView(AdminTools, ABC):
             user.save()
         serializer = UserSerializer(user)
         return Response(serializer.data)
+
+
+
