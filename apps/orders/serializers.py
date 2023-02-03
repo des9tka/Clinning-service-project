@@ -8,7 +8,8 @@ class OrderSerializer(ModelSerializer):
         model = OrderModel
         fields = '__all__'
 
-        read_only_fields = ('id', 'users', 'status')
+        read_only_fields = ('id', 'user', 'status')
+
 
 
 class OrderStatusSerializer(ModelSerializer):

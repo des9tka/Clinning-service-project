@@ -8,12 +8,13 @@ from rest_framework.generics import GenericAPIView, ListCreateAPIView, RetrieveU
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 
+from apps.orders.models import OrderModel
+from apps.orders.serializers import OrderSerializer
 from apps.services.models import ServiceModel
 from apps.users.models import UserModel as User
 
-from .models import ProfileModel
 from .permissions import IsSuperUser
-from .serializers import ProfileSerializer, UserSerializer
+from .serializers import UserSerializer
 
 UserModel: Type[User] = get_user_model()
 
@@ -31,14 +32,30 @@ class UserListCreateView(ListCreateAPIView):
     #     return IsAuthenticated(),
 
 
-class ChangeUserService(GenericAPIView):
+class ChangeUserServiceView(GenericAPIView):
     def patch(self, *args, **kwargs):
         pk = kwargs['pk']
         user = self.request.user
         service = get_object_or_404(ServiceModel, pk=pk)
         user.service = service
         user.save()
-        serializer = UserSerializer(user)
+        serializer = UserSerializer(instance=user)
+        return Response(serializer.data)
+
+
+class ChangeEmployeeServiceView(GenericAPIView):
+    permission_classes = (AllowAny,)
+    def patch(self, *args, **kwargs):
+        try:
+            user_id = self.request.data['user']
+            service_id = self.request.data['service']
+        except (Exception,):
+            return Response('ERROR: Values not provided')
+        service = get_object_or_404(ServiceModel, pk=service_id)
+        user = get_object_or_404(UserModel, pk=user_id)
+        user.service = service
+        user.save()
+        serializer = UserSerializer(instance=user)
         return Response(serializer.data)
 
 
@@ -125,4 +142,27 @@ class UserDeactivateView(AdminTools, ABC):
         return Response(serializer.data)
 
 
+class AddOrderToUserView(GenericAPIView):
+    queryset = UserModel
 
+    def post(self, *args, **kwargs):
+        data = self.request.data
+        user = self.request.user
+        serializer = OrderSerializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(user=user)
+        user_serializer = UserSerializer(instance=user)
+        return Response(user_serializer.data)
+
+
+class PatchTheOrderView(GenericAPIView):
+    queryset = OrderModel
+    permission_classes = IsAdminUser,
+
+    def patch(self, *args, **kwargs):
+        data = self.request.data
+        order = self.get_object()
+        serializer = OrderSerializer(data=data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        order_serializer = OrderSerializer(instance=order)
+        return Response(order_serializer)
