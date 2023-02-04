@@ -2,10 +2,12 @@ from django.urls import path
 
 from .views import (
     AddOrderToUserView,
+    AddUserOrderToEmployeeView,
     AdminToUserView,
     ChangeEmployeeServiceView,
     ChangeUserServiceView,
     EmployeeToUserView,
+    ProfileUpdateView,
     UserActivateView,
     UserDeactivateView,
     UserListCreateView,
@@ -23,5 +25,7 @@ urlpatterns = [
     path('/<int:pk>/admin_to_user', AdminToUserView.as_view()),
     path('/<int:pk>/user_to_employee', UserToEmployeeView.as_view()),
     path('/<int:pk>/employee_to_user', EmployeeToUserView.as_view()),
-    path('/new_order', AddOrderToUserView.as_view())
+    path('/new_order', AddOrderToUserView.as_view()),
+    path('/<int:pk>/profile_update', ProfileUpdateView.as_view()),
+    path('/take_order/<int:pk>', AddUserOrderToEmployeeView.as_view()),
 ]

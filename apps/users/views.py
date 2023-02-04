@@ -4,8 +4,8 @@ from typing import Type
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 
-from rest_framework.generics import GenericAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
+from rest_framework.generics import GenericAPIView, ListCreateAPIView, UpdateAPIView
+from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.response import Response
 
 from apps.orders.models import OrderModel
@@ -13,8 +13,9 @@ from apps.orders.serializers import OrderSerializer
 from apps.services.models import ServiceModel
 from apps.users.models import UserModel as User
 
+from .models import ProfileModel
 from .permissions import IsSuperUser
-from .serializers import UserSerializer
+from .serializers import ProfileSerializer, UserSerializer
 
 UserModel: Type[User] = get_user_model()
 
@@ -23,13 +24,6 @@ class UserListCreateView(ListCreateAPIView):
     serializer_class = UserSerializer
     queryset = UserModel.objects.all()
     permission_classes = AllowAny,
-
-    # def get_permissions(self):
-    #     if self.request.method == 'POST':
-    #         return AllowAny(),
-    #     if self.request.method == 'GET':
-    #         return IsAdminUser(),
-    #     return IsAuthenticated(),
 
 
 class ChangeUserServiceView(GenericAPIView):
@@ -45,6 +39,7 @@ class ChangeUserServiceView(GenericAPIView):
 
 class ChangeEmployeeServiceView(GenericAPIView):
     permission_classes = (AllowAny,)
+
     def patch(self, *args, **kwargs):
         try:
             user_id = self.request.data['user']
@@ -166,3 +161,17 @@ class PatchTheOrderView(GenericAPIView):
         serializer.is_valid(raise_exception=True)
         order_serializer = OrderSerializer(instance=order)
         return Response(order_serializer)
+
+
+class ProfileUpdateView(UpdateAPIView):
+    queryset = ProfileModel.objects.all()
+    serializer_class = ProfileSerializer
+
+
+class AddUserOrderToEmployeeView(GenericAPIView):
+    queryset = OrderModel.objects.all()
+
+    def patch(self, *args, **kwargs):
+        user = self.request.user
+        order = self.get_object()
+
