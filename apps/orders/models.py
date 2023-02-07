@@ -15,14 +15,15 @@ class OrderModel(models.Model):
     class Meta:
         db_table = 'orders'
 
-    user = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name='orders')
-    service = models.ForeignKey(ServiceModel, on_delete=models.CASCADE, related_name='orders')
-    employees = models.ManyToManyField(UserModel, related_query_name='employees_orders')
-    brand = models.CharField(max_length=128)
-    model = models.CharField(max_length=128)
-    year_realize = models.IntegerField()
+    address = models.CharField(max_length=128)
     photo = models.CharField(max_length=128)
-    problem_description = models.TextField()
-    date = models.IntegerField(default=01.01)
+    task_description = models.TextField()
+    date = models.CharField(max_length=128)
+    time = models.CharField(max_length=128)
     price = models.IntegerField(default=0)
     status = models.ForeignKey(OrderStatusModel, on_delete=models.CASCADE, related_name='orders', default=1)
+    service = models.ForeignKey(ServiceModel, on_delete=models.CASCADE, related_name='orders')
+    user = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name='orders')
+    employees_count = models.IntegerField(default=1)
+    employees = models.ManyToManyField(UserModel, blank=True, related_query_name='employees_orders')
+

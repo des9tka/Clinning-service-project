@@ -138,40 +138,19 @@ class UserDeactivateView(AdminTools, ABC):
 
 
 class AddOrderToUserView(GenericAPIView):
-    queryset = UserModel
-
     def post(self, *args, **kwargs):
         data = self.request.data
         user = self.request.user
+        service = self.request.user.service
         serializer = OrderSerializer(data=data)
         serializer.is_valid(raise_exception=True)
-        serializer.save(user=user)
+        serializer.save(user=user, service=service)
         user_serializer = UserSerializer(instance=user)
         return Response(user_serializer.data)
-
-
-class PatchTheOrderView(GenericAPIView):
-    queryset = OrderModel
-    permission_classes = IsAdminUser,
-
-    def patch(self, *args, **kwargs):
-        data = self.request.data
-        order = self.get_object()
-        serializer = OrderSerializer(data=data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        order_serializer = OrderSerializer(instance=order)
-        return Response(order_serializer)
 
 
 class ProfileUpdateView(UpdateAPIView):
     queryset = ProfileModel.objects.all()
     serializer_class = ProfileSerializer
 
-
-class AddUserOrderToEmployeeView(GenericAPIView):
-    queryset = OrderModel.objects.all()
-
-    def patch(self, *args, **kwargs):
-        user = self.request.user
-        order = self.get_object()
 
