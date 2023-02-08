@@ -4,11 +4,11 @@ from typing import Type
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 
+from rest_framework import status
 from rest_framework.generics import GenericAPIView, ListCreateAPIView, UpdateAPIView
 from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.response import Response
 
-from apps.orders.models import OrderModel
 from apps.orders.serializers import OrderSerializer
 from apps.services.models import ServiceModel
 from apps.users.models import UserModel as User
@@ -34,7 +34,7 @@ class ChangeUserServiceView(GenericAPIView):
         user.service = service
         user.save()
         serializer = UserSerializer(instance=user)
-        return Response(serializer.data)
+        return Response(serializer.data, status.HTTP_200_OK)
 
 
 class ChangeEmployeeServiceView(GenericAPIView):
@@ -45,13 +45,13 @@ class ChangeEmployeeServiceView(GenericAPIView):
             user_id = self.request.data['user']
             service_id = self.request.data['service']
         except (Exception,):
-            return Response('ERROR: Values not provided')
+            return Response('ERROR: Values not provided', status.HTTP_400_BAD_REQUEST)
         service = get_object_or_404(ServiceModel, pk=service_id)
         user = get_object_or_404(UserModel, pk=user_id)
         user.service = service
         user.save()
         serializer = UserSerializer(instance=user)
-        return Response(serializer.data)
+        return Response(serializer.data, status.HTTP_200_OK)
 
 
 class AdminTools(GenericAPIView, ABC):
@@ -78,7 +78,7 @@ class UserToAdminView(SuperUserTools, ABC):
             user.is_staff = True
             user.save()
         serializer = UserSerializer(user)
-        return Response(serializer.data)
+        return Response(serializer.data, status.HTTP_200_OK)
 
 
 class AdminToUserView(SuperUserTools, ABC):
@@ -89,7 +89,7 @@ class AdminToUserView(SuperUserTools, ABC):
             user.is_staff = False
             user.save()
         serializer = UserSerializer(user)
-        return Response(serializer.data)
+        return Response(serializer.data, status.HTTP_200_OK)
 
 
 class UserToEmployeeView(AdminTools, ABC):
@@ -100,7 +100,7 @@ class UserToEmployeeView(AdminTools, ABC):
             user.is_employee = True
             user.save()
         serializer = UserSerializer(user)
-        return Response(serializer.data)
+        return Response(serializer.data, status.HTTP_200_OK)
 
 
 class EmployeeToUserView(AdminTools, ABC):
@@ -111,7 +111,7 @@ class EmployeeToUserView(AdminTools, ABC):
             user.is_employee = False
             user.save()
         serializer = UserSerializer(user)
-        return Response(serializer.data)
+        return Response(serializer.data, status.HTTP_200_OK)
 
 
 class UserActivateView(AdminTools, ABC):
@@ -122,7 +122,7 @@ class UserActivateView(AdminTools, ABC):
             user.is_active = True
             user.save()
         serializer = UserSerializer(user)
-        return Response(serializer.data)
+        return Response(serializer.data, status.HTTP_200_OK)
 
 
 class UserDeactivateView(AdminTools, ABC):
@@ -134,7 +134,7 @@ class UserDeactivateView(AdminTools, ABC):
             user.is_active = False
             user.save()
         serializer = UserSerializer(user)
-        return Response(serializer.data)
+        return Response(serializer.data, status.HTTP_200_OK)
 
 
 class AddOrderToUserView(GenericAPIView):
@@ -146,11 +146,9 @@ class AddOrderToUserView(GenericAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save(user=user, service=service)
         user_serializer = UserSerializer(instance=user)
-        return Response(user_serializer.data)
+        return Response(user_serializer.data, status.HTTP_200_OK)
 
 
 class ProfileUpdateView(UpdateAPIView):
     queryset = ProfileModel.objects.all()
     serializer_class = ProfileSerializer
-
-

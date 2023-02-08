@@ -24,6 +24,6 @@ class OrderModel(models.Model):
     status = models.ForeignKey(OrderStatusModel, on_delete=models.CASCADE, related_name='orders', default=1)
     service = models.ForeignKey(ServiceModel, on_delete=models.CASCADE, related_name='orders')
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name='orders')
-    employees_count = models.IntegerField(default=1)
-    employees = models.ManyToManyField(UserModel, blank=True, related_query_name='employees_orders')
+    employees_quantity = models.IntegerField(default=1)
+    employees_current = models.ManyToManyField(UserModel, blank=True, related_query_name='employees_orders')
 
