@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.core import validators as V
 from django.db import models
 
+from apps.extra_tools.enums import RegEx
 from apps.services.models import ServiceModel
 
 from .managers import UserManager
@@ -11,7 +13,9 @@ class UserModel(AbstractBaseUser, PermissionsMixin):
         db_table = 'auth_user'
 
     email = models.EmailField(unique=True)
-    password = models.CharField(max_length=128)
+    password = models.CharField(max_length=128, validators=[
+        V.RegexValidator(RegEx.PASSWORD.pattern, RegEx.PASSWORD.message)
+    ])
     is_active = models.BooleanField(default=False)
     is_employee = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
@@ -28,9 +32,17 @@ class ProfileModel(models.Model):
     class Meta:
         db_table = 'profiles'
 
-    name = models.CharField(max_length=128)
-    surname = models.CharField(max_length=128)
-    age = models.IntegerField()
-    phone = models.IntegerField()
+    name = models.CharField(max_length=30, validators=[
+        V.RegexValidator(RegEx.NAME_SURNAME.pattern, RegEx.NAME_SURNAME.message)
+    ])
+    surname = models.CharField(max_length=30, validators=[
+        V.RegexValidator(RegEx.NAME_SURNAME.pattern, RegEx.NAME_SURNAME.message)
+    ])
+    age = models.IntegerField(validators=[
+        V.RegexValidator(RegEx.AGE.pattern, RegEx.AGE.message)
+    ])
+    phone = models.BigIntegerField(validators=[
+        V.RegexValidator(RegEx.PHONE.pattern, RegEx.PHONE.message)
+    ])
     user = models.OneToOneField(UserModel, on_delete=models.CASCADE, related_name='profile')
 

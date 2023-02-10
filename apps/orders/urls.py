@@ -1,7 +1,9 @@
 from django.urls import path
 
 from .views import (
+    AddPhotoToOrder,
     AddUserOrderToEmployeeView,
+    ApproveOrderView,
     OrderListView,
     OrderStatusListCreateView,
     PatchTheOrderView,
@@ -15,5 +17,7 @@ urlpatterns = [
     path('/<int:pk>/take', AddUserOrderToEmployeeView.as_view()),
     path('/statuses', OrderStatusListCreateView.as_view()),
     path('/<int:pk>/remove/<int:user>', RemoveEmployeeFromOrder.as_view()),
-    path('/<int:pk>/reject', RejectOrderView.as_view())
+    path('/<int:pk>/reject', RejectOrderView.as_view()),
+    path('/<int:pk>/approve', ApproveOrderView.as_view()),
+    path('/<int:pk>/add_photos', AddPhotoToOrder.as_view())
 ]

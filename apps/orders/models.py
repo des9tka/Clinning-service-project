@@ -3,6 +3,8 @@ from django.db import models
 from apps.services.models import ServiceModel
 from apps.users.models import UserModel
 
+from .services import upload_photos
+
 
 class OrderStatusModel(models.Model):
     class Meta:
@@ -16,7 +18,7 @@ class OrderModel(models.Model):
         db_table = 'orders'
 
     address = models.CharField(max_length=128)
-    photo = models.CharField(max_length=128)
+    footage = models.IntegerField()
     task_description = models.TextField()
     date = models.CharField(max_length=128)
     time = models.CharField(max_length=128)
@@ -26,4 +28,14 @@ class OrderModel(models.Model):
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name='orders')
     employees_quantity = models.IntegerField(default=1)
     employees_current = models.ManyToManyField(UserModel, blank=True, related_query_name='employees_orders')
+
+
+class PhotoOrderModel(models.Model):
+    class Meta:
+        db_table = 'orders_photos'
+
+    photos = models.ImageField(upload_to=upload_photos)
+    order = models.ForeignKey(OrderModel, on_delete=models.CASCADE, related_name='photos')
+
+
 

@@ -1,9 +1,20 @@
 from rest_framework.serializers import ModelSerializer
 
-from .models import OrderModel, OrderStatusModel
+from .models import OrderModel, OrderStatusModel, PhotoOrderModel
+
+
+class OrderPhotoSerializer(ModelSerializer):
+    class Meta:
+        model = PhotoOrderModel
+        fields = ('photos',)
+
+    def to_representation(self, instance):
+        return instance.photos.url
 
 
 class OrderSerializer(ModelSerializer):
+    photos = OrderPhotoSerializer(many=True)
+
     class Meta:
         model = OrderModel
         fields = '__all__'
