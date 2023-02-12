@@ -5,6 +5,7 @@ from .views import (
     AdminToUserView,
     ChangeEmployeeServiceView,
     ChangeUserServiceView,
+    DeleteUserView,
     EmployeeToUserView,
     ProfileUpdateView,
     UserActivateView,
@@ -26,4 +27,5 @@ urlpatterns = [
     path('/<int:pk>/employee_to_user', EmployeeToUserView.as_view()),
     path('/new_order', AddOrderToUserView.as_view()),
     path('/<int:pk>/profile_update', ProfileUpdateView.as_view()),
+    path('/<int:pk>/delete', DeleteUserView.as_view())
 ]

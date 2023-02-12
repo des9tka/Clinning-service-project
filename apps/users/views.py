@@ -5,11 +5,12 @@ from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 
 from rest_framework import status
-from rest_framework.generics import GenericAPIView, ListCreateAPIView, UpdateAPIView
+from rest_framework.generics import DestroyAPIView, GenericAPIView, ListCreateAPIView, UpdateAPIView
 from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.response import Response
 
-from apps.orders.serializers import OrderSerializer
+from apps.orders.models import OrderModel
+from apps.orders.serializers import OrderPhotoSerializer, OrderSerializer
 from apps.services.models import ServiceModel
 from apps.users.models import UserModel as User
 
@@ -141,14 +142,27 @@ class AddOrderToUserView(GenericAPIView):
     def post(self, *args, **kwargs):
         data = self.request.data
         user = self.request.user
+        files = self.request.FILES
         service = self.request.user.service
-        serializer = OrderSerializer(data=data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save(user=user, service=service)
+        order_serializer = OrderSerializer(data=data)
+        order_serializer.is_valid(raise_exception=True)
+        order_serializer.save(user=user, service=service)
         user_serializer = UserSerializer(instance=user)
+        files = self.request.FILES
+        order = OrderModel.objects.latest('id')
+        for key in files:
+            serializer = OrderPhotoSerializer(data={'photos': files[key]})
+            serializer.is_valid(raise_exception=True)
+            serializer.save(order=order)
         return Response(user_serializer.data, status.HTTP_200_OK)
 
 
 class ProfileUpdateView(UpdateAPIView):
     queryset = ProfileModel.objects.all()
     serializer_class = ProfileSerializer
+
+
+class DeleteUserView(DestroyAPIView):
+    queryset = UserModel.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = AllowAny,

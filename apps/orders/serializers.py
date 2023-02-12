@@ -13,7 +13,7 @@ class OrderPhotoSerializer(ModelSerializer):
 
 
 class OrderSerializer(ModelSerializer):
-    photos = OrderPhotoSerializer(many=True)
+    photos = OrderPhotoSerializer(many=True, read_only=True)
 
     class Meta:
         model = OrderModel

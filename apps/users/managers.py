@@ -1,4 +1,5 @@
 from django.contrib.auth.base_user import BaseUserManager
+from django.shortcuts import get_object_or_404
 
 
 class UserManager(BaseUserManager):
@@ -20,3 +21,6 @@ class UserManager(BaseUserManager):
 
         user = self.create_user(email, password, **kwargs)
         return user
+
+    def find_by_email(self, email):
+        return get_object_or_404(self, email=email)
