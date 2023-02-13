@@ -7,14 +7,19 @@ from rest_framework.response import Response
 
 from apps.users.models import UserModel
 
+from .filters import OrderFilter
 from .models import OrderModel, OrderStatusModel
 from .serializers import OrderPhotoSerializer, OrderSerializer, OrderStatusSerializer
+
+from core.pagination.page_pagination import OrderPagePagination
 
 
 class OrderListView(ListAPIView):
     queryset = OrderModel.objects.all()
     serializer_class = OrderSerializer
     permission_classes = AllowAny,
+    pagination_class = OrderPagePagination
+    filterset_class = OrderFilter
 
 
 class AddUserOrderToEmployeeView(GenericAPIView):

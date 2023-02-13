@@ -9,11 +9,14 @@ from ..orders.models import OrderModel
 from .models import ServiceModel
 from .serializers import ServiceSerializer
 
+from core.pagination.page_pagination import ServicePagePagination
+
 
 class ServiceListCreateView(ListCreateAPIView):
     queryset = ServiceModel.objects.all()
     serializer_class = ServiceSerializer
     permission_classes = AllowAny,
+    pagination_class = ServicePagePagination
 
 
 class ServiceOrdersView(GenericAPIView):

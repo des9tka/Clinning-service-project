@@ -18,6 +18,8 @@ from .models import ProfileModel
 from .permissions import IsSuperUser
 from .serializers import ProfileSerializer, UserSerializer
 
+from core.pagination.page_pagination import UserPagePagination
+
 UserModel: Type[User] = get_user_model()
 
 
@@ -25,6 +27,7 @@ class UserListCreateView(ListCreateAPIView):
     serializer_class = UserSerializer
     queryset = UserModel.objects.all()
     permission_classes = AllowAny,
+    pagination_class = UserPagePagination
 
 
 class ChangeUserServiceView(GenericAPIView):
