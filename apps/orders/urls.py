@@ -10,6 +10,7 @@ from .views import (
     PatchTheOrderView,
     RejectOrderView,
     RemoveEmployeeFromOrder,
+    TestView,
 )
 
 urlpatterns = [
@@ -21,5 +22,7 @@ urlpatterns = [
     path('/<int:pk>/reject', RejectOrderView.as_view()),
     path('/<int:pk>/approve', ApproveOrderView.as_view()),
     path('/<int:pk>/add_photos', AddPhotoToOrder.as_view()),
-    path('/<int:pk>/delete', DeleteOrderView.as_view())
+    path('/<int:pk>/delete', DeleteOrderView.as_view()),
+    path('/test', TestView.as_view())
+
 ]

@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django.shortcuts import get_object_or_404
 
 from rest_framework import status
@@ -124,3 +126,17 @@ class DeleteOrderView(DestroyAPIView):
     queryset = OrderModel.objects.all()
     serializer_class = OrderSerializer
     permission_classes = AllowAny,
+
+
+
+# testing
+class TestView(GenericAPIView):
+    permission_classes = AllowAny,
+
+    def patch(self, *args, **kwargs):
+        order = get_object_or_404(OrderModel, pk=4)
+        # order.price = 10.5
+        # order.time = 10.5
+        # order.save()
+        serializer = OrderSerializer(instance=order)
+        return Response(serializer.data)
