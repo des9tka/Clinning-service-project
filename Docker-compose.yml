@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: .
+    ports:
+      - "8056:8000"
+    volumes:
+      - ./backend:/app
+    env_file:
+      - .env
+    restart: on-failure
+    depends_on:
+      - db
+    command: >
+      sh -c "python manage.py runserver 0.0.0.0:8000"
+
+  db:
+    image: mysql:8
+    ports:
+      - "3308:3306"
+    env_file:
+      - .env
+    restart: on-failure
+    volumes:
+      - ./mysql:/var/lib/mysql

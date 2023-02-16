@@ -1,9 +1,9 @@
 import os
 
+from core.services.jwt_service import ActivateToken, JWTService, RecoveryToken
+
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
-
-from core.services.jwt_service import ActivateToken, JWTService, RecoveryToken
 
 
 class EmailService:

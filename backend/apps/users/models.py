@@ -2,15 +2,16 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.core import validators as V
 from django.db import models
 
-from apps.extra_tools.enums import RegEx
-from apps.services.models import ServiceModel
-
 from .managers import UserManager
+
+from backend.apps.extra_tools.enums import RegEx
+from backend.apps.services.models import ServiceModel
 
 
 class UserModel(AbstractBaseUser, PermissionsMixin):
     class Meta:
         db_table = 'auth_user'
+        ordering = ['id']
 
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=128, validators=[

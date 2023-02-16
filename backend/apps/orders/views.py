@@ -1,4 +1,4 @@
-from decimal import Decimal
+from core.pagination.page_pagination import OrderPagePagination
 
 from django.shortcuts import get_object_or_404
 
@@ -12,8 +12,6 @@ from apps.users.models import UserModel
 from .filters import OrderFilter
 from .models import OrderModel, OrderStatusModel
 from .serializers import OrderPhotoSerializer, OrderSerializer, OrderStatusSerializer
-
-from core.pagination.page_pagination import OrderPagePagination
 
 
 class OrderListView(ListAPIView):

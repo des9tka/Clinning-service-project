@@ -11,14 +11,15 @@ class OrderFilter(filters.FilterSet):
     time_lte = filters.TimeFilter(field_name='time', lookup_expr='lte')
     price_lte = filters.NumberFilter(field_name='price', lookup_expr='lte')
     price_gte = filters.NumberFilter(field_name='price', lookup_expr='gte')
-    task = filters.CharFilter(field_name='task_description', lookup_expr='istartswith')
+    task_start = filters.CharFilter(field_name='task_description', lookup_expr='istartswith')
+    task_end = filters.CharFilter(field_name='task_description', lookup_expr='iendswith')
+    task_contains = filters.CharFilter(field_name='task_description', lookup_expr='icontains')
     employees_lte = filters.NumberFilter(field_name='employees_quantity', lookup_expr='lte')
     employees_gte = filters.NumberFilter(field_name='employees_quantity', lookup_expr='gte')
     footage_lte = filters.NumberFilter(field_name='footage', lookup_expr='lte')
     footage_gte = filters.NumberFilter(field_name='footage', lookup_expr='gte')
 
-
     class Meta:
         model = OrderModel
-        fields = ('address_start', 'date_gte', 'date_lte', 'time_gte', 'time_lte', 'price_lte', 'price_gte', 'task', 'employees_lte', 'employees_gte',
-                  'footage_gte', 'footage_lte')
+        fields = ('address_start', 'date_gte', 'date_lte', 'time_gte', 'time_lte', 'price_lte', 'price_gte', 'task_start', 'task_end', 'task_contains',
+                  'employees_lte', 'employees_gte', 'footage_gte', 'footage_lte')

@@ -1,3 +1,5 @@
+from core.pagination.page_pagination import ServicePagePagination
+
 from rest_framework import status
 from rest_framework.generics import GenericAPIView, ListCreateAPIView
 from rest_framework.permissions import AllowAny
@@ -8,8 +10,6 @@ from apps.orders.serializers import OrderSerializer
 from ..orders.models import OrderModel
 from .models import ServiceModel
 from .serializers import ServiceSerializer
-
-from core.pagination.page_pagination import ServicePagePagination
 
 
 class ServiceListCreateView(ListCreateAPIView):

@@ -1,9 +1,7 @@
 from django.conf.urls.static import static
 from django.urls import include, path
 
-from rest_framework.exceptions import bad_request, server_error
-
-from configs import settings
+from backend.configs import settings
 
 urlpatterns = [
     path('auth', include('apps.auth.urls')),

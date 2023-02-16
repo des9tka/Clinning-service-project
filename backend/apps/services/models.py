@@ -8,6 +8,7 @@ class ServiceModel(models.Model):
 
     class Meta:
         db_table = 'services'
+        ordering = ['id']
 
     name = models.CharField(max_length=30, validators=[
         V.RegexValidator(RegEx.SERVICE_CALL.pattern, RegEx.SERVICE_CALL.message)

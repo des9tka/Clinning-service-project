@@ -16,6 +16,7 @@ class OrderStatusModel(models.Model):
 class OrderModel(models.Model):
     class Meta:
         db_table = 'orders'
+        ordering = ['id']
 
     address = models.CharField(max_length=128)
     footage = models.IntegerField()

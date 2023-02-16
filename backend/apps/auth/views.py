@@ -1,3 +1,6 @@
+from core.services.email_service import EmailService
+from core.services.jwt_service import ActivateToken, JWTService, RecoveryToken
+
 from django.contrib.auth.hashers import check_password
 
 from rest_framework import status
@@ -8,9 +11,6 @@ from rest_framework.response import Response
 from apps.users.models import UserModel
 
 from .serializers import EmailSerializer, PasswordSerializer
-
-from core.services.email_service import EmailService
-from core.services.jwt_service import ActivateToken, JWTService, RecoveryToken
 
 
 class ActivateUserByTokenView(GenericAPIView):

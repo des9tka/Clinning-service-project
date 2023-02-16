@@ -9,16 +9,15 @@ from rest_framework.generics import DestroyAPIView, GenericAPIView, ListCreateAP
 from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.response import Response
 
-from apps.orders.models import OrderModel
-from apps.orders.serializers import OrderPhotoSerializer, OrderSerializer
-from apps.services.models import ServiceModel
-from apps.users.models import UserModel as User
-
 from .models import ProfileModel
 from .permissions import IsSuperUser
 from .serializers import ProfileSerializer, UserSerializer
 
-from core.pagination.page_pagination import UserPagePagination
+from backend.apps.orders.models import OrderModel
+from backend.apps.orders.serializers import OrderPhotoSerializer, OrderSerializer
+from backend.apps.services.models import ServiceModel
+from backend.apps.users.models import UserModel as User
+from backend.core.pagination.page_pagination import UserPagePagination
 
 UserModel: Type[User] = get_user_model()
 

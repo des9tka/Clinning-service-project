@@ -5,12 +5,11 @@ from django.db import transaction
 
 from rest_framework.serializers import ModelSerializer
 
-from apps.orders.serializers import OrderSerializer
-
 from .models import ProfileModel
 from .models import UserModel as User
 
-from core.services.email_service import EmailService
+from backend.apps.orders.serializers import OrderSerializer
+from backend.core.services.email_service import EmailService
 
 UserModel: Type[User] = get_user_model()
 
