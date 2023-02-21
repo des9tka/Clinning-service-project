@@ -1,0 +1,12 @@
+-i https://pypi.org/simple
+asgiref==3.6.0
+django==4.1.7
+django-filter==22.1
+djangorestframework==3.14.0
+djangorestframework-simplejwt==5.2.2
+mysqlclient==2.1.1
+pillow==9.4.0
+pyjwt==2.6.0
+pytz==2022.7.1
+sqlparse==0.4.3
+tzdata==2022.7

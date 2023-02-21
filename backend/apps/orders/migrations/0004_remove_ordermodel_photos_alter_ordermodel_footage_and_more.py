@@ -3,7 +3,7 @@
 import django.db.models.deletion
 from django.db import migrations, models
 
-import backend.apps.orders.services
+import apps.orders.services
 
 
 class Migration(migrations.Migration):
@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
             name='AddPhotoToOrderModel',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('photos', models.ImageField(upload_to=backend.apps.orders.services.upload_photos)),
+                ('photos', models.ImageField(upload_to=apps.orders.services.upload_photos)),
                 ('order', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='photos', to='orders.ordermodel')),
             ],
             options={

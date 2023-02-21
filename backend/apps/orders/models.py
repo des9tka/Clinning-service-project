@@ -1,6 +1,6 @@
 from django.db import models
 
-from apps.services.models import ServiceModel
+from apps.c_services.models import ServiceModel
 from apps.users.models import UserModel
 
 from .services import upload_photos

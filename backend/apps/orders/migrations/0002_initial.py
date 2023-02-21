@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
     dependencies = [
         ('orders', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('services', '0001_initial'),
+        ('c_services', '0001_initial'),
     ]
 
     operations = [
@@ -24,7 +24,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='ordermodel',
             name='service',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='orders', to='services.servicemodel'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='orders', to='c_services.servicemodel'),
         ),
         migrations.AddField(
             model_name='ordermodel',

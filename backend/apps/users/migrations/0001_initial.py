@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('auth', '0012_alter_user_first_name_max_length'),
-        ('services', '0001_initial'),
+        ('c_services', '0001_initial'),
     ]
 
     operations = [
@@ -30,7 +30,7 @@ class Migration(migrations.Migration):
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('groups', models.ManyToManyField(blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.', related_name='user_set', related_query_name='user', to='auth.group', verbose_name='groups')),
-                ('service', models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, related_name='users', to='services.servicemodel')),
+                ('service', models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, related_name='users', to='c_services.servicemodel')),
                 ('user_permissions', models.ManyToManyField(blank=True, help_text='Specific permissions for this user.', related_name='user_set', related_query_name='user', to='auth.permission', verbose_name='user permissions')),
             ],
             options={

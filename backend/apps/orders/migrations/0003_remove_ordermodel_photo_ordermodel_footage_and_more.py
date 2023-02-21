@@ -2,7 +2,7 @@
 
 from django.db import migrations, models
 
-import backend.apps.orders.services
+import apps.orders.services
 
 
 class Migration(migrations.Migration):
@@ -24,6 +24,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='ordermodel',
             name='photos',
-            field=models.ImageField(blank=True, upload_to=backend.apps.orders.services.upload_photos),
+            field=models.ImageField(blank=True, upload_to=apps.orders.services.upload_photos),
         ),
     ]

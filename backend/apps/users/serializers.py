@@ -1,15 +1,16 @@
 from typing import Type
 
+from core.services.email_service import EmailService
+
 from django.contrib.auth import get_user_model
 from django.db import transaction
 
 from rest_framework.serializers import ModelSerializer
 
+from apps.orders.serializers import OrderSerializer
+
 from .models import ProfileModel
 from .models import UserModel as User
-
-from backend.apps.orders.serializers import OrderSerializer
-from backend.core.services.email_service import EmailService
 
 UserModel: Type[User] = get_user_model()
 
