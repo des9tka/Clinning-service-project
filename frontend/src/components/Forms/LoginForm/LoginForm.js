@@ -1,8 +1,8 @@
 import {useForm} from "react-hook-form";
 
 import {joiResolver} from "@hookform/resolvers/joi";
-import {user_validator} from "../../validators";
-import {authService} from "../../services/auth_service";
+import {user_validator} from "../../../validators";
+import {authService} from "../../../services/auth_service";
 import {useState} from "react";
 
 const LoginForm = () => {
