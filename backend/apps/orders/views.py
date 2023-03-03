@@ -1,3 +1,4 @@
+from configs.settings import BASE_DIR
 from core.pagination.page_pagination import OrderPagePagination
 
 from django.shortcuts import get_object_or_404
@@ -117,7 +118,7 @@ class AddPhotoToOrder(GenericAPIView):
             serializer.is_valid(raise_exception=True)
             serializer.save(order=order)
         order_serializer = OrderSerializer(instance=order)
-        return Response(order_serializer.data, status.HTTP_201_CREATED)
+        return Response(order_serializer.data, status.HTTP_200_OK)
 
 
 class DeleteOrderView(DestroyAPIView):
@@ -132,9 +133,5 @@ class TestView(GenericAPIView):
     permission_classes = AllowAny,
 
     def patch(self, *args, **kwargs):
-        order = get_object_or_404(OrderModel, pk=4)
-        # order.price = 10.5
-        # order.time = 10.5
-        # order.save()
-        serializer = OrderSerializer(instance=order)
-        return Response(serializer.data)
+        print(BASE_DIR)
+        return Response('ok')

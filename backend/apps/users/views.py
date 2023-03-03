@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 
 from rest_framework import status
-from rest_framework.generics import DestroyAPIView, GenericAPIView, ListCreateAPIView, UpdateAPIView
+from rest_framework.generics import GenericAPIView, ListCreateAPIView, RetrieveDestroyAPIView, UpdateAPIView
 from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.response import Response
 
@@ -18,7 +18,7 @@ from apps.users.models import UserModel as User
 
 from .models import ProfileModel
 from .permissions import IsSuperUser
-from .serializers import ProfileSerializer, UserSerializer
+from .serializers import ProfileSerializer, UserPhotoSerializer, UserSerializer
 
 UserModel: Type[User] = get_user_model()
 
@@ -46,8 +46,8 @@ class ChangeEmployeeServiceView(GenericAPIView):
 
     def patch(self, *args, **kwargs):
         try:
-            user_id = self.request.data['user']
-            service_id = self.request.data['service']
+            user_id = kwargs.get('user')
+            service_id = kwargs.get('service')
         except (Exception,):
             return Response('ERROR: Values not provided', status.HTTP_400_BAD_REQUEST)
         service = get_object_or_404(ServiceModel, pk=service_id)
@@ -164,8 +164,20 @@ class ProfileUpdateView(UpdateAPIView):
     queryset = ProfileModel.objects.all()
     serializer_class = ProfileSerializer
 
+    def get_object(self):
+        return self.request.user.profile
 
-class DeleteUserView(DestroyAPIView):
+
+class RetrieveDestroyUserView(RetrieveDestroyAPIView):
     queryset = UserModel.objects.all()
     serializer_class = UserSerializer
     permission_classes = AllowAny,
+
+
+class AddUserPhotoView(UpdateAPIView):
+    queryset = UserModel.objects.all()
+    serializer_class = UserPhotoSerializer
+    http_method_names = ('patch',)
+
+    def get_object(self):
+        return self.request.user.profile

@@ -1,9 +1,8 @@
 from django.db import models
 
 from apps.c_services.models import ServiceModel
+from apps.extra_tools.services import upload_orders_photos
 from apps.users.models import UserModel
-
-from .services import upload_photos
 
 
 class OrderStatusModel(models.Model):
@@ -35,7 +34,7 @@ class PhotoOrderModel(models.Model):
     class Meta:
         db_table = 'orders_photos'
 
-    photos = models.ImageField(upload_to=upload_photos)
+    photos = models.ImageField(upload_to=upload_orders_photos)
     order = models.ForeignKey(OrderModel, on_delete=models.CASCADE, related_name='photos')
 
 

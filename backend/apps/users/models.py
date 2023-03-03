@@ -1,10 +1,12 @@
+from core.enums.validation_enums import RegEx
+
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.core import validators as V
 from django.db import models
 
 from apps.c_services.models import ServiceModel
-from apps.extra_tools.enums import RegEx
 
+from ..extra_tools.services import upload_users_photos
 from .managers import UserManager
 
 
@@ -45,5 +47,6 @@ class ProfileModel(models.Model):
     phone = models.BigIntegerField(validators=[
         V.RegexValidator(RegEx.PHONE.pattern, RegEx.PHONE.message)
     ])
+    user_photo = models.ImageField(upload_to=upload_users_photos, blank=True)
     user = models.OneToOneField(UserModel, on_delete=models.CASCADE, related_name='profile')
 

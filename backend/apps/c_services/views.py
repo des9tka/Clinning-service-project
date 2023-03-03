@@ -9,7 +9,7 @@ from apps.orders.serializers import OrderSerializer
 
 from ..orders.models import OrderModel
 from .models import ServiceModel
-from .serializers import ServiceSerializer
+from .serializers import ServicePhotoSerializer, ServiceSerializer
 
 
 class ServiceListCreateView(ListCreateAPIView):
@@ -44,3 +44,17 @@ class ServiceRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     serializer_class = ServiceSerializer
 
 
+class AddPhotoToService(GenericAPIView):
+    queryset = ServiceModel.objects.all()
+    permission_classes = AllowAny,
+
+    def post(self, *args, **kwargs):
+        service = self.get_object()
+        files = self.request.FILES
+        print(files)
+        for key in files:
+            serializer = ServicePhotoSerializer(data={'photos': files[key]})
+            serializer.is_valid(raise_exception=True)
+            serializer.save(service=service)
+        service_serializer = ServiceSerializer(instance=service)
+        return Response(service_serializer.data, status.HTTP_200_OK)

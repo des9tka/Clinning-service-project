@@ -1,17 +1,25 @@
+from core.enums.validation_enums import RegEx
+
 from django.core import validators as V
 from django.db import models
 
-from apps.extra_tools.enums import RegEx
+from apps.extra_tools.services import upload_services_photos
 
 
 class ServiceModel(models.Model):
-
     class Meta:
-        db_table = 'c_services'
+        db_table = 'services'
         ordering = ['id']
 
     name = models.CharField(max_length=30, validators=[
         V.RegexValidator(RegEx.SERVICE_CALL.pattern, RegEx.SERVICE_CALL.message)
     ])
     address = models.CharField(max_length=128)
-    photos = models.ImageField
+
+
+class PhotoServiceModel(models.Model):
+    class Meta:
+        db_table = 'services_photos'
+
+    photos = models.ImageField(upload_to=upload_services_photos)
+    service = models.ForeignKey(ServiceModel, on_delete=models.CASCADE, related_name='photos')

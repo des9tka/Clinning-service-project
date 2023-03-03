@@ -47,3 +47,9 @@ class UserSerializer(ModelSerializer):
         ProfileModel.objects.create(**profile, user=user)
         EmailService.register_email(user)
         return user
+
+
+class UserPhotoSerializer(ModelSerializer):
+    class Meta:
+        model = ProfileModel
+        fields = ('user_photo',)
