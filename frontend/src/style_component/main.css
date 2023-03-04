@@ -1,11 +1,16 @@
-body, html {
-    background: white;
-}
-
 .header {
     height: 50px;
     width: 500px;
     border: 1px solid black;
     justify-content: space-evenly;
+    display: flex;
+}
+
+.order_img {
+    width: 75px;
+    height: 75px;
+}
+
+.order_wrap {
     display: flex;
 }

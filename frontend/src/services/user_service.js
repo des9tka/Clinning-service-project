@@ -3,8 +3,9 @@ import {urls, userAttr} from "../configs";
 
 const user_service = {
     getAll: () => axiosService.get(urls.USERS),
+    getOrders: () => axiosService.get(`${urls.USERS}/orders`),
     getById: (id) => axiosService.get(`${urls.USERS}/${id}`),
-    newOrder: () => axiosService.post(urls.USERS, userAttr.new_order),
+    newOrder: (order) => axiosService.post(`${urls.USERS}/${userAttr.new_order}`, order),
     changeService: (service_id) => axiosService.patch(urls.USERS, userAttr.change_service, service_id),
     change_employee_service: (user_id, service_id) => axiosService.patch(urls.USERS, user_id, userAttr.change_employee_service, service_id),
     activate: (id) => axiosService.patch(urls.USERS, id, userAttr.activate),

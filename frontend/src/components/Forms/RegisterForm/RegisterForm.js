@@ -14,7 +14,7 @@ const RegisterForm = () => {
         mode: 'all'
     })
 
-    const registration = async (user) => {
+    const reg = async (user) => {
         await authService.register({
             email: user.email,
             password: user.password,
@@ -36,7 +36,7 @@ const RegisterForm = () => {
     }
 
     return (
-        <form onSubmit={handleSubmit(registration)}>
+        <form onSubmit={handleSubmit(reg)}>
             <input type="text" placeholder={'email'} {...register('email')}/>
             <input type="text" placeholder={'password'} {...register('password')}/>
             <input type="text" placeholder={'name'} {...register('name')}/>

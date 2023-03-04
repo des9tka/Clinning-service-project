@@ -1,4 +1,3 @@
-from configs.settings import BASE_DIR
 from core.pagination.page_pagination import OrderPagePagination
 
 from django.shortcuts import get_object_or_404
@@ -10,8 +9,9 @@ from rest_framework.response import Response
 
 from apps.users.models import UserModel
 
+from ..users.serializers import UserSerializer
 from .filters import OrderFilter
-from .models import OrderModel, OrderStatusModel
+from .models import OrderModel, OrderStatusModel, PhotoOrderModel
 from .serializers import OrderPhotoSerializer, OrderSerializer, OrderStatusSerializer
 
 
@@ -97,7 +97,7 @@ class ApproveOrderView(GenericAPIView):
         order.status = order_status
         order.save()
         serializer = OrderSerializer(instance=order)
-        return Response(serializer.data)
+        return Response(serializer.data, status.HTTP_200_OK)
 
 
 class OrderStatusListCreateView(ListCreateAPIView):
@@ -113,6 +113,7 @@ class AddPhotoToOrder(GenericAPIView):
     def post(self, *args, **kwargs):
         order = self.get_object()
         files = self.request.FILES
+        print(files)
         for key in files:
             serializer = OrderPhotoSerializer(data={'photos': files[key]})
             serializer.is_valid(raise_exception=True)
@@ -128,10 +129,4 @@ class DeleteOrderView(DestroyAPIView):
 
 
 
-# testing
-class TestView(GenericAPIView):
-    permission_classes = AllowAny,
 
-    def patch(self, *args, **kwargs):
-        print(BASE_DIR)
-        return Response('ok')

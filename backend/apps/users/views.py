@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Type
 
-from core.pagination.page_pagination import UserPagePagination
+from core.pagination.page_pagination import OrderPagePagination, UserPagePagination
 
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
@@ -146,18 +146,21 @@ class AddOrderToUserView(GenericAPIView):
         data = self.request.data
         user = self.request.user
         files = self.request.FILES
+        print(1)
+        print(files)
+        print(data)
         service = self.request.user.service
         order_serializer = OrderSerializer(data=data)
         order_serializer.is_valid(raise_exception=True)
         order_serializer.save(user=user, service=service)
-        user_serializer = UserSerializer(instance=user)
         files = self.request.FILES
         order = OrderModel.objects.latest('id')
         for key in files:
             serializer = OrderPhotoSerializer(data={'photos': files[key]})
             serializer.is_valid(raise_exception=True)
             serializer.save(order=order)
-        return Response(user_serializer.data, status.HTTP_200_OK)
+        serializer = OrderSerializer(instance=order)
+        return Response(serializer.data, status.HTTP_200_OK)
 
 
 class ProfileUpdateView(UpdateAPIView):
@@ -181,3 +184,11 @@ class AddUserPhotoView(UpdateAPIView):
 
     def get_object(self):
         return self.request.user.profile
+
+
+class ListUserOrdersView(GenericAPIView):
+    pagination_class = OrderPagePagination
+    def get(self, *args, **kwargs):
+        orders = self.request.user.orders
+        serializer = OrderSerializer(orders, many=True)
+        return Response(serializer.data)
