@@ -9,9 +9,8 @@ from rest_framework.response import Response
 
 from apps.users.models import UserModel
 
-from ..users.serializers import UserSerializer
 from .filters import OrderFilter
-from .models import OrderModel, OrderStatusModel, PhotoOrderModel
+from .models import OrderModel, OrderStatusModel
 from .serializers import OrderPhotoSerializer, OrderSerializer, OrderStatusSerializer
 
 
@@ -113,7 +112,6 @@ class AddPhotoToOrder(GenericAPIView):
     def post(self, *args, **kwargs):
         order = self.get_object()
         files = self.request.FILES
-        print(files)
         for key in files:
             serializer = OrderPhotoSerializer(data={'photos': files[key]})
             serializer.is_valid(raise_exception=True)
@@ -126,7 +124,3 @@ class DeleteOrderView(DestroyAPIView):
     queryset = OrderModel.objects.all()
     serializer_class = OrderSerializer
     permission_classes = AllowAny,
-
-
-
-

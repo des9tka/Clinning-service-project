@@ -56,3 +56,6 @@ class RecoveryPasswordByTokenView(GenericAPIView):
         return Response(status=status.HTTP_200_OK)
 
 
+class TokenValidCheck(GenericAPIView):
+    def get(self, *args, **kwargs):
+        return Response('Authenticated')

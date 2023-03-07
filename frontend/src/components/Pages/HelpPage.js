@@ -1,4 +1,4 @@
-import {Header} from "../Header/Header";
+import {MenuHeader} from "../Headers/MenuHeader";
 
 const HelpPage = () => {
 

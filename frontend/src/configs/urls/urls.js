@@ -7,7 +7,8 @@ const urls = {
     ORDERS: '/orders',
     AUTH: {
         login: '/auth',
-        refresh: '/auth/refresh'
+        refresh: '/auth/refresh',
+        token_check: '/auth/token_check'
     },
     MEDIA: '/media'
 }

@@ -8,6 +8,7 @@ const authService = {
     register: (user) => axiosService.post(urls.USERS, user),
     login: (user) => axiosService.post(urls.AUTH.login, user),
     refresh: (refresh) => axiosService.post(urls.AUTH.refresh, {refresh}),
+    token_check: () => axiosService.get(urls.AUTH.token_check),
 
     getAccessToken: () => localStorage.getItem(_accessToken),
 

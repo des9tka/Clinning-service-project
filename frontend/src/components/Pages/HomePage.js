@@ -1,6 +1,9 @@
-import {Header} from "../Header/Header";
+import {TokenValidCheck} from "../../extra_tools/TokenValidCheck";
+
 
 const HomePage = () => {
+
+    TokenValidCheck()
 
     return (
         <div>

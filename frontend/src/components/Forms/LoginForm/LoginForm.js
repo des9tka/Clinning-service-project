@@ -17,7 +17,7 @@ const LoginForm = () => {
             const {data} = await authService.login(user)
             await authService.setTokens(data)
             setError(null)
-            navigate('/office')
+            navigate('/home')
         } catch (err) {
             console.log(err)
             setError('Invalid email or password')

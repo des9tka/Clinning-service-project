@@ -18,8 +18,9 @@ class OrderFilter(filters.FilterSet):
     employees_gte = filters.NumberFilter(field_name='employees_quantity', lookup_expr='gte')
     footage_lte = filters.NumberFilter(field_name='footage', lookup_expr='lte')
     footage_gte = filters.NumberFilter(field_name='footage', lookup_expr='gte')
+    status = filters.NumberFilter(field_name='status', lookup_expr='exact')
 
     class Meta:
         model = OrderModel
         fields = ('address_start', 'date_gte', 'date_lte', 'time_gte', 'time_lte', 'price_lte', 'price_gte', 'task_start', 'task_end', 'task_contains',
-                  'employees_lte', 'employees_gte', 'footage_gte', 'footage_lte')
+                  'employees_lte', 'employees_gte', 'footage_gte', 'footage_lte', 'status')

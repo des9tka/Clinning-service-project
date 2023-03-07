@@ -1,18 +1,25 @@
-import {OrderPhoto} from "../OrderPhoto/OrderPhoto";
+import {useNavigate} from "react-router-dom";
+
+import {useDispatch} from "react-redux";
+import {orderActions} from "../../redux";
 
 const Order = ({order}) => {
+
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     return (
         <div>
             <div>id:{order.id}</div>
             <div>address:{order.address}</div>
-            <div>time: {order.time}</div>
-            <div>price:{order.price}</div>
-            <div>task:{order.task_description}</div>
-            <div>userId:{order.user}</div>
-            <div className={'order_wrap'}>
-                {order.photos.map((photo, index) => <OrderPhoto key={index} photo={photo}/>)}
-            </div>
+            <div>status:{order.status}</div>
+
+
+            <button onClick={() => {
+                navigate(`/office/order/${order.id}/details`)
+                dispatch(orderActions.setOrder(order))
+            }}>Details</button>
+
             <hr/>
         </div>
     )

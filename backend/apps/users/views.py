@@ -7,7 +7,13 @@ from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 
 from rest_framework import status
-from rest_framework.generics import GenericAPIView, ListCreateAPIView, RetrieveDestroyAPIView, UpdateAPIView
+from rest_framework.generics import (
+    GenericAPIView,
+    ListAPIView,
+    ListCreateAPIView,
+    RetrieveDestroyAPIView,
+    UpdateAPIView,
+)
 from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.response import Response
 
@@ -16,6 +22,7 @@ from apps.orders.models import OrderModel
 from apps.orders.serializers import OrderPhotoSerializer, OrderSerializer
 from apps.users.models import UserModel as User
 
+from ..orders.filters import OrderFilter
 from .models import ProfileModel
 from .permissions import IsSuperUser
 from .serializers import ProfileSerializer, UserPhotoSerializer, UserSerializer
@@ -186,9 +193,10 @@ class AddUserPhotoView(UpdateAPIView):
         return self.request.user.profile
 
 
-class ListUserOrdersView(GenericAPIView):
+class ListUserOrdersView(ListAPIView):
     pagination_class = OrderPagePagination
-    def get(self, *args, **kwargs):
-        orders = self.request.user.orders
-        serializer = OrderSerializer(orders, many=True)
-        return Response(serializer.data)
+    serializer_class = OrderSerializer
+    filterset_class = OrderFilter
+
+    def get_queryset(self):
+        return OrderModel.objects.filter(user_id=self.request.user.id)
