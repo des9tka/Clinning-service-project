@@ -1,9 +1,11 @@
 import {useForm} from "react-hook-form";
 
 import {order_service, user_service} from "../../../services";
+import {useNavigate} from "react-router-dom";
 
 const OrderForm = () => {
     const {handleSubmit, register} = useForm();
+    const navigate = useNavigate();
 
     const addOrder = async (order) => {
         const newOrder = await user_service.newOrder({
@@ -15,7 +17,7 @@ const OrderForm = () => {
         })
         try {
             await order_service.addPhoto(newOrder.data.id, order.photos)
-            window.location.reload()
+            navigate('/office')
         } catch (err) {
             order_service.delete(newOrder.data.id)
         }

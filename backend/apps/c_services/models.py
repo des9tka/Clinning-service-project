@@ -12,7 +12,10 @@ class ServiceModel(models.Model):
         ordering = ['id']
 
     name = models.CharField(max_length=30, validators=[
-        V.RegexValidator(RegEx.SERVICE_CALL.pattern, RegEx.SERVICE_CALL.message)
+        V.RegexValidator(RegEx.SERVICE_V.pattern, RegEx.SERVICE_V.message)
+    ])
+    city = models.CharField(max_length=30, validators=[
+        V.RegexValidator(RegEx.SERVICE_V.pattern, RegEx.SERVICE_V.message)
     ])
     address = models.CharField(max_length=128)
 

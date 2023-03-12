@@ -2,10 +2,10 @@ import Joi from "joi"
 
 const user_validator = Joi.object({
     name: Joi.string().regex(/^[a-zA-Z]{2,30}$/).required().messages({
-        'string.pattern.base': 'Only litters (2-30)'
+        'string.pattern.base': 'Only litters (2-30).'
     }),
     surname: Joi.string().regex(/^[a-zA-Z]{2,30}$/).required().messages({
-        'string.pattern.base': 'Only litters (2-30)'
+        'string.pattern.base': 'Only litters (2-30).'
     }),
     phone: Joi.string().regex(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/).required().messages({
         'string.pattern.base': 'Invalid phone number.'
@@ -24,5 +24,6 @@ const user_validator = Joi.object({
 })
 
 export {
-    user_validator
+    user_validator,
+
 }

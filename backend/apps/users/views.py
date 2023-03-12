@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404
 
 from rest_framework import status
 from rest_framework.generics import (
+    DestroyAPIView,
     GenericAPIView,
     ListAPIView,
     ListCreateAPIView,
@@ -40,6 +41,7 @@ class UserListCreateView(ListCreateAPIView):
 class ChangeUserServiceView(GenericAPIView):
     def patch(self, *args, **kwargs):
         pk = kwargs['pk']
+        print(pk)
         user = self.request.user
         service = get_object_or_404(ServiceModel, pk=pk)
         user.service = service
@@ -126,6 +128,7 @@ class EmployeeToUserView(AdminTools, ABC):
 
 
 class UserActivateView(AdminTools, ABC):
+    permission_classes = AllowAny,
 
     def patch(self, *args, **kwargs):
         user: User = self.get_object()
@@ -153,9 +156,6 @@ class AddOrderToUserView(GenericAPIView):
         data = self.request.data
         user = self.request.user
         files = self.request.FILES
-        print(1)
-        print(files)
-        print(data)
         service = self.request.user.service
         order_serializer = OrderSerializer(data=data)
         order_serializer.is_valid(raise_exception=True)
@@ -200,3 +200,17 @@ class ListUserOrdersView(ListAPIView):
 
     def get_queryset(self):
         return OrderModel.objects.filter(user_id=self.request.user.id)
+
+
+class DeleteUserView(DestroyAPIView):
+    permission_classes = AllowAny,
+    queryset = UserModel.objects.all()
+    serializer_class = UserSerializer
+
+
+class GetSelfUserView(GenericAPIView):
+    def get(self, *args, **kwargs):
+        user = self.request.user
+        serializer = UserSerializer(instance=user)
+        return Response(serializer.data)
+

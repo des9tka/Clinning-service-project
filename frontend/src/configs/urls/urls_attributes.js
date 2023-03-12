@@ -1,4 +1,5 @@
 const userAttr = {
+    orders: '/orders',
     profile_update: '/profile_update',
     new_order: '/new_order',
     activate: '/activate',
@@ -9,7 +10,8 @@ const userAttr = {
     employee_to_user: '/employee_to_user',
     change_service: '/change_service/',
     change_employee_service: '/change_employee_service/',
-    add_photo: '/add_photo'
+    add_photo: '/add_photo',
+    self: '/self'
 };
 
 const serviceAttr = {
@@ -19,10 +21,12 @@ const serviceAttr = {
 
 const orderAttr = {
     statuses: '/statuses',
+    patch: '/patch',
     take: '/take',
-    remove_employee: '/remove',
+    remove_employee: '/remove/',
     reject: '/reject',
-    delete: '/delete',
+    confirm: '/confirm',
+    approve: '/approve',
     add_photos: '/add_photos'
 }
 

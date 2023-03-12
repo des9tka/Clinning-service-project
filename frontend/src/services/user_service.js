@@ -3,10 +3,11 @@ import {urls, userAttr} from "../configs";
 
 const user_service = {
     getAll: () => axiosService.get(urls.USERS),
-    getOrders: (page= 1, status= 1) => axiosService.get(`${urls.USERS}/orders`, {params: {page, status}}),
+    getSelf: () => axiosService.get(`${urls.USERS}${userAttr.self}`),
+    getOrders: (page= 1, status= 1) => axiosService.get(`${urls.USERS}${userAttr.orders}`, {params: {page, status}}),
     getById: (id) => axiosService.get(`${urls.USERS}/${id}`),
-    newOrder: (order) => axiosService.post(`${urls.USERS}/${userAttr.new_order}`, order),
-    changeService: (service_id) => axiosService.patch(urls.USERS, userAttr.change_service, service_id),
+    newOrder: (order) => axiosService.post(`${urls.USERS}${userAttr.new_order}`, order),
+    changeService: (service_id) => axiosService.patch(`${urls.USERS}${userAttr.change_service}${service_id}`),
     change_employee_service: (user_id, service_id) => axiosService.patch(urls.USERS, user_id, userAttr.change_employee_service, service_id),
     activate: (id) => axiosService.patch(urls.USERS, id, userAttr.activate),
     deactivate: (id) => axiosService.patch(urls.USERS, id, userAttr.deactivate),
@@ -14,8 +15,8 @@ const user_service = {
     adminToUser: (id) => axiosService.patch(urls.USERS, id, userAttr.admin_to_user),
     userToEmployee: (id) => axiosService.patch(urls.USERS, id, userAttr.user_to_employee),
     employeeToUser: (id) => axiosService.patch(urls.USERS, id, userAttr.employee_to_user),
-    profileUpdate: () => axiosService.patch(urls.USERS, userAttr.profile_update),
-    addPhoto: () => axiosService.post(urls.USERS, userAttr.add_photo)
+    profileUpdate: (profile) => axiosService.patch(`${urls.USERS}${userAttr.profile_update}`, profile),
+    addPhoto: (photo) => axiosService.patch(`${urls.USERS}${userAttr.add_photo}`, {user_photo: photo})
 }
 
 export {

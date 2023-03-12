@@ -36,6 +36,3 @@ class PhotoOrderModel(models.Model):
 
     photos = models.ImageField(upload_to=upload_orders_photos, max_length=500)
     order = models.ForeignKey(OrderModel, on_delete=models.CASCADE, related_name='photos')
-
-
-

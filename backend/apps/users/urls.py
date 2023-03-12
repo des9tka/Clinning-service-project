@@ -6,7 +6,9 @@ from .views import (
     AdminToUserView,
     ChangeEmployeeServiceView,
     ChangeUserServiceView,
+    DeleteUserView,
     EmployeeToUserView,
+    GetSelfUserView,
     ListUserOrdersView,
     ProfileUpdateView,
     RetrieveDestroyUserView,
@@ -20,6 +22,7 @@ from .views import (
 urlpatterns = [
     path('', UserListCreateView.as_view()),
     path('/orders', ListUserOrdersView.as_view()),
+    path('/self', GetSelfUserView.as_view()),
     path('/change_service/<int:pk>', ChangeUserServiceView.as_view()),
     path('/<int:user>/change_employee_service/<int:service>', ChangeEmployeeServiceView.as_view()),
     path('/<int:pk>/activate', UserActivateView.as_view()),
@@ -31,5 +34,7 @@ urlpatterns = [
     path('/new_order', AddOrderToUserView.as_view()),
     path('/profile_update', ProfileUpdateView.as_view()),
     path('/<int:pk>', RetrieveDestroyUserView.as_view()),
-    path('/add_photo', AddUserPhotoView.as_view())
+    path('/add_photo', AddUserPhotoView.as_view()),
+    path('/<int:pk>/delete', DeleteUserView.as_view()),
+
 ]

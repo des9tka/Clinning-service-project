@@ -13,5 +13,6 @@ def upload_services_photos(instance, file: str) -> str:
 
 
 def upload_users_photos(instance, file: str) -> str:
+    print(1)
     extension = file.split('.')[-1]
     return os.path.join('users', instance.user.email, 'photo', f'{uuid1()}.{extension}')

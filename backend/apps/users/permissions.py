@@ -1,6 +1,5 @@
 from rest_framework.permissions import BasePermission
 from rest_framework.request import Request
-from rest_framework.response import Response
 
 
 class IsSuperUser(BasePermission):
@@ -17,3 +16,10 @@ class IsEmployee(BasePermission):
         except (Exception,):
             return False
 
+
+class IsAdmin(BasePermission):
+
+    def has_permission(self, request, view):
+        is_staff = request.user.__getattribute__('is_staff')
+        print(is_staff)
+        return bool(request.user and is_staff)

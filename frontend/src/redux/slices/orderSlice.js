@@ -1,14 +1,28 @@
-import {createSlice} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {order_service} from "../../services";
 
 const initialState = {
     orders: [],
     order: null,
     error: null,
     nextPage: null,
-    prevPage: null
+    prevPage: null,
 }
 
-const orderSlice =  createSlice({
+const setOrderById = createAsyncThunk(
+    'orderSlice/setUser',
+    async ({id}, {rejectWithValue}) => {
+        try {
+            const {data} = await order_service.getById(id)
+            console.log(data);
+            return data
+        } catch (e) {
+            return rejectWithValue(e.response.data)
+        }
+    }
+)
+
+const orderSlice = createSlice({
     name: 'orderSlice',
     initialState,
     reducers: {
@@ -24,7 +38,27 @@ const orderSlice =  createSlice({
         setPrevPage: (state, action) => {
             state.prevPage = action.payload
         }
-    }
+    },
+    // extraReducers: builder =>
+    //     builder
+    //         .addCase(setOrderById.pending, (state, action) => {
+    //             state.loading = true
+    //             console.log('pending')
+    //         })
+    //         .addCase(setOrderById.fulfilled, (state, action) => {
+    //             state.order = action.payload
+    //             state.loading = false
+    //             console.log('fulfilled')
+    //
+    //         })
+    //         .addCase(setOrderById.rejected, (state, action) => {
+    //             state.error = action.payload
+    //             state.loading = false
+    //             console.log('rejected')
+    //
+    //         })
+
+
 })
 
 const {reducer: orderReducer, actions: {setOrders, setOrder, setNextPage, setPrevPage}} = orderSlice;
@@ -33,7 +67,8 @@ const orderActions = {
     setOrders,
     setOrder,
     setPrevPage,
-    setNextPage
+    setNextPage,
+    setOrderById
 }
 
 export {

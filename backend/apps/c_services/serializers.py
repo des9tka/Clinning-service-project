@@ -18,7 +18,7 @@ class ServicePhotoSerializer(ModelSerializer):
 class ServiceSerializer(ModelSerializer):
     users = UserSerializer(many=True, read_only=True)
     orders = OrderSerializer(many=True, read_only=True)
-    photos = ServicePhotoSerializer(many=True)
+    photos = ServicePhotoSerializer(many=True, read_only=True)
 
     class Meta:
         model = ServiceModel

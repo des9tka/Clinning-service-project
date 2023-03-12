@@ -1,14 +1,18 @@
 import {useNavigate} from "react-router-dom";
+import {joiResolver} from "@hookform/resolvers/joi";
 import {useForm} from "react-hook-form";
-import {useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
 
 import {authService} from "../../../services";
-import {joiResolver} from "@hookform/resolvers/joi";
 import {user_validator} from "../../../validators";
+import {userActions} from "../../../redux";
 
 const RegisterForm = () => {
-    const [error, setError] = useState(null);
+
+    const {error} = useSelector(state => state.userReducer);
+    const dispatch = useDispatch();
     const navigate = useNavigate();
+
     const {register, handleSubmit, formState: {errors, isValid}} = useForm({
         resolver: joiResolver(user_validator),
         mode: 'all'
@@ -27,10 +31,10 @@ const RegisterForm = () => {
         }).then(() => {
                 navigate('/auth/login')
             })
-            .catch(function (err) {
+            .catch((err) => {
                 console.log(err);
                 if (!error) {
-                    setError('User with this email already exist')
+                    dispatch(userActions.setError('User with current email Exist!'))
                 }
             });
     }
@@ -42,6 +46,7 @@ const RegisterForm = () => {
             <input type="text" placeholder={'name'} {...register('name')}/>
             <input type="text" placeholder={'surname'} {...register('surname')}/>
             <input type="number" placeholder={'age'} {...register('age')}/>
+            <input type="text" placeholder={'phone'} {...register('phone')}/>
             <input type="text" placeholder={'phone'} {...register('phone')}/>
             <button disabled={!isValid}>Register</button>
 

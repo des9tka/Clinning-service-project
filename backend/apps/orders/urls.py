@@ -3,13 +3,14 @@ from django.urls import path
 from .views import (
     AddPhotoToOrder,
     AddUserOrderToEmployeeView,
-    ApproveOrderView,
-    DeleteOrderView,
+    AdminApproveOrderView,
     OrderListView,
     OrderStatusListCreateView,
     PatchTheOrderView,
     RejectOrderView,
     RemoveEmployeeFromOrder,
+    RetrieveDeleteOrderView,
+    UserConfirmOrderView,
 )
 
 urlpatterns = [
@@ -19,9 +20,10 @@ urlpatterns = [
     path('/statuses', OrderStatusListCreateView.as_view()),
     path('/<int:pk>/remove/<int:user>', RemoveEmployeeFromOrder.as_view()),
     path('/<int:pk>/reject', RejectOrderView.as_view()),
-    path('/<int:pk>/approve', ApproveOrderView.as_view()),
+    path('/<int:pk>/confirm', UserConfirmOrderView.as_view()),
+    path('/<int:pk>/approve', AdminApproveOrderView.as_view()),
     path('/<int:pk>/add_photos', AddPhotoToOrder.as_view()),
-    path('/<int:pk>/delete', DeleteOrderView.as_view()),
+    path('/<int:pk>', RetrieveDeleteOrderView.as_view()),
 
 
 ]

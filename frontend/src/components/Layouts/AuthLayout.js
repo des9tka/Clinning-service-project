@@ -12,4 +12,6 @@ const AuthLayout = () => {
         </div>
     )
 }
-export {AuthLayout};
+export {
+    AuthLayout
+};
