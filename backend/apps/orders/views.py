@@ -24,6 +24,9 @@ class OrderListView(ListAPIView):
 
     def get_queryset(self):
         user = self.request.user
+        order_status = OrderStatusModel.objects.get(name='user_confirmed')
+        if user.has_perm('is_employee'):
+            return OrderModel.objects.filter(service_id=user.service, status=order_status)
         return OrderModel.objects.filter(service_id=user.service)
 
 
@@ -37,12 +40,12 @@ class AddUserOrderToEmployeeView(GenericAPIView):
         order.employees_current.add(user)
         order.save()
 
-        order_status_approved = OrderStatusModel.objects.get(name='approved')
+        order_status_user_confirmed = OrderStatusModel.objects.get(name='user_confirmed')
         order_status_taken = OrderStatusModel.objects.get(name='taken')
         employees_quantity = order.employees_quantity
         employees_current = OrderModel.objects.filter(id=order.id).values('employees_current').count()
 
-        if employees_current == employees_quantity and order.status == order_status_approved:
+        if employees_current == employees_quantity and order.status == order_status_user_confirmed:
             order.status = order_status_taken
             order.save()
 
@@ -143,3 +146,11 @@ class RetrieveDeleteOrderView(RetrieveDestroyAPIView):
     queryset = OrderModel.objects.all()
     serializer_class = OrderSerializer
     permission_classes = IsAuthenticated,
+
+
+class EmployeeOrdersView(GenericAPIView):
+    permission_classes = IsEmployee,
+
+    def get(self, *args, **kwargs):
+        user = self.request.user
+        return Response('list')

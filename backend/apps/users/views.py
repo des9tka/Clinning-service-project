@@ -83,52 +83,45 @@ class SuperUserTools(AdminTools, ABC):
     permission_classes = (IsSuperUser,)
 
 
-class UserToAdminView(SuperUserTools, ABC):
+class ToAdminView(SuperUserTools, ABC):
 
     def patch(self, *args, **kwargs):
         user: User = self.get_object()
         if not user.is_staff:
             user.is_staff = True
-            user.save()
-        serializer = UserSerializer(user)
-        return Response(serializer.data, status.HTTP_200_OK)
-
-
-class AdminToUserView(SuperUserTools, ABC):
-
-    def patch(self, *args, **kwargs):
-        user: User = self.get_object()
-        if user.is_staff:
-            user.is_staff = False
-            user.save()
-        serializer = UserSerializer(user)
-        return Response(serializer.data, status.HTTP_200_OK)
-
-
-class UserToEmployeeView(AdminTools, ABC):
-
-    def patch(self, *args, **kwargs):
-        user: User = self.get_object()
-        if not user.is_employee:
-            user.is_employee = True
-            user.save()
-        serializer = UserSerializer(user)
-        return Response(serializer.data, status.HTTP_200_OK)
-
-
-class EmployeeToUserView(AdminTools, ABC):
-
-    def patch(self, *args, **kwargs):
-        user: User = self.get_object()
-        if user.is_employee:
             user.is_employee = False
             user.save()
         serializer = UserSerializer(user)
         return Response(serializer.data, status.HTTP_200_OK)
 
 
+class ToUserView(AdminTools, ABC):
+
+    def patch(self, *args, **kwargs):
+        user: User = self.get_object()
+        if user.is_staff or user.is_employee:
+            user.is_staff = False
+            user.is_employee = False
+            OrderModel.objects.filter(user_id=user.id).delete()
+            user.save()
+        serializer = UserSerializer(user)
+        return Response(serializer.data, status.HTTP_200_OK)
+
+
+class ToEmployeeView(AdminTools, ABC):
+
+    def patch(self, *args, **kwargs):
+        user: User = self.get_object()
+        if not user.is_employee:
+            user.is_employee = True
+            user.is_staff = False
+            OrderModel.objects.filter(user_id=user.id).delete()
+            user.save()
+        serializer = UserSerializer(user)
+        return Response(serializer.data, status.HTTP_200_OK)
+
+
 class UserActivateView(AdminTools, ABC):
-    permission_classes = AllowAny,
 
     def patch(self, *args, **kwargs):
         user: User = self.get_object()
@@ -148,6 +141,7 @@ class UserDeactivateView(AdminTools, ABC):
             user.is_active = False
             user.save()
         serializer = UserSerializer(user)
+        print(user)
         return Response(serializer.data, status.HTTP_200_OK)
 
 
@@ -203,7 +197,7 @@ class ListUserOrdersView(ListAPIView):
 
 
 class DeleteUserView(DestroyAPIView):
-    permission_classes = AllowAny,
+    permission_classes = IsSuperUser,
     queryset = UserModel.objects.all()
     serializer_class = UserSerializer
 
@@ -213,4 +207,3 @@ class GetSelfUserView(GenericAPIView):
         user = self.request.user
         serializer = UserSerializer(instance=user)
         return Response(serializer.data)
-

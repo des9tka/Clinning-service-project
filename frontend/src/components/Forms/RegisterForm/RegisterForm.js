@@ -47,7 +47,6 @@ const RegisterForm = () => {
             <input type="text" placeholder={'surname'} {...register('surname')}/>
             <input type="number" placeholder={'age'} {...register('age')}/>
             <input type="text" placeholder={'phone'} {...register('phone')}/>
-            <input type="text" placeholder={'phone'} {...register('phone')}/>
             <button disabled={!isValid}>Register</button>
 
             <div>

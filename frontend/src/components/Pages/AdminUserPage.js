@@ -1,11 +1,14 @@
+import {Users} from "../Users/Users";
+
 const AdminUserPage = () => {
 
     return (
         <div>
-            AdminUserPage
+            <Users/>
         </div>
     )
 }
 export {
     AdminUserPage
 };
+

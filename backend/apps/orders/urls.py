@@ -4,6 +4,7 @@ from .views import (
     AddPhotoToOrder,
     AddUserOrderToEmployeeView,
     AdminApproveOrderView,
+    EmployeeOrdersView,
     OrderListView,
     OrderStatusListCreateView,
     PatchTheOrderView,
@@ -15,6 +16,7 @@ from .views import (
 
 urlpatterns = [
     path('', OrderListView.as_view()),
+    path('/employee_orders', EmployeeOrdersView.as_view()),
     path('/<int:pk>/patch', PatchTheOrderView.as_view()),
     path('/<int:pk>/take', AddUserOrderToEmployeeView.as_view()),
     path('/statuses', OrderStatusListCreateView.as_view()),

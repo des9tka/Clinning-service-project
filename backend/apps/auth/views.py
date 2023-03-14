@@ -42,7 +42,6 @@ class RecoveryPasswordByTokenView(GenericAPIView):
     def post(self, *args, **kwargs):
         token = kwargs.get('token')
         data = self.request.data
-        print(data)
         serializer = PasswordSerializer(data=data)
         serializer.is_valid(raise_exception=True)
         user = JWTService.validate_token(token, RecoveryToken)

@@ -2,16 +2,19 @@ import {Navigate, Route, Routes} from "react-router-dom";
 
 import {OfficePage, HomePage, HelpPage, AboutPage, ErrorPage, LoginPage, RegisterPage, RestorePasswordPage, WorkerLayout,} from './components'
 import {AdminLayout, AuthLayout} from "./components";
-import {UserOrderDetailsPage} from "./components/Pages/UserOrderDetailsPage";
+import {UserOrderDetailsPage} from "./components";
 import {ServicePage} from "./components/Pages/ServicePage";
 import {OrderFormPage} from "./components/Pages/OrderFormPage";
-import {PaymentPage} from "./components/Pages/PaymentPage";
+import {PaymentPage} from "./components";
 import {ProfilePage} from "./components/Pages/ProfilePage";
 import {UserLayout} from "./components/Layouts/UserLayout";
-import {AdminOrderPage} from "./components/Pages/AdminOrderPage";
+import {AdminOrderPage} from "./components";
 import {AdminUserPage} from "./components/Pages/AdminUserPage";
 import {AdminAboutPage} from "./components/Pages/AdminAboutPage";
-import {AdminOrderDetailsPage} from "./components/Pages/AdminOrderDetailsPage";
+import {AdminOrderDetailsPage} from "./components";
+import {EmployeesOrdersPage} from "./components/Pages/EmployeesOrderPage";
+import {EmployeesOfficePage} from "./components/Pages/EmployeesOfficePage";
+import {EmployeesAboutPage} from "./components/Pages/EmployeesAboutPage";
 
 function App() {
 
@@ -48,9 +51,10 @@ function App() {
                 </Route>
 
                 <Route path={'employee'} element={<WorkerLayout/>}>
-                    {/*<Route path={'home'} element={</>}/>*/}
-                    {/*<Route path={'orders'} element={</>}/>*/}
-                    {/*<Route path={'about'} element={</>}/>*/}
+                    <Route path={'home'} element={<HomePage/>}/>
+                    <Route path={'orders'} element={<EmployeesOrdersPage/>}/>
+                    <Route path={'office'} element={<EmployeesOfficePage/>}/>
+                    <Route path={'about'} element={<EmployeesAboutPage/>}/>
                 </Route>
 
                 <Route path={'superuser'} element={<WorkerLayout/>}>

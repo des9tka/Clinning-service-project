@@ -1,5 +1,7 @@
-import {TokenValidCheck} from "../../extra_tools/TokenValidCheck";
-import {EmployeeAccess} from "../../extra_tools";
+import {Outlet} from "react-router-dom";
+
+import {EmployeeAccess, TokenValidCheck} from "../../extra_tools";
+import {WorkerHeader} from "../Headers/WorkerHeader";
 
 const WorkerLayout = () => {
 
@@ -8,7 +10,8 @@ const WorkerLayout = () => {
 
     return (
         <div>
-            WorkerLayout
+            <WorkerHeader/>
+            <Outlet/>
         </div>
     )
 }

@@ -2,10 +2,11 @@ from core.pagination.page_pagination import ServicePagePagination
 
 from rest_framework import status
 from rest_framework.generics import GenericAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
 from apps.orders.serializers import OrderSerializer
+from apps.users.permissions import IsSuperUser
 
 from ..orders.models import OrderModel
 from .models import ServiceModel
@@ -15,8 +16,13 @@ from .serializers import ServicePhotoSerializer, ServiceSerializer
 class ServiceListCreateView(ListCreateAPIView):
     queryset = ServiceModel.objects.all()
     serializer_class = ServiceSerializer
-    permission_classes = AllowAny,
     pagination_class = ServicePagePagination
+
+    def get_permissions(self):
+        if self.request.method == 'POST':
+            return [IsSuperUser()]
+        else:
+            return super().get_permissions()
 
 
 class ServiceOrdersView(GenericAPIView):

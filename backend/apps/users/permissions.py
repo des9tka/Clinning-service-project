@@ -21,5 +21,4 @@ class IsAdmin(BasePermission):
 
     def has_permission(self, request, view):
         is_staff = request.user.__getattribute__('is_staff')
-        print(is_staff)
         return bool(request.user and is_staff)

@@ -18,10 +18,7 @@ const UserOrderButtons = ({status, id}) => {
         order_service.reject(id)
         navigate('/office')
     }
-    const deleteOrder = () => {
-        order_service.delete(id)
-        navigate('/office')
-    }
+
     return (
         <div>
             {status === 1 && <div>
@@ -31,10 +28,6 @@ const UserOrderButtons = ({status, id}) => {
             {status === 2 && <div>
                 <button onClick={() => confirm()}>Approve</button>
                 <button onClick={() => reject()}>Reject</button>
-            </div>}
-
-            {status === 4 && <div>
-                <button onClick={() => deleteOrder()}>Delete</button>
             </div>}
 
             {status === 6 && <div>

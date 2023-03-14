@@ -1,12 +1,27 @@
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 import {UserOrderButtons} from "../Order/UserOrderButtons";
 import {OrderPhoto} from "../OrderPhoto/OrderPhoto";
 import {EmployeesBuilder} from "../EmployeesBuilder/EmployeesBuilder";
+import {order_service} from "../../services";
+import {useParams} from "react-router-dom";
+import {orderActions} from "../../redux";
+import {LoadingPage} from "./LoadingPage";
 
 const UserOrderDetailsPage = () => {
 
     const {order} = useSelector(state => state.orderReducer)
+    const dispatch = useDispatch();
+    const {id} = useParams();
+
+    if (!order) {
+        order_service.getById(id).then(({data}) => dispatch(orderActions.setOrder(data)))
+        return (
+            <div>
+                <LoadingPage/>
+            </div>
+        )
+    }
 
     return (
         <div>

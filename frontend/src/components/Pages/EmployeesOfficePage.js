@@ -1,18 +1,18 @@
 import {useNavigate} from "react-router-dom";
+import {EmployeeOfficeOrders} from "../Orders/EmployeeOfficeOrders";
 
-import {UserOrders} from "../Orders/UserOrders";
+const EmployeesOfficePage = () => {
 
-
-
-const OfficePage = () => {
     const navigate = useNavigate();
+
     return (
         <div>
-            <button onClick={() => navigate('/office/services')}>Make an Order</button>
             <button onClick={() => navigate('/office/profile')}>Profile</button>
-            <UserOrders/>
+            My orders:
+            <EmployeeOfficeOrders/>
         </div>
     )
 }
-
-export {OfficePage};
+export {
+    EmployeesOfficePage
+};
