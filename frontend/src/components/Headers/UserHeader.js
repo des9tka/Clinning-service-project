@@ -17,7 +17,7 @@ const UserHeader = () => {
                 <NavLink to={'/help'}>Help</NavLink>
             </div>
             <div>
-                <NavLink to={'/auth/login'}>Exit</NavLink>
+                <NavLink to={'/auth'}>Exit</NavLink>
             </div>
         </div>
     )

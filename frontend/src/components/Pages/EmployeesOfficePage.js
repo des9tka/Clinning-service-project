@@ -1,4 +1,5 @@
 import {useNavigate} from "react-router-dom";
+
 import {EmployeeOfficeOrders} from "../Orders/EmployeeOfficeOrders";
 
 const EmployeesOfficePage = () => {
@@ -7,7 +8,8 @@ const EmployeesOfficePage = () => {
 
     return (
         <div>
-            <button onClick={() => navigate('/office/profile')}>Profile</button>
+            <button onClick={() => navigate('/employee/office/profile')}>Profile</button>
+            <br/>
             My orders:
             <EmployeeOfficeOrders/>
         </div>

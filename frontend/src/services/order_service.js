@@ -9,9 +9,11 @@ const order_service = {
     take: (id) => axiosService.patch(`${urls.ORDERS}/${id}${orderAttr.take}`),
     confirm: (id) => axiosService.patch(`${urls.ORDERS}/${id}${orderAttr.confirm}`),
     approve: (id) => axiosService.patch(`${urls.ORDERS}/${id}${orderAttr.approve}`),
+    done: (id) => axiosService.patch(`${urls.ORDERS}/${id}${orderAttr.done}`),
     reject: (id) => axiosService.patch(`${urls.ORDERS}/${id}${orderAttr.reject}`),
     update: (id, order) => axiosService.patch(`${urls.ORDERS}/${id}${orderAttr.patch}`, order),
-    removeEmployee: (order_id, employee_id) => axiosService.patch(`${urls.ORDERS}/${order_id}${orderAttr.remove_employee}${employee_id}`)
+    removeEmployee: (order_id, employee_id) => axiosService.patch(`${urls.ORDERS}/${order_id}${orderAttr.remove_employee}${employee_id}`),
+    employee_orders: () => axiosService.get(`${urls.ORDERS}/${orderAttr.employee_orders}`)
 }
 
 export {

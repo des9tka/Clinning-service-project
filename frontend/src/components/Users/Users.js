@@ -1,22 +1,23 @@
 import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
+import {useSearchParams} from "react-router-dom";
 
-import {LoadingPage} from "../Pages";
+import {ErrorPage, LoadingPage} from "../Pages";
 import {User} from "../User/User";
 import {userActions} from "../../redux";
-import {user_service} from "../../services";
 
 const Users = () => {
 
     const dispatch = useDispatch();
-    const {users} = useSelector(state => state.userReducer)
+    const {users, loading, error, prevPage, nextPage} = useSelector(state => state.userReducer)
+    const [query, setQuery] = useSearchParams({page: '1'});
+
 
     useEffect(() => {
-        user_service.getAll().then(({data}) => dispatch(userActions.setUsers(data.data)))
+        dispatch(userActions.setAllUsers({query}))
     }, [])
 
-
-    if (users.length === 0) {
+    if (users === []) {
         return (
             <div>
                 <LoadingPage/>
@@ -24,12 +25,30 @@ const Users = () => {
         )
     }
 
+    const prev = () => {
+        setQuery(value => ({page: value.get('page') - 1}))
+        console.log(query)
+    }
+
+    const next = () => {
+        setQuery(value => ({page: value.get('page') + 1}))
+         console.log(query)
+    }
+
+
     return (
         <div>
+            {loading && <LoadingPage/>}
+            {error && <ErrorPage error={error}/>}
+
+            <button disabled={!prevPage} onClick={() => prev()}>Prev</button>
+            <button disabled={!nextPage} onClick={() => next()}>Next</button>
+
             {users && users.map(user => <User user={user}/>)}
         </div>
     )
 }
+
 export {
     Users
 };

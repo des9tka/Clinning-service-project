@@ -34,8 +34,11 @@ UserModel: Type[User] = get_user_model()
 class UserListCreateView(ListCreateAPIView):
     serializer_class = UserSerializer
     queryset = UserModel.objects.all()
-    permission_classes = AllowAny,
+    permission_classes = IsAdminUser,
     pagination_class = UserPagePagination
+
+    def get_queryset(self):
+        return UserModel.objects.exclude(pk=self.request.user.id)
 
 
 class ChangeUserServiceView(GenericAPIView):

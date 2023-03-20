@@ -1,7 +1,7 @@
 import {user_service} from "../../services";
 import {useNavigate} from "react-router-dom";
 
-const Service = ({service}) => {
+const OrderService = ({service}) => {
 
     const navigate = useNavigate();
 
@@ -23,5 +23,5 @@ const Service = ({service}) => {
     )
 }
 export {
-    Service
+    OrderService
 };

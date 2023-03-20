@@ -30,7 +30,6 @@ class OrderModel(models.Model):
     employees_current = models.ManyToManyField(UserModel, blank=True, related_query_name='employees_orders')
 
 
-
 class PhotoOrderModel(models.Model):
     class Meta:
         db_table = 'orders_photos'

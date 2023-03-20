@@ -11,14 +11,15 @@ import {orderAttr} from "../../configs";
 import {orderActions} from "../../redux";
 import {LoadingPage} from "./LoadingPage";
 import {AdminOrderButtons} from "../Order";
+import {ErrorPage} from "./ErrorPage";
 
 const AdminOrderDetailsPage = () => {
 
+    const {id} = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const {order} = useSelector(state => state.orderReducer)
+    const {order, loading, error} = useSelector(state => state.orderReducer)
     const {register, handleSubmit} = useForm();
-    const {id} = useParams();
 
     const orderConfirm = async (updatesOrder) => {
         await order_service.update(order.id, updatesOrder)
@@ -26,14 +27,10 @@ const AdminOrderDetailsPage = () => {
     }
 
     useEffect(() => {
-        if (!order) {
-            order_service.getById(id).then(({data}) => {
-                dispatch(orderActions.setOrder(data))
-            })
-        }
-    }, [id])
+        dispatch(orderActions.setOrderById({id}))
+    }, [])
 
-    if (order === null) {
+    if (!order) {
         return (
             <LoadingPage/>
         )
@@ -41,6 +38,9 @@ const AdminOrderDetailsPage = () => {
 
     return (
         <div>
+            {loading && <LoadingPage/>}
+            {error && <ErrorPage/>}
+
             <div>Id: {order.id}</div>
             <div>Address: {order.address}</div>
             <div>Footage: {order.footage}</div>
@@ -57,17 +57,14 @@ const AdminOrderDetailsPage = () => {
 
             {<div>Employees need: {order.employees_quantity}</div>}
             {order.status !== 1 && <div>Employees now: </div>}
-            {order.status !== 1 && order.employees_current[0] && order.employees_current.map(id => <EmployeesBuilder employee_id={id} order_id={order.id}
+            {order.status !== 1 && order.employees_current[0] && order.employees_current.map(employee_id => <EmployeesBuilder employee_id={employee_id} order_id={order.id}
                                                                                                                      status={order.status}/>)}
-
 
             {order.status === 1 && <form onSubmit={handleSubmit(orderConfirm)}>
                 <input type="text" placeholder={'Price'} {...register('price')}/>
                 <input type="text" placeholder={'Employees Quantity'} {...register('employees_quantity')}/>
                 <AdminOrderButtons status={order.status}/>
             </form>}
-
-            {order.status !== 1 && <AdminOrderButtons status={order.status} order_id={order.id}/>}
 
             <hr/>
         </div>

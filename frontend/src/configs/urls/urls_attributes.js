@@ -15,7 +15,7 @@ const userAttr = {
 
 const serviceAttr = {
     orders: '/orders',
-    add_photos: '/add_photos'
+    add_photos: '/add_photos',
 };
 
 const orderAttr = {
@@ -26,7 +26,9 @@ const orderAttr = {
     reject: '/reject',
     confirm: '/confirm',
     approve: '/approve',
-    add_photos: '/add_photos'
+    add_photos: '/add_photos',
+    employee_orders: '/employee_orders',
+    done: '/done'
 }
 
 export {

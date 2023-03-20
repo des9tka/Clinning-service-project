@@ -3,19 +3,31 @@ import {useDispatch, useSelector} from "react-redux";
 
 import {orderActions} from "../../redux";
 import {EmployeeOrder} from "../Order/EmployeeOrder";
-import {order_service} from "../../services";
+import {ErrorPage, LoadingPage} from "../Pages";
 
 const EmployeeOrders = () => {
 
     const dispatch = useDispatch();
-    const {orders} = useSelector(state => state.orderReducer)
+    const {orders, loading, error} = useSelector(state => state.orderReducer)
 
     useEffect(() => {
-        order_service.getAll(1, 3).then(({data}) => dispatch(orderActions.setOrders(data.data)))
+        dispatch(orderActions.setAllowEmployeesOrders())
     }, [])
+
+    if (orders === []) {
+        return (
+            <div>
+                <LoadingPage/>
+            </div>
+        )
+    }
+
 
     return (
         <div>
+            {loading && <LoadingPage/>}
+            {error && <ErrorPage error={error}/>}
+
             {orders && orders.map(order => <EmployeeOrder order={order}/>)}
         </div>
     )

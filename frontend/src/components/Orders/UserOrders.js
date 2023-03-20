@@ -2,7 +2,7 @@ import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 
 
-import {UserOrder} from "../Order/UserOrder";
+import {UserOrder} from "../Order";
 import {user_service} from "../../services";
 import {orderActions} from "../../redux";
 import {useSearchParams} from "react-router-dom";

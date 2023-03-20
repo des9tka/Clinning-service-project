@@ -3,9 +3,9 @@ import {useEffect} from "react";
 
 import {c_service_service} from "../../services";
 import {serviceActions} from "../../redux";
-import {Service} from "../Service/Service";
+import {OrderService} from "../Service/OrderService";
 
-const Services = () => {
+const OrderServices = () => {
     const dispatch = useDispatch();
     const {services} = useSelector(state => state.serviceReducer);
 
@@ -17,10 +17,10 @@ const Services = () => {
 
     return (
         <div>
-            {services.map(service => <Service key={service.id} service={service}/>)}
+            {services.map(service => <OrderService key={service.id} service={service}/>)}
         </div>
     )
 }
 export {
-    Services
+    OrderServices
 };

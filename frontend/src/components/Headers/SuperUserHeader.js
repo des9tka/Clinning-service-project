@@ -1,23 +1,20 @@
 import {NavLink} from "react-router-dom";
 
-const AdminHeader = () => {
+const SuperUserHeader = () => {
 
     return (
         <div className={'header'}>
             <div>
-                <NavLink to={'home'}>Home</NavLink>
+                <NavLink to={'/superuser/home'}>Home</NavLink>
             </div>
             <div>
-                <NavLink to={'users'}>Users</NavLink>
+                <NavLink to={'/superuser/services'}>Services</NavLink>
             </div>
             <div>
-                <NavLink to={'orders'}>Orders</NavLink>
+                <NavLink to={'/superuser/users'}>Users</NavLink>
             </div>
             <div>
-                <NavLink to={'office'}>Office</NavLink>
-            </div>
-            <div>
-                <NavLink to={'about'}>About</NavLink>
+                <NavLink to={'/superuser/orders'}>Orders</NavLink>
             </div>
             <div>
                 <NavLink to={'/auth'}>Exit</NavLink>
@@ -26,5 +23,5 @@ const AdminHeader = () => {
     )
 }
 export {
-    AdminHeader
+    SuperUserHeader
 };

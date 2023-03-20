@@ -15,6 +15,11 @@ import {AdminOrderDetailsPage} from "./components";
 import {EmployeesOrdersPage} from "./components/Pages/EmployeesOrderPage";
 import {EmployeesOfficePage} from "./components/Pages/EmployeesOfficePage";
 import {EmployeesAboutPage} from "./components/Pages/EmployeesAboutPage";
+import {AdminOfficePage} from "./components/Pages/AdminOfficePage";
+import {SuperUserLayout} from "./components/Layouts/SuperUserLayout";
+import {SuperUserServicePage} from "./components/Pages/SuperUserServicePage";
+import {SuperUserUsersPage} from "./components/Pages/SuperUserUsersPage";
+import {SuperUserOrdersPage} from "./components/Pages/SuperUserOrdersPage";
 
 function App() {
 
@@ -46,19 +51,27 @@ function App() {
                     <Route path={'home'} element={<HomePage/>}/>
                     <Route path={'users'} element={<AdminUserPage/>}/>
                     <Route path={'orders'} element={<AdminOrderPage/>}/>
+                    <Route path={'office'} element={<AdminOfficePage/>}/>
+                    <Route path={'office/profile'} element={<ProfilePage/>}/>
                     <Route path={'order/:id/details'} element={<AdminOrderDetailsPage/>}/>
                     <Route path={'about'} element={<AdminAboutPage/>}/>
                 </Route>
 
                 <Route path={'employee'} element={<WorkerLayout/>}>
+                    <Route index element={<Navigate to={'/employee/home'}/>}/>
                     <Route path={'home'} element={<HomePage/>}/>
                     <Route path={'orders'} element={<EmployeesOrdersPage/>}/>
                     <Route path={'office'} element={<EmployeesOfficePage/>}/>
+                    <Route path={'office/profile'} element={<ProfilePage/>}/>
                     <Route path={'about'} element={<EmployeesAboutPage/>}/>
                 </Route>
 
-                <Route path={'superuser'} element={<WorkerLayout/>}>
-
+                <Route path={'superuser'} element={<SuperUserLayout/>}>
+                    <Route index element={<Navigate to={'/superuser/home'}/>}/>
+                    <Route path={'home'} element={<HomePage/>}/>
+                    <Route path={'services'} element={<SuperUserServicePage/>}/>
+                    <Route path={'users'} element={<SuperUserUsersPage/>}/>
+                    <Route path={'orders'} element={<SuperUserOrdersPage/>}/>
                 </Route>
 
                 <Route path={'*'} element={<ErrorPage/>}/>

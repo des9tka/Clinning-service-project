@@ -109,6 +109,17 @@ class UserConfirmOrderView(GenericAPIView):
         return Response(serializer.data, status.HTTP_200_OK)
 
 
+class EmployeeDoneOrderView(GenericAPIView):
+    queryset = OrderModel.objects.all()
+
+    def patch(self, *args, **kwargs):
+        order = self.get_object()
+        order_status = OrderStatusModel.objects.get(name='done')
+        order.status = order_status
+        order.save()
+        serializer = OrderSerializer(instance=order)
+        return Response(status=status.HTTP_200_OK)
+
 class AdminApproveOrderView(GenericAPIView):
     def patch(self, *args, **kwargs):
         pk = kwargs['pk']
@@ -153,4 +164,6 @@ class EmployeeOrdersView(GenericAPIView):
 
     def get(self, *args, **kwargs):
         user = self.request.user
-        return Response('list')
+        orders = OrderModel.objects.filter(employees_current=user.id)
+        serializer = OrderSerializer(instance=orders, many=True)
+        return Response(serializer.data, status.HTTP_200_OK)

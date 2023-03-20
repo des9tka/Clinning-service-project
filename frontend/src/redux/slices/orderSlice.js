@@ -5,20 +5,40 @@ const initialState = {
     orders: [],
     order: null,
     error: null,
+    loading: false,
     nextPage: null,
     prevPage: null,
 }
 
 const setOrderById = createAsyncThunk(
-    'orderSlice/setUser',
+    'orderSlice/setOrderById',
     async ({id}, {rejectWithValue}) => {
         try {
             const {data} = await order_service.getById(id)
-            console.log(data);
             return data
         } catch (e) {
             return rejectWithValue(e.response.data)
         }
+    }
+)
+
+const setEmployeeOrders = createAsyncThunk(
+    'orderSlice/setEmployeeOrders',
+    async (_, {rejectWithValue}) => {
+        try {
+            const data = await order_service.employee_orders()
+            return data
+        } catch (e) {
+            return rejectWithValue(e.response.data)
+        }
+    }
+)
+
+const setAllowEmployeesOrders = createAsyncThunk(
+    'orderSlice/setAllowEmployeesOrders',
+    async (_, {rejectWithValue}) => {
+        const data = await order_service.getAll(1, 3)
+        return data
     }
 )
 
@@ -39,26 +59,43 @@ const orderSlice = createSlice({
             state.prevPage = action.payload
         }
     },
-    // extraReducers: builder =>
-    //     builder
-    //         .addCase(setOrderById.pending, (state, action) => {
-    //             state.loading = true
-    //             console.log('pending')
-    //         })
-    //         .addCase(setOrderById.fulfilled, (state, action) => {
-    //             state.order = action.payload
-    //             state.loading = false
-    //             console.log('fulfilled')
-    //
-    //         })
-    //         .addCase(setOrderById.rejected, (state, action) => {
-    //             state.error = action.payload
-    //             state.loading = false
-    //             console.log('rejected')
-    //
-    //         })
+    extraReducers: builder =>
+        builder
+            .addCase(setOrderById.pending, (state, action) => {
+                state.loading = true
+            })
+            .addCase(setOrderById.fulfilled, (state, action) => {
+                state.order = action.payload
+                state.loading = false
+            })
+            .addCase(setOrderById.rejected, (state, action) => {
+                state.error = action.payload
+                state.loading = false
+            })
 
+            .addCase(setEmployeeOrders.pending, (state, action) => {
+                state.loading = true
+            })
+            .addCase(setEmployeeOrders.fulfilled, (state, action) => {
+                state.orders = action.payload.data
+                state.loading = false
+            })
+            .addCase(setEmployeeOrders.rejected, (state, action) => {
+                state.error = action.payload
+                state.loading = false
+            })
 
+            .addCase(setAllowEmployeesOrders.pending, (state, action) => {
+                state.loading = true
+            })
+            .addCase(setAllowEmployeesOrders.fulfilled, (state, action) => {
+                state.orders = action.payload.data.data
+                state.loading = false
+            })
+            .addCase(setAllowEmployeesOrders.rejected, (state, action) => {
+                state.error = action.payload
+                state.loading = false
+            })
 })
 
 const {reducer: orderReducer, actions: {setOrders, setOrder, setNextPage, setPrevPage}} = orderSlice;
@@ -68,7 +105,9 @@ const orderActions = {
     setOrder,
     setPrevPage,
     setNextPage,
-    setOrderById
+    setOrderById,
+    setEmployeeOrders,
+    setAllowEmployeesOrders
 }
 
 export {

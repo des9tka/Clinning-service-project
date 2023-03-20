@@ -37,7 +37,7 @@ class RegEx(Enum):
     SERVICE_V = (
         r'^[a-zA-Z]{2,30}$',
         [
-            'Service name demands: contains 2-30 letters.'
+            'OrderService name demands: contains 2-30 letters.'
         ]
     )
 

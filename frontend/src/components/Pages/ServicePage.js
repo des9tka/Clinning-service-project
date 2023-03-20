@@ -1,10 +1,10 @@
-import {Services} from "../Services/Services";
+import {OrderServices} from "../Services/OrderServices";
 
 const ServicePage = () => {
 
     return (
         <div>
-            <Services/>
+            <OrderServices/>
         </div>
     )
 }

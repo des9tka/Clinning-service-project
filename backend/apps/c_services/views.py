@@ -1,7 +1,13 @@
-from core.pagination.page_pagination import ServicePagePagination
+from core.pagination.page_pagination import OrderPagePagination, ServicePagePagination
 
 from rest_framework import status
-from rest_framework.generics import GenericAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import (
+    DestroyAPIView,
+    GenericAPIView,
+    ListAPIView,
+    ListCreateAPIView,
+    RetrieveUpdateDestroyAPIView,
+)
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
@@ -25,13 +31,13 @@ class ServiceListCreateView(ListCreateAPIView):
             return super().get_permissions()
 
 
-class ServiceOrdersView(GenericAPIView):
+class ServiceOrdersView(ListAPIView):
+    pagination_class = OrderPagePagination
+    serializer_class = OrderSerializer
 
-    def get(self, *args, **kwargs):
+    def get_queryset(self):
         service_id = self.request.user.service.id
-        orders = OrderModel.objects.filter(service=service_id)
-        serializer = OrderSerializer(instance=orders, many=True)
-        return Response(serializer.data, status.HTTP_200_OK)
+        return OrderModel.objects.filter(service=service_id)
 
 
 class ServiceOrderRetrieveView(GenericAPIView):
@@ -45,7 +51,7 @@ class ServiceOrderRetrieveView(GenericAPIView):
 
 
 class ServiceRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
-    permission_classes = AllowAny,
+    permission_classes = IsSuperUser,
     queryset = ServiceModel.objects.all()
     serializer_class = ServiceSerializer
 
@@ -64,3 +70,5 @@ class AddPhotoToService(GenericAPIView):
             serializer.save(service=service)
         service_serializer = ServiceSerializer(instance=service)
         return Response(service_serializer.data, status.HTTP_200_OK)
+
+

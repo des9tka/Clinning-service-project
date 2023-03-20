@@ -9,7 +9,6 @@ const TokenValidCheck = () => {
         authService.token_check()
             .catch(function (error) {
                 history.push('/auth/login')
-                window.location.reload()
             });
     }, [token])
 }

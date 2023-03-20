@@ -1,8 +1,8 @@
-const ErrorPage = () => {
+const ErrorPage = ({error}) => {
 
     return (
         <div>
-            ErrorPage
+            <h1>{error}</h1>
         </div>
     )
 }

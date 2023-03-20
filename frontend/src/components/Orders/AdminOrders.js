@@ -13,8 +13,6 @@ const AdminOrders = () => {
     const {orders, prevPage, nextPage} = useSelector(state => state.orderReducer);
     const [query, setQuery] = useSearchParams({page: '1', status: '1'});
 
-    console.log(query.get('page'));
-
     const prev = () => {
         setQuery(value => ({page: value.get('page') - 1, status: value.get('status')}))
     }
@@ -46,7 +44,6 @@ const AdminOrders = () => {
 
     return (
         <div>
-            {console.log('return')}
             <select id={'select'} onChange={() => ordersChange()}>
                 <option value={1}>waiting for approved</option>
                 <option value={5}>taken</option>

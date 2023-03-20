@@ -4,11 +4,21 @@ const WorkerHeader = () => {
 
     return (
         <div className={'header'}>
-            <NavLink to={'/employee/home'}>Home</NavLink>
-            <NavLink to={'/employee/orders'}>Orders</NavLink>
-            <NavLink to={'/employee/office'}>Office</NavLink>
-            <NavLink to={'/employee/about'}>About</NavLink>
-            <NavLink to={'/auth'}>Exit</NavLink>
+            <div>
+                <NavLink to={'/employee/home'}>Home</NavLink>
+            </div>
+            <div>
+                <NavLink to={'/employee/orders'}>Orders</NavLink>
+            </div>
+            <div>
+                <NavLink to={'/employee/office'}>Office</NavLink>
+            </div>
+            <div>
+                <NavLink to={'/employee/about'}>About</NavLink>
+            </div>
+            <div>
+                <NavLink to={'/auth'}>Exit</NavLink>
+            </div>
         </div>
     )
 }

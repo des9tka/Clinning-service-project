@@ -1,6 +1,6 @@
 import {useForm} from "react-hook-form";
 
-import {authService} from "../../../services/auth_service";
+import {authService, user_service} from "../../../services";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 

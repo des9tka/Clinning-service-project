@@ -14,7 +14,6 @@ const ProfileForm = () => {
 
     useEffect(() => {
         user_service.getSelf().then(value => {
-
             setValue('name', `${value.data.profile.name}`);
             setValue('surname', `${value.data.profile.surname}`);
             setValue('age', `${value.data.profile.age}`);
@@ -43,7 +42,7 @@ const ProfileForm = () => {
             <input type="text" placeholder={'surname'} {...register('surname')}/>
             <input type="number" placeholder={'age'} {...register('age')}/>
             <input type="text" placeholder={'phone'} {...register('phone')}/>
-            <input type="file" id={'avatar'} {...register('photo')}/>
+            <input type="file" id={'avatar'}/>
             <button disabled={!isValid}>Save</button>
 
             <div>
