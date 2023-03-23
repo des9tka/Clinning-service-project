@@ -26,7 +26,7 @@ const OrderForm = () => {
     return (
         <form onSubmit={handleSubmit(addOrder)}>
             <input type="text" placeholder={'address'} {...register('address')}/>
-            <input type="file" placeholder={'photo'}  {...register('photos')}/>
+            <input type="file" placeholder={'photo'}  {...register('photos')} multiple/>
             <input type="text" placeholder={'date (YYYY-MM-DD)'}  {...register('date')}/>
             <input type="text" placeholder={'time (HH:MM)'}  {...register('time')}/>
             <input type="text" placeholder={'footage'}  {...register('footage')}/>

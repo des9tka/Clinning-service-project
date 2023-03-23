@@ -13,8 +13,9 @@ const Users = () => {
     const [query, setQuery] = useSearchParams({page: '1'});
 
 
-    useEffect(() => {
-        dispatch(userActions.setAllUsers({query}))
+    useEffect(async () => {
+        await dispatch(userActions.setAllUsers({query}))
+        await dispatch(userActions.setSelfUser())
     }, [])
 
     if (users === []) {

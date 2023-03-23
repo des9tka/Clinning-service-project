@@ -1,6 +1,12 @@
+import {useSelector} from "react-redux";
+
 import {AdminUserButtons} from "./AdminUserButtons";
+import {SuperUserButtons} from "./SuperUserButtons";
 
 const User = ({user}) => {
+
+    const {user: worker} = useSelector(state => state.userReducer)
+
 
     return (
         <div>
@@ -14,7 +20,9 @@ const User = ({user}) => {
             <div>Employee: {user.is_employee.toString()}</div>
             <div>Admin: {user.is_staff.toString()}</div>
             <div>SuperUser: {user.is_superuser.toString()}</div>
-            <AdminUserButtons user={user}/>
+
+            {worker && worker.is_staff && !worker.is_superuser && <AdminUserButtons user={user}/>}
+            {worker && worker.is_superuser && <SuperUserButtons user={user}/>}
             <hr/>
         </div>
     )

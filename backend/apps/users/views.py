@@ -93,6 +93,7 @@ class ToAdminView(SuperUserTools, ABC):
         if not user.is_staff:
             user.is_staff = True
             user.is_employee = False
+            OrderModel.objects.filter(user_id=user.id).delete()
             user.save()
         serializer = UserSerializer(user)
         return Response(serializer.data, status.HTTP_200_OK)

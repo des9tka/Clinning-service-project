@@ -24,5 +24,5 @@ class PhotoServiceModel(models.Model):
     class Meta:
         db_table = 'services_photos'
 
-    photos = models.ImageField(upload_to=upload_services_photos)
+    photos = models.ImageField(upload_to=upload_services_photos, max_length=500)
     service = models.ForeignKey(ServiceModel, on_delete=models.CASCADE, related_name='photos')

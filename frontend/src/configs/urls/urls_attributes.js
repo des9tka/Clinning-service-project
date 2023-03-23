@@ -7,6 +7,7 @@ const userAttr = {
     to_admin: '/to_admin',
     to_user: '/to_user',
     to_employee: '/to_employee',
+    to_superuser: '/to_superuser',
     change_service: '/change_service/',
     change_employee_service: '/change_employee_service/',
     add_photo: '/add_photo',

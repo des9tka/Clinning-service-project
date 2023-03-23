@@ -35,6 +35,18 @@ const setAllUsers = createAsyncThunk(
     }
 )
 
+const setSelfUser = createAsyncThunk(
+    'userSlice/setSelfUser',
+    async (_, {rejectWithValue}) => {
+        try {
+            const data = await user_service.getSelf()
+            return data
+        } catch (e) {
+            return rejectWithValue(e.response.data)
+        }
+    }
+)
+
 const userSlice = createSlice({
     name: 'userSlice',
     initialState,
@@ -84,6 +96,19 @@ const userSlice = createSlice({
                 state.loading = false
                 state.error = action.payload
             })
+
+            .addCase(setSelfUser.pending, (state, action) => {
+                state.loading = true
+            })
+            .addCase(setSelfUser.fulfilled, (state, action) => {
+                state.loading = false
+                state.error = null
+                state.user = action.payload.data
+            })
+            .addCase(setSelfUser.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload
+            })
 })
 
 const {reducer: userReducer, actions: {setUsers, setUser, setNextPage, setPrevPage, setError}} = userSlice;
@@ -95,7 +120,8 @@ const userActions = {
     setPrevPage,
     setError,
     setUserById,
-    setAllUsers
+    setAllUsers,
+    setSelfUser
 }
 
 export {

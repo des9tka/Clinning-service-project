@@ -1,8 +1,10 @@
+import {Users} from "../Users/Users";
+
 const SuperUserUsersPage = () => {
 
     return (
         <div>
-            SuperUserUsersPage
+            <Users/>
         </div>
     )
 }

@@ -17,6 +17,7 @@ const SuperUserService = ({service}) => {
             <div>Id: {service.id}</div>
             <div>Name: {service.name}</div>
             <div>Address: {service.address}</div>
+            <div>City: {service.city}</div>
             <div>Photos: {service.photos}</div>
             <button onClick={() => deleteService()}>Delete {service.name}</button>
             <hr/>

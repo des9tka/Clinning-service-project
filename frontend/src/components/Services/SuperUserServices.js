@@ -6,6 +6,7 @@ import {SuperUserService} from "../Service/SuperUserService";
 import {useSearchParams} from "react-router-dom";
 import {set} from "react-hook-form";
 import {valid} from "joi";
+import {ServiceForm} from "../Forms/ServiceForm/ServiceForm";
 
 const SuperUserServices = () => {
 
@@ -34,6 +35,8 @@ const SuperUserServices = () => {
 
             <button disabled={!prevPage} onClick={() => prev()}>prev</button>
             <button disabled={!nextPage} onClick={() => next()}>next</button>
+
+            <ServiceForm/>
 
             {services && services.map(service => <SuperUserService service={service}/>)}
         </div>
