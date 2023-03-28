@@ -1,6 +1,6 @@
 import {useNavigate} from "react-router-dom";
 
-import {EmployeeOfficeOrders} from "../Orders/EmployeeOfficeOrders";
+import {EmployeeOfficeOrders} from "../../Orders";
 
 const EmployeesOfficePage = () => {
 

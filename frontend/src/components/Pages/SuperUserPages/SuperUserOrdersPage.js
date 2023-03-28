@@ -1,8 +1,10 @@
+import {SuperUserOrders} from "../../Orders";
+
 const SuperUserOrdersPage = () => {
 
     return (
         <div>
-            SuperUserOrdersPage
+            <SuperUserOrders/>
         </div>
     )
 }

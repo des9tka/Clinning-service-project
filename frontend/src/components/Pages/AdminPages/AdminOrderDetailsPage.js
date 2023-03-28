@@ -1,17 +1,15 @@
 import {useDispatch, useSelector} from "react-redux";
 import {useForm} from "react-hook-form";
 import {useNavigate, useParams} from "react-router-dom";
-import {useEffect, useLayoutEffect} from "react";
+import {useEffect} from "react";
 
 
-import {order_service} from "../../services";
-import {OrderPhoto} from "../OrderPhoto/OrderPhoto";
-import {EmployeesBuilder} from "../EmployeesBuilder/EmployeesBuilder";
-import {orderAttr} from "../../configs";
-import {orderActions} from "../../redux";
-import {LoadingPage} from "./LoadingPage";
-import {AdminOrderButtons} from "../Order";
-import {ErrorPage} from "./ErrorPage";
+import {order_service} from "../../../services";
+import {OrderPhoto} from "../../OrderPhoto";
+import {EmployeesBuilder} from "../../EmployeesBuilder";
+import {orderActions} from "../../../redux";
+import {LoadingPage, ErrorPage} from "../CommonPages";
+import {AdminOrderButtons} from "../../Order";
 
 const AdminOrderDetailsPage = () => {
 

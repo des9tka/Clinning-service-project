@@ -1,10 +1,10 @@
 import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 
-import {EmployeesBuilder} from "../EmployeesBuilder/EmployeesBuilder";
+import {EmployeesBuilder} from "../EmployeesBuilder";
 import {order_service, user_service} from "../../services";
 import {userActions} from "../../redux";
-import {OrderPhoto} from "../OrderPhoto/OrderPhoto";
+import {OrderPhoto} from "../OrderPhoto";
 import {LoadingPage} from "../Pages";
 
 const EmployeeOrder = ({order}) => {

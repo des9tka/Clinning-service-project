@@ -4,6 +4,7 @@ from apps.orders.models import OrderModel
 
 
 class OrderFilter(filters.FilterSet):
+    id = filters.NumberFilter(field_name='id', lookup_expr='startswith')
     address_start = filters.CharFilter(field_name='address', lookup_expr='istartswith')
     date_gte = filters.DateFilter(field_name='date', lookup_expr='gte')
     date_lte = filters.DateFilter(field_name='date', lookup_expr='lte')
@@ -11,16 +12,15 @@ class OrderFilter(filters.FilterSet):
     time_lte = filters.TimeFilter(field_name='time', lookup_expr='lte')
     price_lte = filters.NumberFilter(field_name='price', lookup_expr='lte')
     price_gte = filters.NumberFilter(field_name='price', lookup_expr='gte')
-    task_start = filters.CharFilter(field_name='task_description', lookup_expr='istartswith')
-    task_end = filters.CharFilter(field_name='task_description', lookup_expr='iendswith')
-    task_contains = filters.CharFilter(field_name='task_description', lookup_expr='icontains')
-    employees_lte = filters.NumberFilter(field_name='employees_quantity', lookup_expr='lte')
-    employees_gte = filters.NumberFilter(field_name='employees_quantity', lookup_expr='gte')
+    task = filters.CharFilter(field_name='task_description', lookup_expr='icontains')
+    employees_quantity = filters.NumberFilter(field_name='employees_quantity', lookup_expr='exact')
+    employees_current = filters.NumberFilter(field_name='employees_current', lookup_expr='exact')
     footage_lte = filters.NumberFilter(field_name='footage', lookup_expr='lte')
     footage_gte = filters.NumberFilter(field_name='footage', lookup_expr='gte')
     status = filters.NumberFilter(field_name='status', lookup_expr='exact')
 
     class Meta:
         model = OrderModel
-        fields = ('address_start', 'date_gte', 'date_lte', 'time_gte', 'time_lte', 'price_lte', 'price_gte', 'task_start', 'task_end', 'task_contains',
-                  'employees_lte', 'employees_gte', 'footage_gte', 'footage_lte', 'status')
+        fields = ('address_start', 'date_gte', 'date_lte', 'time_gte', 'time_lte', 'price_lte', 'price_gte', 'task',
+                  'employees_quantity', 'employees_current', 'footage_gte', 'footage_lte', 'status', 'id')
+

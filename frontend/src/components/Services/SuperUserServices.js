@@ -1,12 +1,11 @@
 import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
+import {useSearchParams} from "react-router-dom";
+
 import {serviceActions} from "../../redux";
 import {ErrorPage, LoadingPage} from "../Pages";
-import {SuperUserService} from "../Service/SuperUserService";
-import {useSearchParams} from "react-router-dom";
-import {set} from "react-hook-form";
-import {valid} from "joi";
-import {ServiceForm} from "../Forms/ServiceForm/ServiceForm";
+import {SuperUserService} from "../Service";
+import {ServiceForm} from "../Forms";
 
 const SuperUserServices = () => {
 
@@ -16,8 +15,7 @@ const SuperUserServices = () => {
 
 
     useEffect(() => {
-        const querySet = query.get('page')
-        dispatch(serviceActions.setAllServices({querySet}))
+        dispatch(serviceActions.setAllServices({query}))
     },[query])
 
     const prev = () => {

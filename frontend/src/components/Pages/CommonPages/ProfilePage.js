@@ -1,4 +1,4 @@
-import {ProfileForm} from "../Forms/ProfileForm/ProfileForm";
+import {ProfileForm} from "../../Forms";
 
 const ProfilePage = () => {
 

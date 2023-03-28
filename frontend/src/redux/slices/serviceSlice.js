@@ -12,9 +12,9 @@ const initialState = {
 
 const setAllServices = createAsyncThunk(
     'serviceSlice/setServices',
-    async ({querySet}, rejectWithValue) => {
+    async ({query}, rejectWithValue) => {
         try {
-            const data = c_service_service.getAll(querySet)
+            const data = c_service_service.getAll(query.get('page'))
             return data
         } catch (e) {
             return rejectWithValue(e.response.data)

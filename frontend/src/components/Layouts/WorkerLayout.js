@@ -1,7 +1,7 @@
 import {Outlet} from "react-router-dom";
 
 import {EmployeeAccess, TokenValidCheck} from "../../extra_tools";
-import {WorkerHeader} from "../Headers/WorkerHeader";
+import {WorkerHeader} from "../Headers";
 
 const WorkerLayout = () => {
 

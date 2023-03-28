@@ -15,7 +15,8 @@ const User = ({user}) => {
             <div>Surname: {user.profile.surname}</div>
             <div>Email: {user.email}</div>
             <div>Phone: {user.profile.phone}</div>
-            <div>age: {user.profile.age}</div>
+            <div>Age: {user.profile.age}</div>
+            <div>Service: {user.service}</div>
             <div>Active: {user.is_active.toString()}</div>
             <div>Employee: {user.is_employee.toString()}</div>
             <div>Admin: {user.is_staff.toString()}</div>

@@ -17,6 +17,9 @@ const SuperUserHeader = () => {
                 <NavLink to={'/superuser/orders'}>Orders</NavLink>
             </div>
             <div>
+                <NavLink to={'/superuser/about'}>About</NavLink>
+            </div>
+            <div>
                 <NavLink to={'/auth'}>Exit</NavLink>
             </div>
         </div>

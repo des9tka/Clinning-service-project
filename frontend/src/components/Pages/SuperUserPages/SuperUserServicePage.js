@@ -1,4 +1,4 @@
-import {SuperUserServices} from "../Services/SuperUserServices";
+import {SuperUserServices} from "../../Services";
 
 const SuperUserServicePage = () => {
 

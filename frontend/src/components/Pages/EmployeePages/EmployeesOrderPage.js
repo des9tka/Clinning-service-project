@@ -1,4 +1,4 @@
-import {EmployeeOrders} from "../Orders/EmployeeOrders";
+import {EmployeeOrders} from "../../Orders";
 
 const EmployeesOrdersPage = () => {
 

@@ -1,4 +1,4 @@
-import {Users} from "../Users/Users";
+import {Users} from "../../Users";
 
 const SuperUserUsersPage = () => {
 

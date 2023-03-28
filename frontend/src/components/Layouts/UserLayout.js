@@ -1,8 +1,7 @@
 import {Outlet} from "react-router-dom";
 
-import {UserHeader} from "../Headers/UserHeader";
-import {CheckPermissions} from "../../extra_tools";
-import {TokenValidCheck} from "../../extra_tools";
+import {UserHeader} from "../Headers";
+import {CheckPermissions, TokenValidCheck} from "../../extra_tools";
 
 const UserLayout = () => {
 

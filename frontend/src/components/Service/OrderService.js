@@ -6,7 +6,7 @@ const OrderService = ({service}) => {
     const navigate = useNavigate();
 
     const changeService = () => {
-        user_service.changeService(service.id).then(function () {
+        user_service.changeService(service.id).then(() => {
             navigate('/office/create_order')
         })
     }

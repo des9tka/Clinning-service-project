@@ -1,4 +1,4 @@
-import {AdminOrders} from "../Orders/AdminOrders";
+import {AdminOrders} from "../../Orders";
 
 const AdminOrderPage = () => {
 

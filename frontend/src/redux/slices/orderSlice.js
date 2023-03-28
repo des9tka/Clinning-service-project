@@ -24,9 +24,9 @@ const setOrderById = createAsyncThunk(
 
 const setEmployeeOrders = createAsyncThunk(
     'orderSlice/setEmployeeOrders',
-    async (_, {rejectWithValue}) => {
+    async ({query, searcher}, {rejectWithValue}) => {
         try {
-            const data = await order_service.employee_orders()
+            const data = await order_service.employee_orders(query.get('page'), searcher)
             return data
         } catch (e) {
             return rejectWithValue(e.response.data)
@@ -77,7 +77,9 @@ const orderSlice = createSlice({
                 state.loading = true
             })
             .addCase(setEmployeeOrders.fulfilled, (state, action) => {
-                state.orders = action.payload.data
+                state.orders = action.payload.data.data
+                state.nextPage = action.payload.data.next_page
+                state.prevPage = action.payload.data.prev_page
                 state.loading = false
             })
             .addCase(setEmployeeOrders.rejected, (state, action) => {

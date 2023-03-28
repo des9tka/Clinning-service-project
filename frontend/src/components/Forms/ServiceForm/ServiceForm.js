@@ -34,7 +34,6 @@ const ServiceForm = () => {
                 <input type="text" placeholder={'Service address'} {...register('address', {required: true, minLength: 2, maxLength: 50})}/>
                 <input type="text" placeholder={'Service city'} {...register('city', {required: true, minLength: 2, maxLength: 30})}/>
                 <input type="file" multiple onChange={(e) => fileUploader(e)}/>
-                <div>{JSON.stringify(files)}</div>
                 <button disabled={!isValid}>Create</button>
 
                 <div>

@@ -8,6 +8,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
 from apps.users.models import UserModel
+from apps.users.permissions import IsSuperUser
 
 from ..users.permissions import IsAdmin, IsEmployee
 from .filters import OrderFilter
@@ -18,16 +19,34 @@ from .serializers import OrderPhotoSerializer, OrderSerializer, OrderStatusSeria
 class OrderListView(ListAPIView):
     queryset = OrderModel.objects.all()
     serializer_class = OrderSerializer
-    permission_classes = [IsAdmin | IsEmployee]
+    permission_classes = [IsAdmin | IsEmployee | IsSuperUser | IsAuthenticated]
     pagination_class = OrderPagePagination
     filterset_class = OrderFilter
 
     def get_queryset(self):
         user = self.request.user
+        print(user.has_perm('is_superuser'))
         order_status = OrderStatusModel.objects.get(name='user_confirmed')
-        if user.has_perm('is_employee'):
+        if user.has_perm('is_employee') and not user.has_perm('is_superuser'):
             return OrderModel.objects.filter(service_id=user.service, status=order_status)
+        elif user.has_perm('is_superuser'):
+            return OrderModel.objects.all()
         return OrderModel.objects.filter(service_id=user.service)
+
+
+class OrderSearchView(ListAPIView):
+    queryset = OrderModel.objects.all()
+    serializer_class = OrderSerializer
+    permission_classes = [IsAdmin | IsEmployee | IsSuperUser | IsAuthenticated]
+    pagination_class = OrderPagePagination
+    filterset_class = OrderFilter
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_staff:
+            return OrderModel.objects.filter(service_id=user.service_id)
+        else:
+            return OrderModel.objects.filter(user_id=user)
 
 
 class AddUserOrderToEmployeeView(GenericAPIView):
@@ -159,11 +178,16 @@ class RetrieveDeleteOrderView(RetrieveDestroyAPIView):
     permission_classes = IsAuthenticated,
 
 
-class EmployeeOrdersView(GenericAPIView):
+class EmployeeOrdersView(ListAPIView):
     permission_classes = IsEmployee,
+    pagination_class = OrderPagePagination
+    queryset = OrderModel.objects.all()
+    serializer_class = OrderSerializer
+    filterset_class = OrderFilter
 
-    def get(self, *args, **kwargs):
+    def get_queryset(self):
         user = self.request.user
-        orders = OrderModel.objects.filter(employees_current=user.id)
-        serializer = OrderSerializer(instance=orders, many=True)
-        return Response(serializer.data, status.HTTP_200_OK)
+        return OrderModel.objects.filter(employees_current=user.id)
+
+
+

@@ -1,4 +1,4 @@
-import {OrderServices} from "../Services/OrderServices";
+import {OrderServices} from "../../Services";
 
 const ServicePage = () => {
 

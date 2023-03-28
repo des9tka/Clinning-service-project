@@ -1,25 +1,19 @@
 import {Navigate, Route, Routes} from "react-router-dom";
 
-import {OfficePage, HomePage, HelpPage, AboutPage, ErrorPage, LoginPage, RegisterPage, RestorePasswordPage, WorkerLayout,} from './components'
-import {AdminLayout, AuthLayout} from "./components";
-import {UserOrderDetailsPage} from "./components";
-import {ServicePage} from "./components/Pages/ServicePage";
-import {OrderFormPage} from "./components/Pages/OrderFormPage";
-import {PaymentPage} from "./components";
-import {ProfilePage} from "./components/Pages/ProfilePage";
-import {UserLayout} from "./components/Layouts/UserLayout";
-import {AdminOrderPage} from "./components";
-import {AdminUserPage} from "./components/Pages/AdminUserPage";
-import {AdminAboutPage} from "./components/Pages/AdminAboutPage";
-import {AdminOrderDetailsPage} from "./components";
-import {EmployeesOrdersPage} from "./components/Pages/EmployeesOrderPage";
-import {EmployeesOfficePage} from "./components/Pages/EmployeesOfficePage";
-import {EmployeesAboutPage} from "./components/Pages/EmployeesAboutPage";
-import {AdminOfficePage} from "./components/Pages/AdminOfficePage";
-import {SuperUserLayout} from "./components/Layouts/SuperUserLayout";
-import {SuperUserServicePage} from "./components/Pages/SuperUserServicePage";
-import {SuperUserUsersPage} from "./components/Pages/SuperUserUsersPage";
-import {SuperUserOrdersPage} from "./components/Pages/SuperUserOrdersPage";
+import {
+    AdminAboutPage,
+    AdminLayout, AdminOfficePage, AdminOrderDetailsPage, AdminOrderPage, AdminUserPage,
+    AuthLayout, ChangeServicePage, EmployeesAboutPage, EmployeesOfficePage, EmployeesOrdersPage, ErrorPage, HelpPage,
+    HomePage, LoginPage,
+    PaymentPage,
+    ProfilePage, RegisterPage, RestorePasswordPage,
+    ServicePage, SuperUserAboutPage, SuperUserDetailsPage, SuperUserOrdersPage, SuperUserUsersPage,
+    UserAboutPage,
+    UserOfficePage,
+    UserOrderDetailsPage,
+    UserOrderFormPage, WorkerLayout, SuperUserServicePage, UserLayout, SuperUserLayout
+} from "./components";
+
 
 function App() {
 
@@ -30,13 +24,13 @@ function App() {
                 <Route path={'/'} element={<UserLayout/>}>
                     <Route index element={<Navigate to={'/home'}/>}/>
                     <Route path={'home'} element={<HomePage/>}/>
-                    <Route path={'office'} element={<OfficePage/>}/>
+                    <Route path={'office'} element={<UserOfficePage/>}/>
                     <Route path={'office/services'} element={<ServicePage/>}/>
-                    <Route path={'office/create_order'} element={<OrderFormPage/>}/>
+                    <Route path={'office/create_order'} element={<UserOrderFormPage/>}/>
                     <Route path={'office/profile'} element={<ProfilePage/>}/>
                     <Route path={'office/order/:id/details'} element={<UserOrderDetailsPage/>}/>
                     <Route path={'office/payment'} element={<PaymentPage/>}/>
-                    <Route path={'about'} element={<AboutPage/>}/>
+                    <Route path={'about'} element={<UserAboutPage/>}/>
                     <Route path={'help'} element={<HelpPage/>}/>
                 </Route>
 
@@ -71,7 +65,10 @@ function App() {
                     <Route path={'home'} element={<HomePage/>}/>
                     <Route path={'services'} element={<SuperUserServicePage/>}/>
                     <Route path={'users'} element={<SuperUserUsersPage/>}/>
+                    <Route path={'users/:id/change_service'} element={<ChangeServicePage/>}/>
                     <Route path={'orders'} element={<SuperUserOrdersPage/>}/>
+                    <Route path={'orders/:id/details'} element={<SuperUserDetailsPage/>}/>
+                    <Route path={'about'} element={<SuperUserAboutPage/>}/>
                 </Route>
 
                 <Route path={'*'} element={<ErrorPage/>}/>

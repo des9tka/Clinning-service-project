@@ -1,6 +1,7 @@
-import {LoginForm} from "../Forms";
+import {LoginForm} from "../../Forms";
 import {Link} from "react-router-dom";
-import {authService} from "../../services";
+
+import {authService} from "../../../services";
 
 const LoginPage = () => {
 

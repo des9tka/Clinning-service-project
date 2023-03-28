@@ -1,10 +1,10 @@
 import {useNavigate} from "react-router-dom";
 
-import {UserOrders} from "../Orders/UserOrders";
+import {UserOrders} from "../../Orders";
 
 
 
-const OfficePage = () => {
+const UserOfficePage = () => {
     const navigate = useNavigate();
     return (
         <div>
@@ -15,4 +15,4 @@ const OfficePage = () => {
     )
 }
 
-export {OfficePage};
+export {UserOfficePage};

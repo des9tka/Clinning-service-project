@@ -1,10 +1,7 @@
 import {useNavigate} from "react-router-dom";
 
 import {order_service} from "../../services";
-import {createBrowserHistory, History} from "history";
-import {create} from "axios";
 
-const history = createBrowserHistory();
 
 const UserOrderButtons = ({status, id}) => {
 

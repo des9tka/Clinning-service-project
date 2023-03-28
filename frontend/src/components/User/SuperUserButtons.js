@@ -1,6 +1,10 @@
+import {useNavigate} from "react-router-dom";
+
 import {user_service} from "../../services";
 
 const SuperUserButtons = ({user}) => {
+
+    const navigate = useNavigate();
 
     const activate = async () => {
         await user_service.activate(user.id)
@@ -30,7 +34,7 @@ const SuperUserButtons = ({user}) => {
             {(user.is_staff || user.is_employee) && <button onClick={() => toUser()}>To User</button>}
             {!user.is_staff && <button onClick={() => toAdmin()}>To Amin</button>}
             {!user.is_employee && <button onClick={() => toEmployee()}>To Employee</button>}
-            <button onClick={() => '/'}>Change Service</button>
+            {(user.is_staff || user.is_employee) && <button onClick={() => navigate(`/superuser/users/${user.id}/change_service`)}>Change Service</button>}
         </div>
     )
 }

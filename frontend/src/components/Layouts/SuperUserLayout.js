@@ -1,6 +1,7 @@
-import {SuperUserHeader} from "../Headers/SuperUserHeader";
-import {SuperuserAccess, TokenValidCheck} from "../../extra_tools";
 import {Outlet} from "react-router-dom";
+
+import {SuperUserHeader} from "../Headers";
+import {SuperuserAccess, TokenValidCheck} from "../../extra_tools";
 
 const SuperUserLayout = () => {
 

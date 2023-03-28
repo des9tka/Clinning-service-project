@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+
 import {user_service} from "../../services";
-import {createRef} from "react";
 
 const initialState = {
     users: [],
@@ -25,9 +25,9 @@ const setUserById = createAsyncThunk(
 
 const setAllUsers = createAsyncThunk(
     'userSlice/setAllUsers',
-    async ({query}, rejectWithValue) => {
+    async ({query, searcher}, rejectWithValue) => {
         try {
-            const data = await user_service.getAll(query.get('page'))
+            const data = await user_service.getAll(query.get('page'), searcher)
             return data
         } catch (e) {
             return rejectWithValue(e.response.data)

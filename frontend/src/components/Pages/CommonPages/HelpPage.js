@@ -1,5 +1,3 @@
-import {UserHeader} from "../Headers/UserHeader";
-
 const HelpPage = () => {
 
     return (

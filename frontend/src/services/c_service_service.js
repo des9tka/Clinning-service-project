@@ -1,4 +1,5 @@
 import {axiosService} from "./axios_service";
+
 import {urls, serviceAttr} from "../configs";
 
 const c_service_service = {
@@ -9,7 +10,7 @@ const c_service_service = {
         headers: {
             "Content-Type": "multipart/form-data"
         }
-    })
+    }),
 }
 
 export {

@@ -1,39 +1,42 @@
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useSearchParams} from "react-router-dom";
 
 import {ErrorPage, LoadingPage} from "../Pages";
-import {User} from "../User/User";
+import {User} from "../User";
 import {userActions} from "../../redux";
 
 const Users = () => {
 
     const dispatch = useDispatch();
-    const {users, loading, error, prevPage, nextPage} = useSelector(state => state.userReducer)
+    const {users, loading, error, prevPage, nextPage} = useSelector(state => state.userReducer);
     const [query, setQuery] = useSearchParams({page: '1'});
+    const [searcher, setSearcher] = useState(null)
 
 
-    useEffect(async () => {
-        await dispatch(userActions.setAllUsers({query}))
-        await dispatch(userActions.setSelfUser())
-    }, [])
-
-    if (users === []) {
-        return (
-            <div>
-                <LoadingPage/>
-            </div>
-        )
-    }
+    useEffect(() => {
+        dispatch(userActions.setAllUsers({query, searcher}));
+        dispatch(userActions.setSelfUser());
+    }, [query, searcher])
 
     const prev = () => {
-        setQuery(value => ({page: value.get('page') - 1}))
-        console.log(query)
+        setQuery(value => ({page: query.get('page') - 1}));
     }
 
     const next = () => {
-        setQuery(value => ({page: value.get('page') + 1}))
-         console.log(query)
+        setQuery(value => ({page: +query.get('page') + 1}));
+    }
+
+
+    const search = (e) => {
+        let data = e.target.value
+        let symbol = "&";
+        data = data.replace(/\s+/g, symbol);
+        if (data === ' ') {
+            setSearcher(null)
+        } else {
+            setSearcher(data)
+        }
     }
 
 
@@ -45,7 +48,10 @@ const Users = () => {
             <button disabled={!prevPage} onClick={() => prev()}>Prev</button>
             <button disabled={!nextPage} onClick={() => next()}>Next</button>
 
-            {users && users.map(user => <User user={user}/>)}
+            <div>
+                <input type="text" id={'searcher'} onChange={(e) => search(e)} value={searcher}/>
+                {users && users.map(user => <User user={user}/>)}
+            </div>
         </div>
     )
 }

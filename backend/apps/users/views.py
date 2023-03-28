@@ -4,6 +4,7 @@ from typing import Type
 from core.pagination.page_pagination import OrderPagePagination, UserPagePagination
 
 from django.contrib.auth import get_user_model
+from django.db.models import Q
 from django.shortcuts import get_object_or_404
 
 from rest_framework import status
@@ -24,6 +25,7 @@ from apps.orders.serializers import OrderPhotoSerializer, OrderSerializer
 from apps.users.models import UserModel as User
 
 from ..orders.filters import OrderFilter
+from .filters import UserFilter
 from .models import ProfileModel
 from .permissions import IsSuperUser
 from .serializers import ProfileSerializer, UserPhotoSerializer, UserSerializer
@@ -34,11 +36,42 @@ UserModel: Type[User] = get_user_model()
 class UserListCreateView(ListCreateAPIView):
     serializer_class = UserSerializer
     queryset = UserModel.objects.all()
-    permission_classes = IsAdminUser,
     pagination_class = UserPagePagination
+    filterset_class = UserFilter
+
+    def get_permissions(self):
+        if self.request.method == 'POST':
+            return [AllowAny()]
+        if self.request.method == 'GET':
+            return [IsAdminUser()]
 
     def get_queryset(self):
-        return UserModel.objects.exclude(pk=self.request.user.id)
+        search_term = self.request.GET.get('keyword')
+        query = Q()
+
+        if search_term:
+            try:
+                int(search_term)
+            except (Exception,):
+                print(Exception)
+
+        if search_term == 'true' or search_term == 'false':
+            try:
+                search_term.bool()
+            except (Exception,):
+                print(Exception)
+
+            for field in UserModel._meta.fields:
+                if field.get_internal_type() in ['CharField', 'TextField', 'AutoField', 'IntegerField', 'BooleanField']:
+                    if field.name == 'id':
+                        query |= Q(**{f'{field.name}__exact': search_term})
+                    elif field.get_internal_type() == 'BooleanField':
+                        query |= Q(**{f'{field.name}__exact': True if search_term.lower() == 'true' else False})
+                    else:
+                        query |= Q(**{f'{field.name}__icontains': search_term})
+            return UserModel.objects.filter(query)
+        else:
+            return UserModel.objects.exclude(pk=self.request.user.id)
 
 
 class ChangeUserServiceView(GenericAPIView):
@@ -54,7 +87,7 @@ class ChangeUserServiceView(GenericAPIView):
 
 
 class ChangeEmployeeServiceView(GenericAPIView):
-    permission_classes = (AllowAny,)
+    permission_classes = IsSuperUser,
 
     def patch(self, *args, **kwargs):
         try:

@@ -1,13 +1,12 @@
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
-
-import {UserOrderButtons} from "../Order";
-import {OrderPhoto} from "../OrderPhoto/OrderPhoto";
-import {EmployeesBuilder} from "../EmployeesBuilder/EmployeesBuilder";
 import {useParams} from "react-router-dom";
-import {orderActions} from "../../redux";
-import {LoadingPage} from "./LoadingPage";
-import {ErrorPage} from "./ErrorPage";
+
+import {UserOrderButtons} from "../../Order";
+import {OrderPhoto} from "../../OrderPhoto";
+import {EmployeesBuilder} from "../../EmployeesBuilder";
+import {orderActions} from "../../../redux";
+import {LoadingPage, ErrorPage} from "../CommonPages";
 
 const UserOrderDetailsPage = () => {
 
@@ -19,13 +18,6 @@ const UserOrderDetailsPage = () => {
         dispatch(orderActions.setOrderById({id}))
     }, [])
 
-    if (!order) {
-        return(
-            <div>
-                <LoadingPage/>
-            </div>
-            )
-    }
 
     return (
         <div>
