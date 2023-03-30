@@ -164,6 +164,7 @@ class AddPhotoToOrder(GenericAPIView):
     def post(self, *args, **kwargs):
         order = self.get_object()
         files = self.request.FILES
+        print(files, 1)
         for key in files:
             serializer = OrderPhotoSerializer(data={'photos': files[key]})
             serializer.is_valid(raise_exception=True)

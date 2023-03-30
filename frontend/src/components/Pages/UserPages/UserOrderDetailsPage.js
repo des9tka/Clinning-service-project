@@ -18,6 +18,13 @@ const UserOrderDetailsPage = () => {
         dispatch(orderActions.setOrderById({id}))
     }, [])
 
+    if (!order) {
+        return (
+            <div>
+                <LoadingPage/>
+            </div>
+        )
+    }
 
     return (
         <div>

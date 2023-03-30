@@ -5,7 +5,7 @@ import {urls, orderAttr} from "../configs";
 const order_service = {
     getAll: (page = 1, status = 1, searcher = '') => axiosService.get(urls.ORDERS, {params: {page, status, searcher}}),
     search: (search = '', page = 1) => axiosService.get(`${urls.ORDERS}${orderAttr.search}?${search}`, {params: {page}}),
-    addPhoto: (id, photo) => axiosService.post(`${urls.ORDERS}/${id}${orderAttr.add_photos}`, photo),
+    addPhoto: (id, photos) => axiosService.post(`${urls.ORDERS}/${id}${orderAttr.add_photos}`, photos),
     delete: (id) => axiosService.delete(`${urls.ORDERS}/${id}`),
     getById: (id) => axiosService.get(`${urls.ORDERS}/${id}`),
     take: (id) => axiosService.patch(`${urls.ORDERS}/${id}${orderAttr.take}`),
