@@ -4,8 +4,16 @@ import {useForm} from "react-hook-form";
 
 import {user_service} from "../../../services";
 import {profile_validator} from "../../../validators";
+import {BASE_URL} from "../../../configs";
+import {useDispatch, useSelector} from "react-redux";
+import {userActions} from "../../../redux";
+import {LoadingPage} from "../../Pages";
 
 const ProfileForm = () => {
+
+    const formData = new FormData();
+    const dispatch = useDispatch();
+    const {user} = useSelector(state => state.userReducer)
 
     const {setValue, register, handleSubmit, formState: {isValid, errors}} = useForm({
         resolver: joiResolver(profile_validator),
@@ -13,21 +21,33 @@ const ProfileForm = () => {
     })
 
     useEffect(() => {
-        user_service.getSelf().then(value => {
-            setValue('name', `${value.data.profile.name}`);
-            setValue('surname', `${value.data.profile.surname}`);
-            setValue('age', `${value.data.profile.age}`);
-            setValue('phone', `${value.data.profile.phone}`);
+        // user_service.getSelf().then(value => {
+        //     setValue('name', `${value.data.profile.name}`);
+        //     setValue('surname', `${value.data.profile.surname}`);
+        //     setValue('age', `${value.data.profile.age}`);
+        //     setValue('phone', `${value.data.profile.phone}`);
+        // })
+        dispatch(userActions.setSelfUser()).then((value) => {
+            const profile = value.payload.data.profile
+            setValue('name', `${profile.name}`);
+            setValue('surname', `${profile.surname}`);
+            setValue('age', `${profile.age}`);
+            setValue('phone', `${profile.phone}`);
         })
     }, [])
 
     const profileUpdate = async (profile) => {
         await user_service.profileUpdate(profile)
 
-
         const avatar = document.getElementById('avatar').files
 
-        user_service.addPhoto(avatar)
+        for (let i = 0; i !== avatar.length; i++) {
+            formData.append('user_photo', avatar[0])
+            console.log(avatar[0])
+        }
+
+
+        user_service.addPhoto(formData)
             .then((response) => {
                 console.log(response)
             })
@@ -36,12 +56,21 @@ const ProfileForm = () => {
             })
     }
 
+    if (!user) {
+        return (
+            <div>
+                <LoadingPage/>
+            </div>
+        )
+    }
+
     return (
         <form onSubmit={handleSubmit(profileUpdate)}>
             <input type="text" placeholder={'name'} {...register('name')}/>
             <input type="text" placeholder={'surname'} {...register('surname')}/>
             <input type="number" placeholder={'age'} {...register('age')}/>
             <input type="text" placeholder={'phone'} {...register('phone')}/>
+            {user.profile.user_photo && <img className={'img'} src={`${BASE_URL}/${user.profile.user_photo}`} alt="photo"/>}
             <input type="file" id={'avatar'}/>
             <button disabled={!isValid}>Save</button>
 

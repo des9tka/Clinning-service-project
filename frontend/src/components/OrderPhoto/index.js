@@ -1,1 +1,1 @@
-export * from './OrderPhoto'
+export * from './PhotosBuilder'

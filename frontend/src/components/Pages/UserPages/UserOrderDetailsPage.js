@@ -3,7 +3,7 @@ import {useEffect} from "react";
 import {useParams} from "react-router-dom";
 
 import {UserOrderButtons} from "../../Order";
-import {OrderPhoto} from "../../OrderPhoto";
+import {PhotosBuilder} from "../../OrderPhoto";
 import {EmployeesBuilder} from "../../EmployeesBuilder";
 import {orderActions} from "../../../redux";
 import {LoadingPage, ErrorPage} from "../CommonPages";
@@ -44,8 +44,8 @@ const UserOrderDetailsPage = () => {
             {order.status !== 1 && order.status !== 2 && <div>Employees now: </div>}
             {order.status !== 1 && order.status !== 2 &&order.employees_current[0] && order.employees_current.map(id => <EmployeesBuilder employee_id={id}/>)}
 
-            <div className={'order_wrap'}>
-                 {order.photos.map((photo, index) => <OrderPhoto key={index} photo={photo}/>)}
+            <div className={'order_photo_wrap'}>
+                 {order.photos.map((photo, index) => <PhotosBuilder key={index} photo={photo}/>)}
             </div>
 
             <hr/>

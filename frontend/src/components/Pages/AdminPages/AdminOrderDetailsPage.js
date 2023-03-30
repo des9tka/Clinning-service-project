@@ -5,7 +5,7 @@ import {useEffect} from "react";
 
 
 import {order_service} from "../../../services";
-import {OrderPhoto} from "../../OrderPhoto";
+import {PhotosBuilder} from "../../OrderPhoto";
 import {EmployeesBuilder} from "../../EmployeesBuilder";
 import {orderActions} from "../../../redux";
 import {LoadingPage, ErrorPage} from "../CommonPages";
@@ -49,8 +49,8 @@ const AdminOrderDetailsPage = () => {
             <div>Status: {order.status}</div>
             {order.price !== 0 && <div>Price: {order.price}</div>}
 
-            <div className={'order_wrap'}>
-                {order.photos.map((photo, index) => <OrderPhoto key={index} photo={photo}/>)}
+            <div className={'order_photo_wrap'}>
+                {order.photos.map((photo, index) => <PhotosBuilder key={index} photo={photo}/>)}
             </div>
 
             {<div>Employees need: {order.employees_quantity}</div>}

@@ -6,12 +6,17 @@
     display: flex;
 }
 
-.order_img {
+.img {
     width: 75px;
     height: 75px;
+    margin: 3px;
 }
 
-.order_wrap {
+.order_photo_wrap {
+    display: flex;
+}
+
+.service_photo_wrap {
     display: flex;
 }
 

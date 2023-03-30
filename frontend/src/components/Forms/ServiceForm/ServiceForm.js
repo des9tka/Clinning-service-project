@@ -14,8 +14,7 @@ const ServiceForm = () => {
     const serviceConfirm = async (data) => {
         const service = await c_service_service.create(data)
         try {
-            console.log(files)
-            c_service_service.add_photos(service.data.id, files)
+            c_service_service.add_photos(service.data.id, files).then(() => window.location.reload())
         } catch (e) {
             c_service_service.delete(service.data.id)
             console.log(e)
@@ -25,12 +24,15 @@ const ServiceForm = () => {
     const fileUploader = (e) => {
         const file = e.target.files
         let same = files.filter(photo => photo.name === file[0].name)
-        console.log(same)
-        if (same.length === 0) {
-            setFiles(prevState => [...prevState, file[0]])
+        if (files.length < 5) {
+            if (same.length === 0) {
+                setFiles(prevState => [...prevState, file[0]])
+            } else {
+                alert('This photo already added!!!')
+                same = []
+            }
         } else {
-            alert('This photo already added!!!')
-            same = []
+            alert('Allow to upload 5 photos')
         }
     }
 

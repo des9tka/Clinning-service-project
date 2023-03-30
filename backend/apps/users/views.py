@@ -202,8 +202,8 @@ class AddOrderToUserView(GenericAPIView):
 
 
 class ProfileUpdateView(UpdateAPIView):
-    queryset = ProfileModel.objects.all()
     serializer_class = ProfileSerializer
+    http_method_names = ('patch',)
 
     def get_object(self):
         return self.request.user.profile
@@ -218,9 +218,9 @@ class RetrieveDestroyUserView(RetrieveDestroyAPIView):
 class AddUserPhotoView(UpdateAPIView):
     queryset = UserModel.objects.all()
     serializer_class = UserPhotoSerializer
-    http_method_names = ('patch',)
 
     def get_object(self):
+        print(self.request.user.profile)
         return self.request.user.profile
 
 

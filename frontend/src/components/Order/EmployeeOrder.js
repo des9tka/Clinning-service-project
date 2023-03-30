@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {EmployeesBuilder} from "../EmployeesBuilder";
 import {order_service, user_service} from "../../services";
 import {userActions} from "../../redux";
-import {OrderPhoto} from "../OrderPhoto";
+import {PhotosBuilder} from "../OrderPhoto";
 import {LoadingPage} from "../Pages";
 
 const EmployeeOrder = ({order}) => {
@@ -50,8 +50,8 @@ return (
         <div>Footage: {order.footage}</div>
         <div>Task: {order.task_description}</div>
 
-        <div className={'order_wrap'}>
-            {order.photos.map((photo, index) => <OrderPhoto key={index} photo={photo}/>)}
+        <div className={'order_photo_wrap'}>
+            {order.photos.map((photo, index) => <PhotosBuilder key={index} photo={photo}/>)}
         </div>
 
         <div>Employees: {order.employees_current.length}/{order.employees_quantity}</div>

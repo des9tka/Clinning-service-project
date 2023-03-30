@@ -1,4 +1,5 @@
 import {c_service_service} from "../../services";
+import {PhotosBuilder} from "../OrderPhoto";
 
 const SuperUserService = ({service}) => {
 
@@ -18,7 +19,7 @@ const SuperUserService = ({service}) => {
             <div>Name: {service.name}</div>
             <div>Address: {service.address}</div>
             <div>City: {service.city}</div>
-            <div>Photos: {service.photos}</div>
+            <div className={'service_photo_wrap'}>{service.photos.map(photo => <PhotosBuilder photo={photo}/>)}</div>
             <button onClick={() => deleteService()}>Delete {service.name}</button>
             <hr/>
         </div>
