@@ -4,7 +4,7 @@ from enum import Enum
 
 class ActionEnum(Enum):
     ACTIVATE = ('activate', timedelta(days=1))
-    RECOVERY = ('recovery', timedelta(minutes=10))
+    RECOVERY = ('recovery', timedelta(minutes=25))
 
     def __init__(self, token_type, expired_time):
         self.expired_time = expired_time

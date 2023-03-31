@@ -21,12 +21,6 @@ const ProfileForm = () => {
     })
 
     useEffect(() => {
-        // user_service.getSelf().then(value => {
-        //     setValue('name', `${value.data.profile.name}`);
-        //     setValue('surname', `${value.data.profile.surname}`);
-        //     setValue('age', `${value.data.profile.age}`);
-        //     setValue('phone', `${value.data.profile.phone}`);
-        // })
         dispatch(userActions.setSelfUser()).then((value) => {
             const profile = value.payload.data.profile
             setValue('name', `${profile.name}`);
@@ -37,19 +31,16 @@ const ProfileForm = () => {
     }, [])
 
     const profileUpdate = async (profile) => {
-        await user_service.profileUpdate(profile)
 
         const avatar = document.getElementById('avatar').files
+        formData.append('user_photo', avatar[0])
 
-        for (let i = 0; i !== avatar.length; i++) {
-            formData.append('user_photo', avatar[0])
-            console.log(avatar[0])
-        }
+        await user_service.profileUpdate(profile)
 
 
         user_service.addPhoto(formData)
-            .then((response) => {
-                console.log(response)
+            .then(() => {
+                window.location.reload()
             })
             .catch((err) => {
                 console.log(err)
@@ -65,7 +56,7 @@ const ProfileForm = () => {
     }
 
     return (
-        <form onSubmit={handleSubmit(profileUpdate)}>
+        <form onSubmit={handleSubmit(profileUpdate)} encType="multipart/form-data">
             <input type="text" placeholder={'name'} {...register('name')}/>
             <input type="text" placeholder={'surname'} {...register('surname')}/>
             <input type="number" placeholder={'age'} {...register('age')}/>

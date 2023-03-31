@@ -23,7 +23,21 @@ const user_validator = Joi.object({
 
 })
 
+const email_validator = Joi.object({
+    email: Joi.string().regex(/^([a-z0-9]+(?:[._-][a-z0-9]+)*)@([a-z0-9]+(?:[.-][a-z0-9]+)*\.[a-z]{2,})$/).required().messages({
+        'string.pattern.base': 'Invalid email.'
+    }),
+})
+
+const password_validator = Joi.object({
+    password: Joi.string().regex(/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\s])[^\s]{8,20}$/).required().messages({
+        'string.pattern.base': 'Password demands: 8-20 chars, contains a number(0-9), contains at least one UpperCase latter, contains at least one' +
+            ' LowerCase latter, contains at least one SpecialChar latter.'
+    }),
+})
+
 export {
     user_validator,
-
+    email_validator,
+    password_validator
 }

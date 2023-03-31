@@ -1,5 +1,6 @@
 import {axiosService} from "./axios_service";
-import {urls} from "../configs";
+import {authAttr, urls} from "../configs";
+import axios from "axios";
 
 const _accessToken = 'access'
 const _refreshToken = 'refresh'
@@ -9,6 +10,8 @@ const authService = {
     login: (user) => axiosService.post(urls.AUTH.login, user),
     refresh: (refresh) => axiosService.post(urls.AUTH.refresh, {refresh}),
     token_check: () => axiosService.get(urls.AUTH.token_check),
+    request_password_recovery: (email) => axiosService.post(urls.AUTH.request_password_recovery, email),
+    change_password: (token, data) => axiosService.post(`${urls.AUTH.login}/${token}${authAttr.recovery}`, data),
 
     getAccessToken: () => localStorage.getItem(_accessToken),
 

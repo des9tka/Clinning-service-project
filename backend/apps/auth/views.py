@@ -1,3 +1,5 @@
+import json
+
 from core.services.email_service import EmailService
 from core.services.jwt_service import ActivateToken, JWTService, RecoveryToken
 
@@ -43,14 +45,19 @@ class RecoveryPasswordByTokenView(GenericAPIView):
         token = kwargs.get('token')
         data = self.request.data
         serializer = PasswordSerializer(data=data)
-        serializer.is_valid(raise_exception=True)
+        try:
+            serializer.is_valid(raise_exception=True)
+        except (Exception,):
+            return Response('Invalid password.', status=status.HTTP_400_BAD_REQUEST)
+
         user = JWTService.validate_token(token, RecoveryToken)
         old_password = user.password
-        new_password = user.set_password(serializer.data['password'])
-        match = check_password(new_password, old_password)
-        if not match:
-            return Response('Same password. Enter new one.')
+
+        if check_password(serializer.data['password'], old_password):
+            new_token = JWTService.create_token(user, RecoveryToken)
+            return Response(str(new_token), status.HTTP_400_BAD_REQUEST)
         else:
+            user.set_password(serializer.data['password'])
             user.save()
         return Response(status=status.HTTP_200_OK)
 

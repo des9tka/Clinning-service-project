@@ -16,7 +16,7 @@ const user_service = {
     toEmployee: (id) => axiosService.patch(`${urls.USERS}/${id}${userAttr.to_employee}`),
     toUser: (id) => axiosService.patch(`${urls.USERS}/${id}${userAttr.to_user}`),
     profileUpdate: (profile) => axiosService.patch(`${urls.USERS}${userAttr.profile_update}`, profile),
-    addPhoto: (photo) => axiosService.patch(`${urls.USERS}${userAttr.add_photo}`, {user_photo: photo})
+    addPhoto: (user_photo) => axiosService.patch(`${urls.USERS}${userAttr.add_photo}`, user_photo)
 }
 
 export {

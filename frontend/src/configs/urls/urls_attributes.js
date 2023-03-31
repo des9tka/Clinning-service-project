@@ -33,8 +33,12 @@ const orderAttr = {
     search: '/search'
 }
 
+const authAttr = {
+    recovery: '/recovery'
+}
+
 export {
-    userAttr, serviceAttr, orderAttr
+    userAttr, serviceAttr, orderAttr, authAttr
 }
 
 

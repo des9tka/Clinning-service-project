@@ -8,7 +8,8 @@ const urls = {
     AUTH: {
         login: '/auth',
         refresh: '/auth/refresh',
-        token_check: '/auth/token_check'
+        token_check: '/auth/token_check',
+        request_password_recovery: '/auth/request_password_recovery'
     },
     MEDIA: '/media'
 }

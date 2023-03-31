@@ -12,7 +12,7 @@ const LoginPage = () => {
             LoginPage
             <LoginForm/>
             <Link to={'/auth/register'}>I`m new user</Link><br/>
-            <Link to={'/auth/restore_password'}>Forgot password</Link>
+            <Link to={'/auth/request_password_recovery'}>Forgot password</Link>
         </div>
     )
 }

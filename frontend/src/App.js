@@ -6,12 +6,12 @@ import {
     AuthLayout, ChangeServicePage, EmployeesAboutPage, EmployeesOfficePage, EmployeesOrdersPage, ErrorPage, HelpPage,
     HomePage, LoginPage,
     PaymentPage,
-    ProfilePage, RegisterPage, RestorePasswordPage,
+    ProfilePage, RegisterPage,
     ServicePage, SuperUserAboutPage, SuperUserDetailsPage, SuperUserOrdersPage, SuperUserUsersPage,
     UserAboutPage,
     UserOfficePage,
-    UserOrderDetailsPage,
-    UserOrderFormPage, WorkerLayout, SuperUserServicePage, UserLayout, SuperUserLayout
+    UserOrderDetailsPage, RecoveryPasswordPage,
+    UserOrderFormPage, WorkerLayout, SuperUserServicePage, UserLayout, SuperUserLayout, RecoveryPasswordRequestPage
 } from "./components";
 
 
@@ -37,8 +37,10 @@ function App() {
                 <Route path={'auth'} element={<AuthLayout/>}>
                     <Route path={'login'} element={<LoginPage/>}/>
                     <Route path={'register'} element={<RegisterPage/>}/>
-                    <Route path={'restore_password'} element={<RestorePasswordPage/>}/>
+                    <Route path={'request_password_recovery'} element={<RecoveryPasswordRequestPage/>}/>}/>
+                    <Route path={'password_recovery/:token'} element={<RecoveryPasswordPage/>}/>}/>
                 </Route>
+
 
                 <Route path={'admin'} element={<AdminLayout/>}>
                     <Route index element={<Navigate to={'/admin/home'}/>}/>
