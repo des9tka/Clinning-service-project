@@ -33,7 +33,6 @@ class JWTService:
             token_valid.check_blacklist()
         except (Exception,):
             raise JWTException
-        token_valid.blacklist()
         user_id = token_valid.payload.get('user_id')
         return get_object_or_404(UserModel, pk=user_id)
 

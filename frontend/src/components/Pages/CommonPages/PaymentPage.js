@@ -1,10 +1,14 @@
+import {PaymentForm} from "../../Forms";
+
 const PaymentPage = () => {
 
     return (
         <div>
-            PaymentPage
+            <PaymentForm/>
         </div>
+
     )
+
 }
 export {
     PaymentPage

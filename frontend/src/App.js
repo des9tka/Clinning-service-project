@@ -20,7 +20,6 @@ function App() {
     return (
         <div>
             <Routes>
-
                 <Route path={'/'} element={<UserLayout/>}>
                     <Route index element={<Navigate to={'/home'}/>}/>
                     <Route path={'home'} element={<HomePage/>}/>
@@ -29,7 +28,7 @@ function App() {
                     <Route path={'office/create_order'} element={<UserOrderFormPage/>}/>
                     <Route path={'office/profile'} element={<ProfilePage/>}/>
                     <Route path={'office/order/:id/details'} element={<UserOrderDetailsPage/>}/>
-                    <Route path={'office/payment'} element={<PaymentPage/>}/>
+                    <Route path={'office/order/:id/payment'} element={<PaymentPage/>}/>
                     <Route path={'about'} element={<UserAboutPage/>}/>
                     <Route path={'help'} element={<HelpPage/>}/>
                 </Route>

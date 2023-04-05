@@ -1,3 +1,6 @@
+import os
+
+import stripe
 from core.pagination.page_pagination import OrderPagePagination
 
 from django.shortcuts import get_object_or_404
@@ -139,6 +142,7 @@ class EmployeeDoneOrderView(GenericAPIView):
         serializer = OrderSerializer(instance=order)
         return Response(status=status.HTTP_200_OK)
 
+
 class AdminApproveOrderView(GenericAPIView):
     def patch(self, *args, **kwargs):
         pk = kwargs['pk']
@@ -191,4 +195,27 @@ class EmployeeOrdersView(ListAPIView):
         return OrderModel.objects.filter(employees_current=user.id)
 
 
+class StripePaymentIntentView(GenericAPIView):
+    permission_classes = AllowAny,
+    queryset = OrderModel
 
+    def post(self, *args, **kwargs):
+        stripe.api_key = os.environ.get("STRIPE_SECRET_KEY")
+        payment_method = self.request.data.get("id")
+        amount = self.request.data.get("amount")
+        order_status = get_object_or_404(OrderStatusModel, name='paid')
+
+        try:
+            payment_intent = stripe.PaymentIntent.create(
+                payment_method=payment_method,
+                amount=amount,
+                currency="UAH",
+                description="paymentReactApi",
+                confirm=True,
+            )
+            order = self.get_object()
+            order.status = order_status
+            order.save()
+            return Response({"status": payment_intent.status}, status=200)
+        except stripe.error.StripeError as e:
+            return Response({"error": e.user_message}, status=400)

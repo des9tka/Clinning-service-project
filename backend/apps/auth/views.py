@@ -54,8 +54,7 @@ class RecoveryPasswordByTokenView(GenericAPIView):
         old_password = user.password
 
         if check_password(serializer.data['password'], old_password):
-            new_token = JWTService.create_token(user, RecoveryToken)
-            return Response(str(new_token), status.HTTP_400_BAD_REQUEST)
+            return Response('Same password.', status.HTTP_400_BAD_REQUEST)
         else:
             user.set_password(serializer.data['password'])
             user.save()

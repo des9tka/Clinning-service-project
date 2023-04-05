@@ -30,7 +30,8 @@ const orderAttr = {
     add_photos: '/add_photos',
     employee_orders: '/employee_orders',
     done: '/done',
-    search: '/search'
+    search: '/search',
+    payment: '/payment'
 }
 
 const authAttr = {

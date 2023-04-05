@@ -10,11 +10,7 @@ const RecoveryPasswordPage = () => {
 
     const {token} = useParams();
     const navigate = useNavigate();
-
-    const [state, setState] = useState({
-        message: ' ',
-        token: null
-    });
+    const [message, setMessage] = useState(' ');
 
     const {handleSubmit, register, formState: {isValid, errors}} = useForm({
         mode: 'all',
@@ -26,18 +22,17 @@ const RecoveryPasswordPage = () => {
 
     const matching = (e) => {
         if (first.value !== e.target.value) {
-            setState(prevState => ({...prevState, message: 'Passwords arent matching'}))
+            setMessage('Passwords arent matching')
         } else {
-            setState({token: token, message: ''})
+            setMessage('')
         }
     }
 
     const change = (password) => {
-        authService.change_password(state.token, password).then((response) => {
-            console.log(response)
+        authService.change_password(token, password).then((response) => {
+            navigate('/auth/login')
         }).catch((e) => {
-            console.log(e)
-            setState(prevState => ({...prevState, token: e.response.data}))
+            setMessage(e.response.data)
         })
     }
 
@@ -45,10 +40,10 @@ const RecoveryPasswordPage = () => {
         <div>
             <form onSubmit={handleSubmit(change)}>
                 {errors.password && <div>{errors.password.message}</div>}
-                {state.message === 'Passwords arent matching' && <div>{state.message}</div>}
+                {message !== '' && <div>{message}</div>}
                 <input type="text" id={'first'} placeholder={'new password'} {...register('password')}/>
                 <input type="text" id={'second'} placeholder={'repeat the password'} onChange={(e) => matching(e)}/>
-                <button disabled={!isValid || state.message !== ''}>Change password</button>
+                <button disabled={!isValid || message !== ''}>Change password</button>
             </form>
         </div>
     )

@@ -13,6 +13,7 @@ from .views import (
     RejectOrderView,
     RemoveEmployeeFromOrder,
     RetrieveDeleteOrderView,
+    StripePaymentIntentView,
     UserConfirmOrderView,
 )
 
@@ -30,4 +31,5 @@ urlpatterns = [
     path('/<int:pk>/add_photos', AddPhotoToOrder.as_view()),
     path('/<int:pk>', RetrieveDeleteOrderView.as_view()),
     path('/<int:pk>/done', EmployeeDoneOrderView.as_view()),
+    path('/<int:pk>/payment', StripePaymentIntentView.as_view())
 ]

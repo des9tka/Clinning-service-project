@@ -28,7 +28,7 @@ const UserOrderButtons = ({status, id}) => {
             </div>}
 
             {status === 6 && <div>
-                <button onClick={() => navigate('/office/payment')}>Pay</button>
+                <button onClick={() => navigate(`/office/order/${id}/payment`)}>Pay</button>
             </div>}
         </div>
     )
