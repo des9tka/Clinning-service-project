@@ -25,7 +25,7 @@ const AdminUserButtons = ({user}) => {
 
     return (
         <div>
-            {user.is_employee && <button onClick={() => toUser()}>To user</button>}
+            {(user.is_employee && !user.is_superuser) && <button onClick={() => toUser()}>To user</button>}
             {!user.is_employee && <button onClick={() => toEmployee()}>To employee</button>}
             {user.is_active && <button onClick={() => deactivate()}>Deactivate</button>}
             {!user.is_active && <button onClick={() => activate()}>Activate</button>}

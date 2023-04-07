@@ -10,13 +10,13 @@ const order_service = {
     getById: (id) => axiosService.get(`${urls.ORDERS}/${id}`),
     take: (id) => axiosService.patch(`${urls.ORDERS}/${id}${orderAttr.take}`),
     confirm: (id) => axiosService.patch(`${urls.ORDERS}/${id}${orderAttr.confirm}`),
-    approve: (id) => axiosService.patch(`${urls.ORDERS}/${id}${orderAttr.approve}`),
-    done: (id) => axiosService.patch(`${urls.ORDERS}/${id}${orderAttr.done}`),
-    reject: (id) => axiosService.patch(`${urls.ORDERS}/${id}${orderAttr.reject}`),
+    // approve: (id) => axiosService.patch(`${urls.ORDERS}/${id}${orderAttr.approve}`),
+    done: (id, rate) => axiosService.patch(`${urls.ORDERS}/${id}${orderAttr.done}${rate}`),
+    reject: (id, data) => axiosService.patch(`${urls.ORDERS}/${id}${orderAttr.reject}`, {data}),
     update: (id, order) => axiosService.patch(`${urls.ORDERS}/${id}${orderAttr.patch}`, order),
     removeEmployee: (order_id, employee_id) => axiosService.patch(`${urls.ORDERS}/${order_id}${orderAttr.remove_employee}${employee_id}`),
     employee_orders: (page = 1, searcher) => axiosService.get(`${urls.ORDERS}/${orderAttr.employee_orders}?${searcher}`, {params: {page}}),
-    payment: (id, amount, order_id) => axiosService.post(`${urls.ORDERS}/${order_id}${orderAttr.payment}`, {id, amount})
+    payment: (id, amount, order_id, rate) => axiosService.post(`${urls.ORDERS}/${order_id}${orderAttr.payment}${rate}`, {id, amount})
 }
 
 export {

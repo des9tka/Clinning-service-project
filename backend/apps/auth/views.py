@@ -1,4 +1,5 @@
 import json
+import os
 
 from core.services.email_service import EmailService
 from core.services.jwt_service import ActivateToken, JWTService, RecoveryToken
@@ -64,3 +65,10 @@ class RecoveryPasswordByTokenView(GenericAPIView):
 class TokenValidCheck(GenericAPIView):
     def get(self, *args, **kwargs):
         return Response('Authenticated')
+
+
+class StripeTokenView(GenericAPIView):
+    def get(self, *args, **kwargs):
+        stripe_token = os.environ.get('STRIPE_PUBLIC_KEY')
+        return Response(stripe_token)
+

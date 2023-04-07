@@ -1,5 +1,5 @@
 import {c_service_service} from "../../services";
-import {PhotosBuilder} from "../OrderPhoto";
+import {OrderPhotosBuilder} from "../OrderPhoto";
 
 const SuperUserService = ({service}) => {
 
@@ -19,7 +19,7 @@ const SuperUserService = ({service}) => {
             <div>Name: {service.name}</div>
             <div>Address: {service.address}</div>
             <div>City: {service.city}</div>
-            <div className={'service_photo_wrap'}>{service.photos.map(photo => <PhotosBuilder photo={photo}/>)}</div>
+            <div className={'service_photo_wrap'}>{service.photos.map(photo => <OrderPhotosBuilder photo={photo}/>)}</div>
             <button onClick={() => deleteService()}>Delete {service.name}</button>
             <hr/>
         </div>

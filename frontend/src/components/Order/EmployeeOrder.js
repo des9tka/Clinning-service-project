@@ -1,67 +1,58 @@
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 
 import {EmployeesBuilder} from "../EmployeesBuilder";
 import {order_service, user_service} from "../../services";
 import {userActions} from "../../redux";
-import {PhotosBuilder} from "../OrderPhoto";
-import {LoadingPage} from "../Pages";
+import {OrderPhotosBuilder} from "../OrderPhoto";
+import {ErrorPage, LoadingPage} from "../Pages";
+import {EmployeeOrderButtons} from "./EmployeeOrderButtons";
 
 const EmployeeOrder = ({order}) => {
 
-    const {user} = useSelector(state => state.userReducer)
-    const dispatch = useDispatch();
+    const dispatch = useDispatch()
+    const {user, loading, error} = useSelector(state => state.userReducer)
+
 
     useEffect(() => {
-        user_service.getSelf().then(value => dispatch(userActions.setUser(value.data)))
+        dispatch(userActions.setSelfUser())
     }, [])
 
-    const take = () => {
-        order_service.take(order.id).then((response) => {
-            window.location.reload()
-        }).catch((err) => console.log(err))
+
+
+    if (!user) {
+        return (
+            <div>
+                <LoadingPage/>
+            </div>
+        )
     }
 
-    const done = () => {
-        order_service.done(order.id).then((response) => {
-            window.location.reload()
-        }).catch((err) => console.log(err))
-    }
-
-
-if (!user) {
     return (
         <div>
-            <LoadingPage/>
+            {loading && <LoadingPage/>}
+            {error && <ErrorPage error={error}/>}
+            <div>Id: {order.id}</div>
+            <div>Address: {order.address}</div>
+            <div>Price: {order.price}</div>
+            <div>Date: {order.date}</div>
+            <div>Time: {order.time}</div>
+            <div>Status: {order.status}</div>
+            <div>Rating: {order.rating}</div>
+            <div>Footage: {order.footage}</div>
+            <div>Task: {order.task_description}</div>
+
+            <div className={'order_photo_wrap'}>
+                {order.photos.map((photo, index) => <OrderPhotosBuilder key={index} photo={photo}/>)}
+            </div>
+
+            <div>Employees: {order.employees_current.length}/{order.employees_quantity}</div>
+            {order.employees_current[0] && order.employees_current.map(employee_id => <EmployeesBuilder employee_id={employee_id}/>)}
+
+            <EmployeeOrderButtons order={order} user={user}/>
+            <hr/>
         </div>
     )
-}
-
-const taken = order.employees_current.includes(user.id)
-
-return (
-    <div>
-        <div>Id: {order.id}</div>
-        <div>Address: {order.address}</div>
-        <div>Price: {order.price}</div>
-        <div>Date: {order.date}</div>
-        <div>Time: {order.time}</div>
-        <div>Status: {order.status}</div>
-        <div>Footage: {order.footage}</div>
-        <div>Task: {order.task_description}</div>
-
-        <div className={'order_photo_wrap'}>
-            {order.photos.map((photo, index) => <PhotosBuilder key={index} photo={photo}/>)}
-        </div>
-
-        <div>Employees: {order.employees_current.length}/{order.employees_quantity}</div>
-        {order.employees_current[0] && order.employees_current.map(employee_id => <EmployeesBuilder employee_id={employee_id}/>)}
-
-        {!taken && <button onClick={() => take()}>Take</button>}
-        {order.status === 5 && <button onClick={() => done()}>Done</button>}
-        <hr/>
-    </div>
-)
 }
 export {
     EmployeeOrder

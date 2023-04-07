@@ -18,7 +18,11 @@ UserModel: Type[User] = get_user_model()
 class ProfileSerializer(ModelSerializer):
     class Meta:
         model = ProfileModel
-        fields = ('name', 'surname', 'age', 'phone', 'user_photo')
+        fields = ('name', 'surname', 'age', 'phone', 'user_photo', 'rating')
+
+        # read_only_fields = (
+        #     'rating',
+        # )
 
 
 class UserSerializer(ModelSerializer):

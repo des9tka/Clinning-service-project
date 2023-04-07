@@ -28,7 +28,7 @@ function App() {
                     <Route path={'office/create_order'} element={<UserOrderFormPage/>}/>
                     <Route path={'office/profile'} element={<ProfilePage/>}/>
                     <Route path={'office/order/:id/details'} element={<UserOrderDetailsPage/>}/>
-                    <Route path={'office/order/:id/payment'} element={<PaymentPage/>}/>
+                    <Route path={'office/order/:id/payment/:rate'} element={<PaymentPage/>}/>
                     <Route path={'about'} element={<UserAboutPage/>}/>
                     <Route path={'help'} element={<HelpPage/>}/>
                 </Route>

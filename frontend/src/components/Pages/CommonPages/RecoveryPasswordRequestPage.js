@@ -2,7 +2,7 @@ import {useForm} from "react-hook-form";
 import {joiResolver} from "@hookform/resolvers/joi/dist/joi";
 
 import {email_validator} from "../../../validators";
-import {authService} from "../../../services";
+import {auth_service} from "../../../services";
 import {useState} from "react";
 
 const RecoveryPasswordRequestPage = () => {
@@ -14,7 +14,7 @@ const RecoveryPasswordRequestPage = () => {
     });
 
     const restore = (email) => {
-        authService.request_password_recovery(email).then(() => setMessage('Recovery Link was sanded to your mail')).catch((e) => console.log(e))
+        auth_service.request_password_recovery(email).then(() => setMessage('Recovery Link was sanded to your mail')).catch((e) => console.log(e))
     }
 
     return (

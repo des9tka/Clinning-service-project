@@ -1,5 +1,5 @@
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js"
-import axios from "axios"
+
 import {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 
@@ -24,7 +24,7 @@ const checkoutFormOptions = {
 const PaymentForm = ({ success = () => {} }) => {
   const stripe = useStripe();
   const elements = useElements();
-  const {id: url} = useParams();
+  const {id: url, rate} = useParams();
   const [amount, setAmount] = useState()
   const navigate = useNavigate();
 
@@ -46,10 +46,10 @@ const PaymentForm = ({ success = () => {} }) => {
       const {id} = paymentMethod
 
       try {
-        const {data} = await order_service.payment(id, amount, url)
+        await order_service.payment(id, amount, url, rate)
 
-        alert(data.status)
         success()
+        alert('Succeed payment!')
         navigate('/office')
 
       } catch ({message, response}) {

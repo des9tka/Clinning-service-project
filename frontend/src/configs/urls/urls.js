@@ -9,7 +9,8 @@ const urls = {
         login: '/auth',
         refresh: '/auth/refresh',
         token_check: '/auth/token_check',
-        request_password_recovery: '/auth/request_password_recovery'
+        request_password_recovery: '/auth/request_password_recovery',
+        stripe_token: 'auth/stripe_token'
     },
     MEDIA: '/media'
 }

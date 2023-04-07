@@ -25,6 +25,7 @@ class OrderModel(models.Model):
     price = models.FloatField(default=0)
     status = models.ForeignKey(OrderStatusModel, on_delete=models.CASCADE, related_name='orders', default=1)
     service = models.ForeignKey(ServiceModel, on_delete=models.CASCADE, related_name='orders')
+    rating = models.FloatField(default=0)
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name='orders')
     employees_quantity = models.IntegerField(default=1)
     employees_current = models.ManyToManyField(UserModel, blank=True, related_query_name='employees_orders')

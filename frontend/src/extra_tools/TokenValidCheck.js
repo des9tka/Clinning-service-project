@@ -1,12 +1,12 @@
 import {useEffect} from "react";
 
-import {authService, history} from "../services";
+import {auth_service, history} from "../services";
 
 const TokenValidCheck = () => {
     const token = localStorage.getItem('access')
 
     useEffect(() => {
-        authService.token_check()
+        auth_service.token_check()
             .catch(function (error) {
                 history.push('/auth/login')
             });

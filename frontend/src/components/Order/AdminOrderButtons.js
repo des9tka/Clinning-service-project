@@ -1,19 +1,22 @@
 import {order_service} from "../../services";
-import {useNavigate} from "react-router-dom";
 
-const AdminOrderButtons = ({status, employee, order_id}) => {
+const AdminOrderButtons = ({status, employee, order_id, setState, state}) => {
 
-    const navigate = useNavigate();
 
     const deleteEmployee = async () => {
         await order_service.removeEmployee(order_id, employee.id)
-        navigate('/admin/orders')
+        window.location.reload()
+    }
+
+    const rejectOrder = () => {
+        setState(prevState => ({...prevState, button: true}))
     }
 
     return (
         <div>
-            {status === 1 && <button>Confirm</button>}
-            {status === 5 && <button onClick={() => deleteEmployee()}>Delete {employee.profile.name}</button>}
+            {(status === 1 && !state.button) && <button disabled={!state.employees || !state.price}>Confirm</button>}
+            {(status === 1 && !state.button) && <button onClick={() => rejectOrder()}>Reject</button>}
+            {status === 5 && <button onClick={() => deleteEmployee()}>Delete {employee && employee.profile.name}</button>}
         </div>
     )
 }

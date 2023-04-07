@@ -3,7 +3,7 @@ import {useEffect} from "react";
 import {useParams} from "react-router-dom";
 
 import {UserOrderButtons} from "../../Order";
-import {PhotosBuilder} from "../../OrderPhoto";
+import {OrderPhotosBuilder} from "../../OrderPhoto";
 import {EmployeesBuilder} from "../../EmployeesBuilder";
 import {orderActions} from "../../../redux";
 import {LoadingPage, ErrorPage} from "../CommonPages";
@@ -39,13 +39,14 @@ const UserOrderDetailsPage = () => {
             <div>Date: {order.date}</div>
             <div>Time: {order.time}</div>
 
+            {(order.status === 6 && order.status === 7) && <div>Rating: {order.rating}</div>}
             {order.status !== 1 && <div>Price: {order.price}</div>}
             {order.status !== 1 && <div>Employees need: {order.employees_quantity}</div>}
-            {order.status !== 1 && order.status !== 2 && <div>Employees now: </div>}
-            {order.status !== 1 && order.status !== 2 &&order.employees_current[0] && order.employees_current.map(id => <EmployeesBuilder employee_id={id}/>)}
+            {(order.status !== 1 && order.status !== 2) && <div>Employees now: </div>}
+            {(order.status !== 1 && order.status !== 2) && order.employees_current[0] && order.employees_current.map(id => <EmployeesBuilder employee_id={id}/>)}
 
             <div className={'order_photo_wrap'}>
-                 {order.photos.map((photo, index) => <PhotosBuilder key={index} photo={photo}/>)}
+                 {order.photos.map((photo, index) => <OrderPhotosBuilder key={index} photo={photo}/>)}
             </div>
 
             <hr/>

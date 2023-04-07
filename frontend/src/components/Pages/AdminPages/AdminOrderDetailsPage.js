@@ -1,11 +1,11 @@
 import {useDispatch, useSelector} from "react-redux";
 import {useForm} from "react-hook-form";
 import {useNavigate, useParams} from "react-router-dom";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 
 
 import {order_service} from "../../../services";
-import {PhotosBuilder} from "../../OrderPhoto";
+import {OrderPhotosBuilder} from "../../OrderPhoto";
 import {EmployeesBuilder} from "../../EmployeesBuilder";
 import {orderActions} from "../../../redux";
 import {LoadingPage, ErrorPage} from "../CommonPages";
@@ -16,8 +16,15 @@ const AdminOrderDetailsPage = () => {
     const {id} = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const {order, loading, error} = useSelector(state => state.orderReducer)
     const {register, handleSubmit} = useForm();
+    const [state, setState] = useState({
+        'button': false,
+        'message': '',
+        'price': null,
+        'employees': null
+
+    });
+    const {order, loading, error} = useSelector(state => state.orderReducer)
 
     const orderConfirm = async (updatesOrder) => {
         await order_service.update(order.id, updatesOrder)
@@ -34,6 +41,11 @@ const AdminOrderDetailsPage = () => {
         )
     }
 
+    const reject = async () => {
+        await order_service.reject(order.id, state.message)
+        navigate('/admin/orders')
+    }
+
     return (
         <div>
             {loading && <LoadingPage/>}
@@ -47,23 +59,38 @@ const AdminOrderDetailsPage = () => {
             <div>Date: {order.date}</div>
             <div>Time: {order.time}</div>
             <div>Status: {order.status}</div>
+            <div>Rating: {order.rating}</div>
             {order.price !== 0 && <div>Price: {order.price}</div>}
 
             <div className={'order_photo_wrap'}>
-                {order.photos.map((photo, index) => <PhotosBuilder key={index} photo={photo}/>)}
+                {order.photos.map((photo, index) => <OrderPhotosBuilder key={index} photo={photo}/>)}
             </div>
 
-            {<div>Employees need: {order.employees_quantity}</div>}
+            {order.status !== 1 && <div>Employees need: {order.employees_quantity}</div>}
             {order.status !== 1 && <div>Employees now: </div>}
-            {order.status !== 1 && order.employees_current[0] && order.employees_current.map(employee_id => <EmployeesBuilder employee_id={employee_id} order_id={order.id}
-                                                                                                                     status={order.status}/>)}
+            {order.status !== 1 && order.employees_current[0] && order.employees_current.map(employee_id => <EmployeesBuilder employee_id={employee_id}
+                                                                                                                              order_id={order.id}
+                                                                                                                              status={order.status}/>)}
 
-            {order.status === 1 && <form onSubmit={handleSubmit(orderConfirm)}>
-                <input type="text" placeholder={'Price'} {...register('price')}/>
-                <input type="text" placeholder={'Employees Quantity'} {...register('employees_quantity')}/>
-                <AdminOrderButtons status={order.status}/>
+            {(order.status === 1 && !state.button) && <form onSubmit={handleSubmit(orderConfirm)}>
+
+                <input type={'number'} placeholder={'Price'} {...register('price')} onChange={(e) => setState(prevState => {
+                    return ({...prevState, price: e.target.value})
+                })}/>
+
+                <input type="number" placeholder={'Employees Quantity'} {...register('employees_quantity')} onChange={(e) => setState((prevState) => {
+                    return ({...prevState, employees: e.target.value})
+                })}/>
+
+                <AdminOrderButtons state={state} setState={setState} status={order.status}/>
             </form>}
 
+            {state.button && <div>
+                <input id={'input'} type={'text'} placeholder={'Reason for rejecting'} onChange={(e) => setState((prevState) => {
+                   return ({...prevState, message: e.target.value})
+                })}/>
+                <button disabled={state.message === ''} onClick={() => reject()}>Reject</button>
+            </div>}
             <hr/>
         </div>
     )

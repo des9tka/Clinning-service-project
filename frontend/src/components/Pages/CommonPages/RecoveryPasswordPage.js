@@ -4,7 +4,7 @@ import {joiResolver} from "@hookform/resolvers/joi/dist/joi";
 import {useState} from "react";
 
 import {password_validator} from "../../../validators";
-import {authService} from "../../../services";
+import {auth_service} from "../../../services";
 
 const RecoveryPasswordPage = () => {
 
@@ -29,7 +29,7 @@ const RecoveryPasswordPage = () => {
     }
 
     const change = (password) => {
-        authService.change_password(token, password).then((response) => {
+        auth_service.change_password(token, password).then((response) => {
             navigate('/auth/login')
         }).catch((e) => {
             setMessage(e.response.data)

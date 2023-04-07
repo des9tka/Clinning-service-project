@@ -29,9 +29,9 @@ const orderAttr = {
     approve: '/approve',
     add_photos: '/add_photos',
     employee_orders: '/employee_orders',
-    done: '/done',
+    done: '/done/',
     search: '/search',
-    payment: '/payment'
+    payment: '/payment/',
 }
 
 const authAttr = {

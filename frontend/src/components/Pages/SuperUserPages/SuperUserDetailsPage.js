@@ -4,7 +4,7 @@ import {useNavigate, useParams} from "react-router-dom";
 
 import {orderActions} from "../../../redux";
 import {EmployeesBuilder} from "../../EmployeesBuilder";
-import {PhotosBuilder} from "../../OrderPhoto";
+import {OrderPhotosBuilder} from "../../OrderPhoto";
 import {LoadingPage, ErrorPage} from "../CommonPages";
 import {order_service} from "../../../services";
 
@@ -46,6 +46,8 @@ const SuperUserDetailsPage = () => {
             <div>Service: {order.service}</div>
             <div>Date: {order.date}</div>
             <div>Time: {order.time}</div>
+            <div>Status: {order.status}</div>
+            <div>Rating: {order.rating}</div>
 
             {order.status !== 1 && <div>Price: {order.price}</div>}
             {order.status !== 1 && <div>Employees need: {order.employees_quantity}</div>}
@@ -53,7 +55,7 @@ const SuperUserDetailsPage = () => {
             {order.status !== 1 && order.status !== 2 &&order.employees_current[0] && order.employees_current.map(id => <EmployeesBuilder employee_id={id}/>)}
 
             <div className={'order_photo_wrap'}>
-                 {order.photos.map((photo, index) => <PhotosBuilder key={index} photo={photo}/>)}
+                 {order.photos.map((photo, index) => <OrderPhotosBuilder key={index} photo={photo}/>)}
             </div>
             <button onClick={() => deleteOrder()}>Delete</button>
         </div>

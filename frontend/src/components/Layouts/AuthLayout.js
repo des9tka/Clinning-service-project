@@ -4,8 +4,14 @@ const AuthLayout = () => {
 
     return (
         <div className={'auth_links'}>
-            <Link to={'login'}>login</Link><br/>
-            <Link to={'register'}>register</Link>
+            <h1>Welcome to Cleaning Service!</h1>
+            <div>
+                <Link to={'login'}>Sign in</Link>
+            </div>
+            <br/>
+            <div>
+                <Link to={'register'}>Sign up</Link>
+            </div>
             <Outlet/>
         </div>
     )

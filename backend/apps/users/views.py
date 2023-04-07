@@ -136,7 +136,7 @@ class ToUserView(AdminTools, ABC):
 
     def patch(self, *args, **kwargs):
         user: User = self.get_object()
-        if user.is_staff or user.is_employee:
+        if user.is_staff or user.is_employee and not user.is_superuser:
             user.is_staff = False
             user.is_employee = False
             OrderModel.objects.filter(user_id=user.id).delete()
@@ -190,7 +190,7 @@ class AddOrderToUserView(GenericAPIView):
         service = self.request.user.service
         order_serializer = OrderSerializer(data=data)
         order_serializer.is_valid(raise_exception=True)
-        order_serializer.save(user=user, service=service)
+        order_serializer.save(user=user, service=service, rating=user.profile.rating)
         files = self.request.FILES
         order = OrderModel.objects.latest('id')
         for key in files:
@@ -220,7 +220,6 @@ class AddUserPhotoView(UpdateAPIView):
     serializer_class = UserPhotoSerializer
 
     def get_object(self):
-        print(self.request.user.profile)
         return self.request.user.profile
 
 

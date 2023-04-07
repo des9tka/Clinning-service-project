@@ -34,5 +34,4 @@ urlpatterns = [
     path('/<int:pk>', RetrieveDestroyUserView.as_view()),
     path('/add_photo', AddUserPhotoView.as_view()),
     path('/<int:pk>/delete', DeleteUserView.as_view()),
-
 ]

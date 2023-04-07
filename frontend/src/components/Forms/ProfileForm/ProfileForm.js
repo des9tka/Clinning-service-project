@@ -55,6 +55,9 @@ const ProfileForm = () => {
         )
     }
 
+    console.log(user.profile.user_photo)
+    console.log(user)
+
     return (
         <form onSubmit={handleSubmit(profileUpdate)} encType="multipart/form-data">
             <input type="text" placeholder={'name'} {...register('name')}/>

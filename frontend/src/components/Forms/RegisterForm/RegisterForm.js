@@ -3,7 +3,7 @@ import {joiResolver} from "@hookform/resolvers/joi";
 import {useForm} from "react-hook-form";
 import {useDispatch, useSelector} from "react-redux";
 
-import {authService} from "../../../services";
+import {auth_service} from "../../../services";
 import {user_validator} from "../../../validators";
 import {userActions} from "../../../redux";
 
@@ -19,7 +19,7 @@ const RegisterForm = () => {
     })
 
     const reg = async (user) => {
-        await authService.register({
+        await auth_service.register({
             email: user.email,
             password: user.password,
             profile: {

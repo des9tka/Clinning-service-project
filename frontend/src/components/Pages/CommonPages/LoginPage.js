@@ -1,11 +1,11 @@
 import {LoginForm} from "../../Forms";
 import {Link} from "react-router-dom";
 
-import {authService} from "../../../services";
+import {auth_service} from "../../../services";
 
 const LoginPage = () => {
 
-    authService.deleteTokens()
+    auth_service.deleteTokens()
 
     return (
         <div>
