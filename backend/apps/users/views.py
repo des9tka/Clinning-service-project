@@ -26,7 +26,6 @@ from apps.users.models import UserModel as User
 
 from ..orders.filters import OrderFilter
 from .filters import UserFilter
-from .models import ProfileModel
 from .permissions import IsSuperUser
 from .serializers import ProfileSerializer, UserPhotoSerializer, UserSerializer
 
@@ -46,32 +45,27 @@ class UserListCreateView(ListCreateAPIView):
             return [IsAdminUser()]
 
     def get_queryset(self):
-        search_term = self.request.GET.get('keyword')
-        query = Q()
+        search_query = self.request.GET.get('searcher', '')
 
-        if search_term:
-            try:
-                int(search_term)
-            except (Exception,):
-                print(Exception)
+        try:
+            query = int(search_query)
+            queryset = User.objects.filter(
+                Q(id__lte=query) |
+                Q(profile__rating__lte=query) |
+                Q(profile__age__lte=query) |
+                Q(profile__phone__exact=query)
+            )
+            print(query)
+            return queryset
+        except (Exception,):
+            print(Exception)
 
-        if search_term == 'true' or search_term == 'false':
-            try:
-                search_term.bool()
-            except (Exception,):
-                print(Exception)
-
-            for field in UserModel._meta.fields:
-                if field.get_internal_type() in ['CharField', 'TextField', 'AutoField', 'IntegerField', 'BooleanField']:
-                    if field.name == 'id':
-                        query |= Q(**{f'{field.name}__exact': search_term})
-                    elif field.get_internal_type() == 'BooleanField':
-                        query |= Q(**{f'{field.name}__exact': True if search_term.lower() == 'true' else False})
-                    else:
-                        query |= Q(**{f'{field.name}__icontains': search_term})
-            return UserModel.objects.filter(query)
-        else:
-            return UserModel.objects.exclude(pk=self.request.user.id)
+        queryset = User.objects.filter(
+            Q(email__icontains=search_query) |
+            Q(profile__name__icontains=search_query) |
+            Q(profile__surname__icontains=search_query)
+        )
+        return queryset
 
 
 class ChangeUserServiceView(GenericAPIView):

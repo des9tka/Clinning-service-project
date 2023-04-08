@@ -1,6 +1,6 @@
 from django_filters import rest_framework as filters
 
-from apps.users.models import UserModel
+from apps.users.models import ProfileModel, UserModel
 
 
 class UserFilter(filters.FilterSet):
@@ -13,3 +13,15 @@ class UserFilter(filters.FilterSet):
     class Meta:
         model = UserModel
         fields = ('id', 'email', 'is_staff', 'is_employee', 'is_superuser')
+
+
+class ProfileFilter(filters.FilterSet):
+    name = filters.CharFilter(field_name='name', lookup_expr='startswith')
+    surname = filters.CharFilter(field_name='surname', lookup_expr='startswith')
+    age = filters.NumberFilter(field_name='age', lookup_expr='lte')
+    phone = filters.NumberFilter(field_name='phone', lookup_expr='startswith')
+    rating = filters.NumberFilter(field_name='rating', lookup_expr='lte')
+
+    class Meta:
+        model = ProfileModel
+        fields = ('name', 'surname', 'age', 'phone', 'rating')

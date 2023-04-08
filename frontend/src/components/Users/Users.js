@@ -11,7 +11,7 @@ const Users = () => {
     const dispatch = useDispatch();
     const {users, loading, error, prevPage, nextPage} = useSelector(state => state.userReducer);
     const [query, setQuery] = useSearchParams({page: '1'});
-    const [searcher, setSearcher] = useState(null)
+    const [searcher, setSearcher] = useState('')
 
 
     useEffect(() => {

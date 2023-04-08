@@ -4,6 +4,7 @@ import stripe
 from core.pagination.page_pagination import OrderPagePagination
 from core.services.email_service import EmailService
 
+from django.db.models import Q
 from django.shortcuts import get_object_or_404
 
 from rest_framework import status
@@ -228,8 +229,27 @@ class EmployeeOrdersView(ListAPIView):
     filterset_class = OrderFilter
 
     def get_queryset(self):
+        search_query = self.request.GET.get('searcher', '')
         user = self.request.user
-        return OrderModel.objects.filter(employees_current=user.id)
+        try:
+            query = int(search_query)
+            queryset = OrderModel.objects.filter(
+                Q(price__exact=query) |
+                Q(rating__exact=query) |
+                Q(time__hour=query) |
+                Q(status__exact=query) |
+                Q(footage__lt=query)
+            )
+            print(query)
+            return queryset.objects.filter(employees_current=user.id)
+        except (Exception,):
+            print(Exception)
+
+        queryset = OrderModel.objects.filter(
+            Q(address__contains=search_query) |
+            Q(task_description__contains=search_query)
+        )
+        return queryset.filter(employees_current=user.id)
 
 
 class StripePaymentIntentView(GenericAPIView):

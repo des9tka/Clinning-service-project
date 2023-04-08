@@ -3,7 +3,7 @@ import {axiosService} from "./axios_service";
 import {urls, userAttr} from "../configs";
 
 const user_service = {
-    getAll: (page = 1, searcher = '') => axiosService.get(`${urls.USERS}?${searcher}`, {params: {page}}),
+    getAll: (page = 1, searcher = '') => axiosService.get(`${urls.USERS}?searcher=${searcher}`, {params: {page}}),
     getSelf: () => axiosService.get(`${urls.USERS}${userAttr.self}`),
     getOrders: (page = 1, status = 1) => axiosService.get(`${urls.USERS}${userAttr.orders}`, {params: {page, status}}),
     getById: (id) => axiosService.get(`${urls.USERS}/${id}`),

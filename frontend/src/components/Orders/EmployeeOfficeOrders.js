@@ -11,16 +11,11 @@ const EmployeeOfficeOrders = () => {
     const dispatch = useDispatch();
     const {orders, loading, error, nextPage, prevPage} = useSelector(state => state.orderReducer)
     const [query, setQuery] = useSearchParams({page: '1'});
-    const [searcher, setSearcher] = useState(null)
-
+    const [searcher, setSearcher] = useState('')
 
     useEffect(() => {
-        if (!searcher) {
-            dispatch(orderActions.setEmployeeOrders({query}))
-        } else if (searcher) {
-            dispatch(orderActions.setEmployeeOrders({query, searcher}))
-                .catch((e) => console.log(e))
-        }
+        dispatch(orderActions.setEmployeeOrders({query, searcher}))
+            .catch((e) => console.log(e))
     }, [query, searcher])
 
     const prev = () => {
