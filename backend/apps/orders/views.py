@@ -1,3 +1,4 @@
+import datetime
 import os
 
 import stripe
@@ -30,10 +31,18 @@ class OrderListView(ListAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        order_status = OrderStatusModel.objects.get(name='user_confirmed')
+        user_confirmed_status = OrderStatusModel.objects.get(name='user_confirmed')
+        rejected_status = OrderStatusModel.objects.get(name='rejected')
+        time = datetime.datetime.now().strftime("%H:%M:%S")
+        date = datetime.datetime.now().strftime("%Y-%m-%d")
+        OrderModel.objects.filter(
+            Q(date__lte=date) |
+            Q(time__exact=time) |
+            Q(status_id__lte=6)
+        ).update(status=rejected_status)
 
         if user.is_employee and not user.is_superuser:
-            return OrderModel.objects.filter(service_id=user.service, status=order_status, rating__lte=user.profile.rating).order_by('-rating')
+            return OrderModel.objects.filter(service_id=user.service, status=user_confirmed_status, rating__lte=user.profile.rating).order_by('-rating')
         elif user.is_superuser:
             return OrderModel.objects.all().order_by('-rating')
         elif user.is_staff and not user.is_superuser:
@@ -178,20 +187,6 @@ class EmployeeDoneOrderView(GenericAPIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
         return Response(status=status.HTTP_200_OK)
-
-
-# class AdminApproveOrderView(GenericAPIView):
-#     def patch(self, *args, **kwargs):
-#         pk = kwargs['pk']
-#         order = get_object_or_404(OrderModel, pk=pk)
-#         user = get_object_or_404(UserModel, pk=order.user_id)
-#         order_status = OrderStatusModel.objects.get(name='admin_approve')
-#         order.status = order_status
-#         order.save()
-#         print(order.id)
-#         EmailService.confirm_order_email(user=user, order_id=order.id)
-#         serializer = OrderSerializer(instance=order)
-#         return Response(serializer.data, status.HTTP_200_OK)
 
 
 class OrderStatusListCreateView(ListCreateAPIView):
