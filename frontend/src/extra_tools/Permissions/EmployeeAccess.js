@@ -1,19 +1,22 @@
 import {useNavigate} from "react-router-dom";
 import {useEffect} from "react";
-import {user_service} from "../../services";
+import {useDispatch, useSelector} from "react-redux";
+
+import {userActions} from "../../redux";
 
 
 const EmployeeAccess = () => {
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        user_service.getSelf().then(({data}) => {
-            if (data.is_employee && !data.is_staff && !data.is_superuser) {
-                //path
-            } else {
-                navigate('/auth')
-            }
+        dispatch(userActions.setSelfUser()).then((response) => {
+            if (response.payload.data.is_employee && !response.payload.data.is_staff && !response.payload.data.is_superuser) {
+            //path
+        } else {
+            navigate('/auth')
+        }
         })
     }, [])
 

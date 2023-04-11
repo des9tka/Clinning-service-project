@@ -32,6 +32,7 @@ const orderAttr = {
     done: '/done/',
     search: '/search',
     payment: '/payment/',
+    employees: '/employees',
 }
 
 const authAttr = {

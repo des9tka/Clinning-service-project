@@ -13,7 +13,7 @@ const ProfileForm = () => {
 
     const formData = new FormData();
     const dispatch = useDispatch();
-    const {user} = useSelector(state => state.userReducer)
+    const {self} = useSelector(state => state.userReducer)
 
     const {setValue, register, handleSubmit, formState: {isValid, errors}} = useForm({
         resolver: joiResolver(profile_validator),
@@ -47,7 +47,7 @@ const ProfileForm = () => {
             })
     }
 
-    if (!user) {
+    if (!self) {
         return (
             <div>
                 <LoadingPage/>
@@ -55,16 +55,13 @@ const ProfileForm = () => {
         )
     }
 
-    console.log(user.profile.user_photo)
-    console.log(user)
-
     return (
         <form onSubmit={handleSubmit(profileUpdate)} encType="multipart/form-data">
             <input type="text" placeholder={'name'} {...register('name')}/>
             <input type="text" placeholder={'surname'} {...register('surname')}/>
             <input type="number" placeholder={'age'} {...register('age')}/>
             <input type="text" placeholder={'phone'} {...register('phone')}/>
-            {user.profile.user_photo && <img className={'img'} src={`${BASE_URL}/${user.profile.user_photo}`} alt="photo"/>}
+            {self.profile.user_photo && <img className={'img'} src={`${BASE_URL}/${self.profile.user_photo}`} alt="photo"/>}
             <input type="file" id={'avatar'}/>
             <button disabled={!isValid}>Save</button>
 

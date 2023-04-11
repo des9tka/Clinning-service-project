@@ -13,6 +13,7 @@ import {
     UserOrderDetailsPage, RecoveryPasswordPage,
     UserOrderFormPage, WorkerLayout, SuperUserServicePage, UserLayout, SuperUserLayout, RecoveryPasswordRequestPage
 } from "./components";
+import {EmployeesOrderDetailsPage} from "./components/Pages/EmployeePages/EmployeesOrderDetails";
 
 
 function App() {
@@ -56,6 +57,7 @@ function App() {
                     <Route index element={<Navigate to={'/employee/home'}/>}/>
                     <Route path={'home'} element={<HomePage/>}/>
                     <Route path={'orders'} element={<EmployeesOrdersPage/>}/>
+                    <Route path={'orders/:id/details'} element={<EmployeesOrderDetailsPage/>}/>
                     <Route path={'office'} element={<EmployeesOfficePage/>}/>
                     <Route path={'office/profile'} element={<ProfilePage/>}/>
                     <Route path={'about'} element={<EmployeesAboutPage/>}/>

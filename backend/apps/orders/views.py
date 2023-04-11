@@ -1,6 +1,8 @@
 import datetime
 import os
+from datetime import datetime
 
+import pytz
 import stripe
 from core.pagination.page_pagination import OrderPagePagination
 from core.services.email_service import EmailService
@@ -17,6 +19,7 @@ from apps.users.models import ProfileModel, UserModel
 from apps.users.permissions import IsSuperUser
 
 from ..users.permissions import IsAdmin, IsEmployee
+from ..users.serializers import UserSerializer
 from .filters import OrderFilter
 from .models import OrderModel, OrderStatusModel
 from .serializers import OrderPhotoSerializer, OrderSerializer, OrderStatusSerializer
@@ -30,15 +33,19 @@ class OrderListView(ListAPIView):
     filterset_class = OrderFilter
 
     def get_queryset(self):
-        user = self.request.user
         user_confirmed_status = OrderStatusModel.objects.get(name='user_confirmed')
         rejected_status = OrderStatusModel.objects.get(name='rejected')
-        time = datetime.datetime.now().strftime("%H:%M:%S")
-        date = datetime.datetime.now().strftime("%Y-%m-%d")
+        tz = pytz.timezone('Europe/Kiev')
+        user = self.request.user
+
+        time = datetime.now(tz).strftime("%H:%M:%S")
+        date = datetime.now(tz).strftime("%Y-%m-%d")
+
+        date_filter = Q(date__lt=date)
+        time_filter = Q(date__exact=date, time__lte=time)
+
         OrderModel.objects.filter(
-            Q(date__lte=date) |
-            Q(time__exact=time) |
-            Q(status_id__lte=6)
+            Q(status_id__lte=6) & (date_filter | time_filter)
         ).update(status=rejected_status)
 
         if user.is_employee and not user.is_superuser:
@@ -85,6 +92,9 @@ class AddUserOrderToEmployeeView(GenericAPIView):
         if employees_current == employees_quantity and order.status == order_status_user_confirmed:
             order.status = order_status_taken
             order.save()
+
+            for e in order.employees_current.all():
+                EmailService.employee_order_taken(e, order)
             EmailService.taken_order_email(user, order.id)
 
         serializer = OrderSerializer(instance=order)
@@ -116,7 +126,6 @@ class RemoveEmployeeFromOrder(GenericAPIView):
         employee = UserModel.objects.get(id=user_id)
         order = get_object_or_404(OrderModel, pk=pk)
         user = UserModel.objects.get(id=order.user_id)
-        print(employee)
         order_status = OrderStatusModel.objects.get(name='user_confirmed')
         order.employees_current.remove(employee)
         order.status = order_status
@@ -176,7 +185,6 @@ class EmployeeDoneOrderView(GenericAPIView):
             else:
                 user.profile.rating = (user.profile.rating + float(rate)) / 2
                 user.profile.save()
-                print(1)
 
             order.rating = float(rate)
             order.status = order_status
@@ -224,8 +232,23 @@ class EmployeeOrdersView(ListAPIView):
     filterset_class = OrderFilter
 
     def get_queryset(self):
+        rejected_status = OrderStatusModel.objects.get(name='rejected')
         search_query = self.request.GET.get('searcher', '')
         user = self.request.user
+        tz = pytz.timezone('Europe/Kiev')
+
+        time = datetime.now(tz).strftime("%H:%M:%S")
+        date = datetime.now(tz).strftime("%Y-%m-%d")
+
+        date_filter = Q(date__lt=date)
+        time_filter = Q(date__exact=date, time__lte=time)
+
+        print(time_filter)
+
+        OrderModel.objects.filter(
+            Q(status_id__lte=6) & (date_filter | time_filter)
+        ).update(status=rejected_status)
+
         try:
             query = int(search_query)
             queryset = OrderModel.objects.filter(
@@ -238,7 +261,7 @@ class EmployeeOrdersView(ListAPIView):
             print(query)
             return queryset.objects.filter(employees_current=user.id)
         except (Exception,):
-            print(Exception)
+            print(1)
 
         queryset = OrderModel.objects.filter(
             Q(address__contains=search_query) |
@@ -285,3 +308,13 @@ class StripePaymentIntentView(GenericAPIView):
             return Response({"status": payment_intent.status}, status=200)
         except stripe.error.StripeError as e:
             return Response({"error": e.user_message}, status=400)
+
+
+class GetOrderEmployeeView(GenericAPIView):
+    queryset = OrderModel.objects.all()
+
+    def get(self, *args, **kwargs):
+        order = self.get_object()
+        employees = order.employees_current.all()
+        serializer = UserSerializer(instance=employees, many=True)
+        return Response(serializer.data, status.HTTP_200_OK)

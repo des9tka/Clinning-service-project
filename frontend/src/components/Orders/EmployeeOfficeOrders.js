@@ -12,6 +12,7 @@ const EmployeeOfficeOrders = () => {
     const {orders, loading, error, nextPage, prevPage} = useSelector(state => state.orderReducer)
     const [query, setQuery] = useSearchParams({page: '1'});
     const [searcher, setSearcher] = useState('')
+    const [button, settButton] = useState('done');
 
     useEffect(() => {
         dispatch(orderActions.setEmployeeOrders({query, searcher}))
@@ -37,6 +38,14 @@ const EmployeeOfficeOrders = () => {
         }
     }
 
+    const buttonChange = () => {
+        if (button === 'done') {
+            settButton('taken')
+        } else {
+            settButton('done')
+        }
+    }
+
     return (
         <div>
             {loading && <LoadingPage/>}
@@ -46,15 +55,19 @@ const EmployeeOfficeOrders = () => {
 
             <input type="text" id={'searcher'} onChange={(e) => search(e)} value={searcher}/>
 
-            <div>
+            <br/>
+
+            <button onClick={() => buttonChange()}>{button}</button>
+
+            {button === 'done' && <div>
                 <h3>Taken:</h3>
-                {orders !== [] && orders.filter(order => order.status === 5 || order.status === 3).map(order => <EmployeeOrder order={order}/>)}
-            </div>
+                {orders[0] && orders.filter(order => order.status === 5 || order.status === 3).map(order => <EmployeeOrder order={order}/>)}
+            </div>}
             <hr/>
-            <div>
+            {button === 'taken' && <div>
                 <h3>Done:</h3>
-                {orders !== [] && orders.filter(order => order.status === 6 || order.status === 7).map(order => <EmployeeOrder order={order}/>)}
-            </div>
+                {orders[0] && orders.filter(order => order.status === 6 || order.status === 7).map(order => <EmployeeOrder order={order}/>)}
+            </div>}
 
         </div>
     )

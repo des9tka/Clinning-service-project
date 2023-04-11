@@ -48,6 +48,6 @@ class ProfileModel(models.Model):
         V.RegexValidator(RegEx.PHONE.pattern, RegEx.PHONE.message)
     ])
     rating = models.FloatField(default=4)
-    user_photo = models.ImageField(upload_to=upload_users_photos, max_length=500)
+    user_photo = models.ImageField(upload_to=upload_users_photos, max_length=500, blank=True)
     user = models.OneToOneField(UserModel, on_delete=models.CASCADE, related_name='profile')
 

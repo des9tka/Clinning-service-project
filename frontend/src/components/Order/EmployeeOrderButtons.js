@@ -6,7 +6,6 @@ const EmployeeOrderButtons = ({order, user}) => {
 
     const [rate, setRate] = useState(null);
 
-
     useEffect(() => {
         if (order.status === 5) {
             const select = document.getElementById('select')
@@ -32,7 +31,7 @@ const EmployeeOrderButtons = ({order, user}) => {
         }).catch((err) => console.log(err))
     }
 
-    const taken = order.employees_current.includes(user.id)
+    const taken = order.employees_current.includes(user?.id)
 
     return (
         <div>

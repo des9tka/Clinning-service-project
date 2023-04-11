@@ -8,6 +8,7 @@ const order_service = {
     addPhoto: (id, photos) => axiosService.post(`${urls.ORDERS}/${id}${orderAttr.add_photos}`, photos),
     delete: (id) => axiosService.delete(`${urls.ORDERS}/${id}`),
     getById: (id) => axiosService.get(`${urls.ORDERS}/${id}`),
+    getOrderEmployeesById: (id) => axiosService.get(`${urls.ORDERS}/${id}${orderAttr.employees}`),
     take: (id) => axiosService.patch(`${urls.ORDERS}/${id}${orderAttr.take}`),
     confirm: (id) => axiosService.patch(`${urls.ORDERS}/${id}${orderAttr.confirm}`),
     // approve: (id) => axiosService.patch(`${urls.ORDERS}/${id}${orderAttr.approve}`),

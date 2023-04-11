@@ -1,14 +1,15 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
-import {user_service} from "../../services";
+import {order_service, user_service} from "../../services";
 
 const initialState = {
     users: [],
     user: null,
+    self: null,
     error: null,
     nextPage: null,
     prevPage: null,
-    loading: false
+    loading: false,
 }
 
 const setUserById = createAsyncThunk(
@@ -16,6 +17,18 @@ const setUserById = createAsyncThunk(
     async ({id}, {rejectWithValue}) => {
         try {
             const {data} = await user_service.getById(id)
+            return data
+        } catch (e) {
+            return rejectWithValue(e.response.data)
+        }
+    }
+)
+
+const setOrderEmployeesByOrderId = createAsyncThunk(
+    'userSlice/setOrderEmployeesByOrderId',
+    async ({id}, {rejectWithValue}) => {
+        try {
+            const {data} = await order_service.getOrderEmployeesById(id)
             return data
         } catch (e) {
             return rejectWithValue(e.response.data)
@@ -46,6 +59,7 @@ const setSelfUser = createAsyncThunk(
         }
     }
 )
+
 
 const userSlice = createSlice({
     name: 'userSlice',
@@ -97,13 +111,27 @@ const userSlice = createSlice({
                 state.error = action.payload
             })
 
+            .addCase(setOrderEmployeesByOrderId.pending, (state, action) => {
+                state.loading = true
+            })
+            .addCase(setOrderEmployeesByOrderId.fulfilled, (state, action) => {
+                state.loading = false
+                state.error = null
+                state.users = action.payload
+            })
+            .addCase(setOrderEmployeesByOrderId.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload
+            })
+
+
             .addCase(setSelfUser.pending, (state, action) => {
                 state.loading = true
             })
             .addCase(setSelfUser.fulfilled, (state, action) => {
                 state.loading = false
                 state.error = null
-                state.user = action.payload.data
+                state.self = action.payload.data
             })
             .addCase(setSelfUser.rejected, (state, action) => {
                 state.loading = false
@@ -121,7 +149,8 @@ const userActions = {
     setError,
     setUserById,
     setAllUsers,
-    setSelfUser
+    setSelfUser,
+    setOrderEmployeesByOrderId
 }
 
 export {
