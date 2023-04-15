@@ -1,8 +1,9 @@
 const LoadingPage = () => {
 
     return (
-        <div>
-            <h1>Loading .....</h1>
+        <div className={'loading-wrap'}>
+            <h1 className={'loading'}>Loading...</h1>
+            <div className={'spinner'}></div>
         </div>
     )
 }

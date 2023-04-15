@@ -36,7 +36,8 @@ const orderAttr = {
 }
 
 const authAttr = {
-    recovery: '/recovery'
+    recovery: '/recovery',
+    activate: '/activate'
 }
 
 export {

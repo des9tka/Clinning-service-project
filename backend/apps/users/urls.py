@@ -7,6 +7,7 @@ from .views import (
     ChangeUserServiceView,
     DeleteUserView,
     GetSelfUserView,
+    GetUserByTokenView,
     ListUserOrdersView,
     ProfileUpdateView,
     RetrieveDestroyUserView,
@@ -34,4 +35,5 @@ urlpatterns = [
     path('/<int:pk>', RetrieveDestroyUserView.as_view()),
     path('/add_photo', AddUserPhotoView.as_view()),
     path('/<int:pk>/delete', DeleteUserView.as_view()),
+    path('/<str:token>', GetUserByTokenView.as_view()),
 ]

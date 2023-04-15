@@ -19,7 +19,6 @@ const RecoveryPasswordRequestPage = () => {
 
     return (
         <div>
-            RecoveryPasswordRequestPage
             <form onSubmit={handleSubmit(restore)}>
                 {errors.email && <div>{errors.email.message}</div>}
                 {message && <div>{message}</div>}

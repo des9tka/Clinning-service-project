@@ -6,13 +6,16 @@ const RegisterPage = () => {
 
     return (
         <div>
-            RegisterPage
+            <h1 className={'board'}>SIGN UP</h1>
             <RegisterForm/>
-            <Link to={'/auth/login'}>I`m signed up</Link><br/>
-            <Link to={'/auth/request_password_recovery'}>Forgot password</Link>
+            <div className={'swapLinks-div'}>
+                <Link to={'/auth/login'}>I`m signed up</Link><br/>
+                <Link to={'/auth/request_password_recovery'}>Forgot password</Link>
+            </div>
         </div>
     )
 }
+
 export {
     RegisterPage
 };

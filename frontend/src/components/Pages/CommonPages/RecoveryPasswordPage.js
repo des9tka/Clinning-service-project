@@ -29,7 +29,7 @@ const RecoveryPasswordPage = () => {
     }
 
     const change = (password) => {
-        auth_service.change_password(token, password).then((response) => {
+        auth_service.change_password(token, password).then(() => {
             navigate('/auth/login')
         }).catch((e) => {
             setMessage(e.response.data)

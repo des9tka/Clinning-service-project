@@ -11,7 +11,7 @@ import {
     UserAboutPage,
     UserOfficePage,
     UserOrderDetailsPage, RecoveryPasswordPage,
-    UserOrderFormPage, WorkerLayout, SuperUserServicePage, UserLayout, SuperUserLayout, RecoveryPasswordRequestPage
+    UserOrderFormPage, WorkerLayout, SuperUserServicePage, UserLayout, SuperUserLayout, RecoveryPasswordRequestPage, ActivateUserPage, LoadingPage
 } from "./components";
 import {EmployeesOrderDetailsPage} from "./components/Pages/EmployeePages/EmployeesOrderDetails";
 
@@ -21,6 +21,7 @@ function App() {
     return (
         <div>
             <Routes>
+                <Route path={'/loading'} element={<LoadingPage/>}/>
                 <Route path={'/'} element={<UserLayout/>}>
                     <Route index element={<Navigate to={'/home'}/>}/>
                     <Route path={'home'} element={<HomePage/>}/>
@@ -37,6 +38,7 @@ function App() {
                 <Route path={'auth'} element={<AuthLayout/>}>
                     <Route path={'login'} element={<LoginPage/>}/>
                     <Route path={'register'} element={<RegisterPage/>}/>
+                    <Route path={':token/activate'} element={<ActivateUserPage/>}/>
                     <Route path={'request_password_recovery'} element={<RecoveryPasswordRequestPage/>}/>}/>
                     <Route path={'password_recovery/:token'} element={<RecoveryPasswordPage/>}/>}/>
                 </Route>

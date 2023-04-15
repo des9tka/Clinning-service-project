@@ -9,11 +9,11 @@ RUN apk add --no-cache --virtual ..build-deps gcc musl-dev mariadb-dev jpeg-dev 
 RUN mkdir /app
 WORKDIR /app
 
-#RUN adduser -D user
-#RUN chown -R user:user /app
-#USER user
-#
-#ENV PATH="/home/user/.local/bin:${PATH}"
+RUN adduser -D user
+RUN chown -R user:user /app
+USER user
+
+ENV PATH="/home/user/.local/bin:${PATH}"
 
 
 RUN pip install --upgrade pip && pip install pipenv

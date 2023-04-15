@@ -1,10 +1,13 @@
-import json
 import os
+import time
 
 from core.services.email_service import EmailService
 from core.services.jwt_service import ActivateToken, JWTService, RecoveryToken
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 from django.contrib.auth.hashers import check_password
+from django.core.cache import cache
+from django.shortcuts import get_object_or_404
 
 from rest_framework import status
 from rest_framework.generics import GenericAPIView
@@ -13,13 +16,22 @@ from rest_framework.response import Response
 
 from apps.users.models import UserModel
 
-from .serializers import EmailSerializer, PasswordSerializer
+from .serializers import CustomTokenObtainPairSerializer, EmailSerializer, PasswordSerializer
+
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        return Response(serializer.validated_data, status=status.HTTP_200_OK)
 
 
 class ActivateUserByTokenView(GenericAPIView):
     permission_classes = AllowAny,
 
-    def get(self, *args, **kwargs):
+    def patch(self, *args, **kwargs):
         token = kwargs.get('token')
         user = JWTService.validate_token(token, ActivateToken)
         user.is_active = True
@@ -59,6 +71,7 @@ class RecoveryPasswordByTokenView(GenericAPIView):
         else:
             user.set_password(serializer.data['password'])
             user.save()
+            EmailService.password_changed(user)
         return Response(status=status.HTTP_200_OK)
 
 
@@ -70,5 +83,21 @@ class TokenValidCheck(GenericAPIView):
 class StripeTokenView(GenericAPIView):
     def get(self, *args, **kwargs):
         stripe_token = os.environ.get('STRIPE_PUBLIC_KEY')
-        return Response(stripe_token)
+        return Response(stripe_token, status=status.HTTP_200_OK)
 
+
+class RequestOfActivationLinkView(GenericAPIView):
+    permission_classes = AllowAny,
+
+    def post(self, request, *args, **kwargs):
+        user = get_object_or_404(UserModel, email=self.request.data.get('email'))
+
+        cache_key = f'request_activation_{user.id}'
+        last_request = cache.get(cache_key)
+        if last_request and (last_request + 300) > time.time():
+            return Response('You can make only one request every 5 minutes.', status.HTTP_403_FORBIDDEN)
+
+        EmailService.activate_request(user)
+        cache.set(cache_key, time.time())
+
+        return Response('Activation link has been sent.', status.HTTP_200_OK)

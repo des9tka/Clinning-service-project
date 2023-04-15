@@ -36,9 +36,10 @@
   "watch": {
     "build": {
       "patterns": [
-        "src"
+        "src",
+        "src/style_component/main.css"
       ],
-      "exctensions": "js, jsx"
+      "exctensions": "js, jsx, css"
     }
   },
   "eslintConfig": {

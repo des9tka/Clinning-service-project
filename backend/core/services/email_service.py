@@ -21,7 +21,7 @@ class EmailService:
     @classmethod
     def register_email(cls, user):
         token = JWTService.create_token(user, ActivateToken)
-        url = f'http://localhost:3000/{token}/activate'
+        url = f'http://localhost/auth/{token}/activate'
         cls.__send_email(user.email, 'register.html', {'name': user.profile.name, 'url': url}, 'Register')
 
     @classmethod
@@ -29,6 +29,11 @@ class EmailService:
         token = JWTService.create_token(user, RecoveryToken)
         url = f'http://localhost/auth/password_recovery/{token}'
         cls.__send_email(user.email, 'recovery.html', {'name': user.profile.name, 'url': url}, 'Recovery Password')
+
+    @classmethod
+    def password_changed(cls, user):
+        print(user)
+        cls.__send_email(user.email, 'password_changed.html', {'name': user.profile.name}, 'Changed Password')
 
     @classmethod
     def confirm_order_email(cls, user, order_id):
@@ -63,3 +68,9 @@ class EmailService:
     @classmethod
     def employee_order_taken(cls, user, order):
         cls.__send_email(user.email, 'employee_order_notification.html', {'name': user.profile.name, 'order': order, 'url': cls.url}, 'Order Taken')
+
+    @classmethod
+    def activate_request(cls, user):
+        token = JWTService.create_token(user, ActivateToken)
+        url = f'http://localhost/auth/{token}/activate'
+        cls.__send_email(user.email, 'activate_request.html', {'name': user.profile.name, 'url': url}, 'Activate Request')

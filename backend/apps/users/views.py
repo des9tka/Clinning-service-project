@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from typing import Type
 
 from core.pagination.page_pagination import OrderPagePagination, UserPagePagination
+from core.services.jwt_service import ActivateToken, JWTService
 
 from django.contrib.auth import get_user_model
 from django.db.models import Q
@@ -45,27 +46,28 @@ class UserListCreateView(ListCreateAPIView):
             return [IsAdminUser()]
 
     def get_queryset(self):
-        search_query = self.request.GET.get('searcher', '')
+        if self.request.method == 'GET':
+            search_query = self.request.GET.get('searcher', '')
 
-        try:
-            query = int(search_query)
+            try:
+                query = int(search_query)
+                queryset = User.objects.filter(
+                    Q(id__lte=query) |
+                    Q(profile__rating__lte=query) |
+                    Q(profile__age__lte=query) |
+                    Q(profile__phone__exact=query)
+                )
+                print(query)
+                return queryset
+            except (Exception,):
+                print(Exception)
+
             queryset = User.objects.filter(
-                Q(id__lte=query) |
-                Q(profile__rating__lte=query) |
-                Q(profile__age__lte=query) |
-                Q(profile__phone__exact=query)
+                Q(email__icontains=search_query) |
+                Q(profile__name__icontains=search_query) |
+                Q(profile__surname__icontains=search_query)
             )
-            print(query)
             return queryset
-        except (Exception,):
-            print(Exception)
-
-        queryset = User.objects.filter(
-            Q(email__icontains=search_query) |
-            Q(profile__name__icontains=search_query) |
-            Q(profile__surname__icontains=search_query)
-        )
-        return queryset
 
 
 class ChangeUserServiceView(GenericAPIView):
@@ -236,4 +238,14 @@ class GetSelfUserView(GenericAPIView):
     def get(self, *args, **kwargs):
         user = self.request.user
         serializer = UserSerializer(instance=user)
-        return Response(serializer.data)
+        return Response(serializer.data, status.HTTP_200_OK)
+
+
+class GetUserByTokenView(GenericAPIView):
+    permission_classes = AllowAny,
+
+    def get(self, *args, **kwargs):
+        token = kwargs.get('token')
+        user = JWTService.validate_token(token, ActivateToken)
+        serializer = UserSerializer(instance=user)
+        return Response(serializer.data, status.HTTP_200_OK)
