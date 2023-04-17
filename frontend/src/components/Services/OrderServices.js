@@ -7,10 +7,10 @@ import {OrderService} from "../Service";
 import {ErrorPage, LoadingPage} from "../Pages";
 
 const OrderServices = () => {
+
     const dispatch = useDispatch();
     const {services, loading, error, prevPage, nextPage} = useSelector(state => state.serviceReducer);
     const [query, setQuery] = useSearchParams({page: '1'});
-
 
 
     useEffect(() => {
@@ -29,11 +29,14 @@ const OrderServices = () => {
         <div>
             {loading && <LoadingPage/>}
             {error && <ErrorPage error={error}/>}
+            <div className={'service-pagination-buttons'}>
+                <button disabled={!prevPage} onClick={() => prev()}>Prev</button>
+                <button disabled={!nextPage} onClick={() => next()}>Next</button>
+            </div>
 
-            <button disabled={!prevPage} onClick={() =>  prev()}>Prev</button>
-            <button disabled={!nextPage} onClick={() => next()}>Next</button>
-
-            {services.map(service => <OrderService key={service.id} service={service}/>)}
+            <div className={'services-div'}>
+                {services.map(service => <OrderService key={service.id} service={service}/>)}
+            </div>
         </div>
     )
 }

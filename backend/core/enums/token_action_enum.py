@@ -3,7 +3,7 @@ from enum import Enum
 
 
 class ActionEnum(Enum):
-    ACTIVATE = ('activate', datetime.timedelta(minutes=60))
+    ACTIVATE = ('activate', datetime.timedelta(minutes=5))
     RECOVERY = ('recovery', datetime.timedelta(minutes=10))
 
     def __init__(self, token_type, expired_time):

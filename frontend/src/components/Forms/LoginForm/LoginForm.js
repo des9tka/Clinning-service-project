@@ -65,9 +65,9 @@ const LoginForm = () => {
 
             <button disabled={!state.email || !state.password || state.email === '' || state.password === ''}>Login</button>
         </form>
-
-
     )
 }
 
-export {LoginForm};
+export {
+    LoginForm
+};

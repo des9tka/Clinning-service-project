@@ -56,16 +56,18 @@ const ProfileForm = () => {
     }
 
     return (
-        <form onSubmit={handleSubmit(profileUpdate)} encType="multipart/form-data">
-            <input type="text" placeholder={'name'} {...register('name')}/>
+        <form className={'profile-form'} onSubmit={handleSubmit(profileUpdate)} encType="multipart/form-data">
+            <input type="text" placeholder={'name'} {...register('name')} />
             <input type="text" placeholder={'surname'} {...register('surname')}/>
             <input type="number" placeholder={'age'} {...register('age')}/>
             <input type="text" placeholder={'phone'} {...register('phone')}/>
-            {self.profile.user_photo && <img className={'img'} src={`${BASE_URL}/${self.profile.user_photo}`} alt="photo"/>}
-            <input type="file" id={'avatar'}/>
-            <button disabled={!isValid}>Save</button>
 
-            <div>
+            {self.profile.user_photo && <img className={'profile-img'} src={`${BASE_URL}/${self.profile.user_photo}`} alt="photo"/>}
+            <input type="file" id={'avatar'} className={'avatar-input'}/>
+
+            <button className={'profile-form-button'} disabled={!isValid}>Save</button>
+
+            <div className={'errors'}>
                 {errors.name && <div>{errors.name.message}</div>}
                 {errors.surname && <div>{errors.surname.message}</div>}
                 {errors.age && <div>{errors.age.message}</div>}

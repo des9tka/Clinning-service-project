@@ -4,27 +4,16 @@ const AdminHeader = () => {
 
     return (
         <div className={'header'}>
-            <div>
-                <NavLink to={'home'}>Home</NavLink>
-            </div>
-            <div>
-                <NavLink to={'users'}>Users</NavLink>
-            </div>
-            <div>
-                <NavLink to={'orders'}>Orders</NavLink>
-            </div>
-            <div>
-                <NavLink to={'office'}>Office</NavLink>
-            </div>
-            <div>
-                <NavLink to={'about'}>About</NavLink>
-            </div>
-            <div>
-                <NavLink to={'/auth'}>Exit</NavLink>
-            </div>
+            <NavLink to={'home'}>Home</NavLink>
+            <NavLink to={'users'}>Users</NavLink>
+            <NavLink to={'orders'}>Orders</NavLink>
+            <NavLink to={'office'}>Office</NavLink>
+            <NavLink to={'about'}>About</NavLink>
+            <NavLink to={'/auth'}>Exit</NavLink>
         </div>
     )
 }
+
 export {
     AdminHeader
 };

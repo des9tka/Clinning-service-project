@@ -8,12 +8,11 @@ import {
     PaymentPage,
     ProfilePage, RegisterPage,
     ServicePage, SuperUserAboutPage, SuperUserDetailsPage, SuperUserOrdersPage, SuperUserUsersPage,
-    UserAboutPage,
+    UserAboutPage, EmployeesOrderDetailsPage,
     UserOfficePage,
     UserOrderDetailsPage, RecoveryPasswordPage,
     UserOrderFormPage, WorkerLayout, SuperUserServicePage, UserLayout, SuperUserLayout, RecoveryPasswordRequestPage, ActivateUserPage, LoadingPage
 } from "./components";
-import {EmployeesOrderDetailsPage} from "./components/Pages/EmployeePages/EmployeesOrderDetails";
 
 
 function App() {
@@ -42,7 +41,6 @@ function App() {
                     <Route path={'request_password_recovery'} element={<RecoveryPasswordRequestPage/>}/>}/>
                     <Route path={'password_recovery/:token'} element={<RecoveryPasswordPage/>}/>}/>
                 </Route>
-
 
                 <Route path={'admin'} element={<AdminLayout/>}>
                     <Route index element={<Navigate to={'/admin/home'}/>}/>
@@ -82,5 +80,6 @@ function App() {
         </div>
     );
 }
+
 
 export default App;

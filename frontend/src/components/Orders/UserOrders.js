@@ -66,27 +66,32 @@ const UserOrders = () => {
     return (
         <div>
             <hr/>
-            <select disabled={searcher} id={'select'} onChange={() => ordersChange()}>
-                <option value={1}>pending</option>
-                <option value={2}>waiting for approved</option>
-                <option value={3}>approved</option>
-                <option value={4}>rejected</option>
-                <option value={5}>taken</option>
-                <option value={6}>done</option>
-                <option value={7}>paid</option>
-            </select>
-            <hr/>
-            {!search && <button disabled={!prevPage} onClick={() => prev()}>Prev</button>}
-            {!search && <button disabled={!nextPage} onClick={() => next()}>Next</button>}
+            <div className={'pagination-buttons'}>
+                {!search && <button disabled={!prevPage} onClick={() => prev()}>Prev</button>}
+                {search && <button disabled={!prevPage} onClick={() => searchPrev()}>Prev</button>}
+                <select className={'order-select'} disabled={searcher} id={'select'} onChange={() => ordersChange()}>
+                    <option value={1}>pending</option>
+                    <option value={2}>waiting for approved</option>
+                    <option value={3}>approved</option>
+                    <option value={4}>rejected</option>
+                    <option value={5}>taken</option>
+                    <option value={6}>done</option>
+                    <option value={7}>paid</option>
+                </select>
+                {!search && <button disabled={!nextPage} onClick={() => next()}>Next</button>}
+                {search && <button disabled={!nextPage} onClick={() => searchNext()}>Next</button>}
+            </div>
 
-            {search && <button disabled={!prevPage} onClick={() => searchPrev()}>Prev</button>}
-            {search && <button disabled={!nextPage} onClick={() => searchNext()}>Next</button>}
             <hr/>
-            <div>
-                <input type="text" id={'searcher'} onChange={(e) => search(e)} value={searcher}/>
+            <div className={'searcher-div'}>
+                <input type="text" className={'searcher'} id={'searcher'} placeholder={'search...'} onChange={(e) => search(e)} value={searcher}/>
+            </div>
+
+            <div className={'user-orders-div'}>
                 {orders && orders.map(order => <UserOrder key={order.id} order={order}/>)}
             </div>
         </div>
     )
 }
+
 export {UserOrders};

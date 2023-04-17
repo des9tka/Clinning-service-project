@@ -1,5 +1,6 @@
-import {user_service} from "../../services";
 import {useNavigate} from "react-router-dom";
+
+import {user_service} from "../../services";
 
 const OrderService = ({service}) => {
 
@@ -12,13 +13,12 @@ const OrderService = ({service}) => {
     }
 
     return (
-        <div>
+        <div className={'service-div'}>
             <div>Name: {service.name}</div>
             <div>City: {service.city}</div>
             <div>Address: {service.address}</div>
             <div>Service_id: {service.id}</div>
-            <button onClick={() => changeService()}>Change Service</button>
-            <hr/>
+            <button onClick={() => changeService()} className={'service-button'}>Change Service</button>
         </div>
     )
 }

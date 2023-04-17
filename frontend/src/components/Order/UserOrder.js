@@ -9,7 +9,7 @@ const UserOrder = ({order}) => {
     const dispatch = useDispatch();
 
     return (
-        <div>
+        <div className={'user-order'}>
             <div>id:{order.id}</div>
             <div>address:{order.address}</div>
             <div>status:{order.status}</div>
@@ -18,9 +18,7 @@ const UserOrder = ({order}) => {
             <button onClick={() => {
                 navigate(`/office/order/${order.id}/details`)
                 dispatch(orderActions.setOrder(order))
-            }}>Details</button>
-
-            <hr/>
+            }} className={'order-details-button'}>Details</button>
         </div>
     )
 }
