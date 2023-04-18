@@ -6,10 +6,8 @@ const AuthLayout = () => {
 
 
     return (
-        <div>
-            <div className={'greeting-div'}>
-                <h1 className={'auth-greeting'}>Welcome to our <br/>Cleaning Service!</h1>
-            </div>
+        <div className={'auth-layout-div'}>
+            <h1 className={'auth-greeting'}>Welcome to Our <br/>Cleaning Service!</h1>
             <div className={'auth-buttons-div'}>
                 <button className={'auth-buttons'} onClick={() => navigate('login')}>Log in</button>
                 <button className={'auth-buttons'} onClick={() => navigate('register')}>Sign up</button>
@@ -18,6 +16,7 @@ const AuthLayout = () => {
         </div>
     )
 }
+
 export {
     AuthLayout
 };

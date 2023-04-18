@@ -17,7 +17,7 @@ const user_validator = Joi.object({
         'string.pattern.base': 'Invalid email.'
     }),
     password: Joi.string().regex(/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\s])[^\s]{8,20}$/).required().messages({
-        'string.pattern.base': 'Password demands: 8-20 chars, contains a number(0-9), contains at least one UpperCase latter, contains at least one' +
+        'string.pattern.base': '8-20 chars, contains a number(0-9), contains at least one UpperCase latter, contains at least one' +
             ' LowerCase latter, contains at least one SpecialChar latter.'
     }),
 

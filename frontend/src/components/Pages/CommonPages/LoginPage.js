@@ -8,8 +8,8 @@ const LoginPage = () => {
     auth_service.deleteTokens()
 
     return (
-        <div className={'loginPage-div'}>
-            <h1 className={'board'}>SIGN IN</h1>
+        <div>
+            <h1>SIGN IN</h1>
             <LoginForm/>
             <div className={'swapLinks-div'}>
                 <Link to={'/auth/register'}>I`m new user</Link><br/>
@@ -18,7 +18,6 @@ const LoginPage = () => {
         </div>
     )
 }
-
 
 export {
     LoginPage
