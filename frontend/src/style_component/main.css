@@ -7,7 +7,7 @@ body, html {
     flex-direction: column;
 }
 
-.auth-layout-div {
+.auth-layout-div, .user-layout-div {
     width: 100vw;
     height: 100vh;
     text-align: center;
@@ -131,3 +131,105 @@ a {
 .rm {
     color: red;
 }
+
+.header {
+    border: 1px solid black;
+    display: flex;
+    justify-content: space-evenly;
+    width: 75vw;
+    height: 5vh;
+    border-radius: 25px;
+    align-items: center;
+}
+
+.header a {
+    font-size: 2vh;
+    cursor: pointer;
+}
+
+.header-div {
+    margin: 3vh 1vh 5vh 1vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+}
+
+.office-button-div {
+    display: flex;
+    justify-content: space-between;
+    margin: 1vh;
+}
+
+.office-buttons {
+    color: black;
+    border: 1px solid black;
+    font-size: 2.5vh;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.office-buttons:hover {
+    background: black;
+    color: white;
+}
+
+.pagination-buttons-div {
+    display: flex;
+    justify-content: space-evenly;
+    text-align: center;
+}
+
+.order-select {
+    text-align: center;
+    color: black;
+    appearance: none;
+    -webkit-appearance: none;
+    border-radius: 10px;
+}
+
+.order-select option {
+    text-align: center;
+}
+
+.order-select option:hover {
+    color: white;
+    background: black;
+}
+
+.searcher-div {
+    width: 100vw;
+    text-align: center;
+    margin-bottom: 5vw;
+}
+
+.searcher {
+    border-radius: 15px;
+    text-align: center;
+    width: 50vw;
+    height: 3vw;
+    color: black;
+}
+
+.user-order {
+    border: 1px solid black;
+    width: 35vw;
+    border-radius: 10px;
+    margin-bottom: 1.5vw;
+    height: 15vw;
+    font-size: 2.5vw;
+    align-items: center;
+}
+
+.user-orders-div {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100vw;
+    flex-wrap: wrap;
+}
+
+.order-details-buttons {
+    border-radius: 15px;
+    border: 1px solid black;
+    font-size: 2.5vw;
+}
+

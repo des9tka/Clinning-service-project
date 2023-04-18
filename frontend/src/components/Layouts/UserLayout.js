@@ -8,14 +8,16 @@ const UserLayout = () => {
     TokenValidCheck()
     CheckPermissions()
 
-
     return (
-        <div>
-            <UserHeader/>
+        <div className={'user-layout-div'}>
+            <div className={'header-div'}>
+                <UserHeader/>
+            </div>
             <Outlet/>
         </div>
     )
 }
+
 export {
     UserLayout
 };

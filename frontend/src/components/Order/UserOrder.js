@@ -1,6 +1,6 @@
 import {useNavigate} from "react-router-dom";
-
 import {useDispatch} from "react-redux";
+
 import {orderActions} from "../../redux";
 
 const UserOrder = ({order}) => {
@@ -10,16 +10,20 @@ const UserOrder = ({order}) => {
 
     return (
         <div className={'user-order'}>
-            <div>id:{order.id}</div>
-            <div>address:{order.address}</div>
-            <div>status:{order.status}</div>
-
+            <div>Id: {order.id}</div>
+            <div>Address: {order.address}</div>
+            <div>Time: {order.time}</div>
+            <div>Task: {order.task_description.slice(0, 10)}...</div>
 
             <button onClick={() => {
                 navigate(`/office/order/${order.id}/details`)
                 dispatch(orderActions.setOrder(order))
-            }} className={'order-details-button'}>Details</button>
+            }} className={'order-details-buttons'}>Details</button>
         </div>
     )
 }
-export {UserOrder};
+
+
+export {
+    UserOrder
+};

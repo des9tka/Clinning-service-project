@@ -12,4 +12,8 @@ const UserHeader = () => {
         </div>
     )
 }
-export {UserHeader};
+
+
+export {
+    UserHeader
+};

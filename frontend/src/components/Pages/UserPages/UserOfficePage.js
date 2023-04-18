@@ -8,13 +8,14 @@ const UserOfficePage = () => {
     return (
         <div>
             <div className={'office-button-div'}>
-                <button onClick={() => navigate('/office/services')}>Make an Order</button>
-                <button onClick={() => navigate('/office/profile')}>Profile</button>
+                <button className={'office-buttons'} onClick={() => navigate('/office/services')}>Make an Order</button>
+                <button className={'office-buttons'} onClick={() => navigate('/office/profile')}>Profile</button>
             </div>
             <UserOrders/>
         </div>
     )
 }
 
-
-export {UserOfficePage};
+export {
+    UserOfficePage
+};

@@ -66,9 +66,9 @@ const UserOrders = () => {
     return (
         <div>
             <hr/>
-            <div className={'pagination-buttons'}>
-                {!search && <button disabled={!prevPage} onClick={() => prev()}>Prev</button>}
-                {search && <button disabled={!prevPage} onClick={() => searchPrev()}>Prev</button>}
+            <div className={'pagination-buttons-div'}>
+                {!search && <button className={'office-buttons'} disabled={!prevPage} onClick={() => prev()}>Prev</button>}
+                {search && <button className={'office-buttons'} disabled={!prevPage} onClick={() => searchPrev()}>Prev</button>}
                 <select className={'order-select'} disabled={searcher} id={'select'} onChange={() => ordersChange()}>
                     <option value={1}>pending</option>
                     <option value={2}>waiting for approved</option>
@@ -78,11 +78,13 @@ const UserOrders = () => {
                     <option value={6}>done</option>
                     <option value={7}>paid</option>
                 </select>
-                {!search && <button disabled={!nextPage} onClick={() => next()}>Next</button>}
-                {search && <button disabled={!nextPage} onClick={() => searchNext()}>Next</button>}
+                {!search && <button className={'office-buttons'} disabled={!nextPage} onClick={() => next()}>Next</button>}
+                {search && <button className={'office-buttons'} disabled={!nextPage} onClick={() => searchNext()}>Next</button>}
             </div>
 
             <hr/>
+
+
             <div className={'searcher-div'}>
                 <input type="text" className={'searcher'} id={'searcher'} placeholder={'search...'} onChange={(e) => search(e)} value={searcher}/>
             </div>
@@ -94,4 +96,6 @@ const UserOrders = () => {
     )
 }
 
-export {UserOrders};
+export {
+    UserOrders
+};
