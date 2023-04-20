@@ -5,17 +5,19 @@ import {useParams} from "react-router-dom";
 import {UserOrderButtons} from "../../Order";
 import {OrderPhotosBuilder} from "../../OrderPhoto";
 import {EmployeesBuilder} from "../../EmployeesBuilder";
-import {orderActions} from "../../../redux";
+import {orderActions, userActions} from "../../../redux";
 import {LoadingPage, ErrorPage} from "../CommonPages";
 
 const UserOrderDetailsPage = () => {
 
     const {order, loading, error} = useSelector(state => state.orderReducer)
+    const {users} = useSelector(state => state.userReducer)
     const dispatch = useDispatch();
     const {id} = useParams();
 
     useEffect(() => {
         dispatch(orderActions.setOrderById({id}))
+        dispatch(userActions.setOrderEmployeesByOrderId({id}))
     }, [])
 
     if (!order) {
@@ -43,7 +45,7 @@ const UserOrderDetailsPage = () => {
             {order.status !== 1 && <div>Price: {order.price}</div>}
             {order.status !== 1 && <div>Employees need: {order.employees_quantity}</div>}
             {(order.status !== 1 && order.status !== 2) && <div>Employees now: </div>}
-            {(order.status !== 1 && order.status !== 2) && order.employees_current[0] && order.employees_current.map(id => <EmployeesBuilder employee_id={id}/>)}
+            {(order.status !== 1 && order.status !== 2 && users && order.employees_current[0]) && users.map(employee => <EmployeesBuilder employee={employee}/>)}
 
             <div className={'order_photo_wrap'}>
                  {order.photos.map((photo, index) => <OrderPhotosBuilder key={index} photo={photo}/>)}

@@ -50,25 +50,32 @@ const EmployeeOfficeOrders = () => {
         <div>
             {loading && <LoadingPage/>}
             {error && <ErrorPage error={error}/>}
-            <button disabled={!prevPage} onClick={() => prev()}>Prev</button>
-            <button disabled={!nextPage} onClick={() => next()}>Next</button>
 
-            <input type="text" id={'searcher'} onChange={(e) => search(e)} value={searcher}/>
+            <div className={'buttons-wrap'}>
+                <button className={'prev-button'} disabled={!prevPage} onClick={() => prev()}>Prev</button>
+                <input className={'employee-order-searcher'} type="text" id={'searcher'} onChange={(e) => search(e)} value={searcher}/>
+                <button className={'next-button'} disabled={!nextPage} onClick={() => next()}>Next</button>
+            </div>
 
-            <br/>
-
-            <button onClick={() => buttonChange()}>{button}</button>
+            <hr/>
 
             {button === 'done' && <div>
-                <h3>Taken:</h3>
-                {orders[0] && orders.filter(order => order.status === 5 || order.status === 3).map(order => <EmployeeOrder order={order}/>)}
-            </div>}
-            <hr/>
-            {button === 'taken' && <div>
-                <h3>Done:</h3>
-                {orders[0] && orders.filter(order => order.status === 6 || order.status === 7).map(order => <EmployeeOrder order={order}/>)}
+                <div className={'employee-header-wrapper'}>
+                    <h2 onClick={() => buttonChange()} className={'employee-order-headers'}>TAKEN</h2>
+                 </div>
+                <div className={'employee-office-orders-div'}>
+                    {orders[0] && orders.filter(order => order.status === 5 || order.status === 3).map(order => <EmployeeOrder order={order}/>)}
+                </div>
             </div>}
 
+            {button === 'taken' && <div>
+                <div className={'employee-header-wrapper'}>
+                    <h2 onClick={() => buttonChange()} className={'employee-order-headers'}>DONE</h2>
+                </div>
+                <div className={'employee-office-orders-div'}>
+                    {orders[0] && orders.filter(order => order.status === 6 || order.status === 7).map(order => <EmployeeOrder order={order}/>)}
+                </div>
+            </div>}
         </div>
     )
 }

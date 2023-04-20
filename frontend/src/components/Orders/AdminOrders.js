@@ -15,7 +15,7 @@ const AdminOrders = () => {
     const [query, setQuery] = useSearchParams({page: '1', status: '1'});
     const [searcher, setSearcher] = useState(null)
 
-     useEffect(() => {
+    useEffect(() => {
         if (!searcher) {
             order_service.getAll(query.get('page'), query.get('status')).then(({data}) => {
                 dispatch(orderActions.setOrders(data.data))
@@ -41,7 +41,7 @@ const AdminOrders = () => {
         setQuery(value => ({page: +value.get('page') + 1, status: value.get('status')}))
     }
 
-     const searchPrev = () => {
+    const searchPrev = () => {
         setQuery(value => ({page: value.get('page') - 1}))
     }
 
@@ -54,7 +54,7 @@ const AdminOrders = () => {
         setQuery(value => ({page: '1', status: statusValue}))
     }
 
-     const search = (e) => {
+    const search = (e) => {
         let data = e.target.value
         let symbol = "&";
         data = data.replace(/\s+/g, symbol);
@@ -75,21 +75,25 @@ const AdminOrders = () => {
 
     return (
         <div>
-            <select disabled={searcher} id={'select'} onChange={() => ordersChange()}>
-                <option value={1}>waiting for approved</option>
-                <option value={5}>taken</option>
-                <option value={4}>rejected</option>
-            </select>
-            <hr/>
-            {!search && <button disabled={!prevPage} onClick={() => prev()}>Prev</button>}
-            {!search && <button disabled={!nextPage} onClick={() => next()}>Next</button>}
+            <div className={'buttons-wrap'}>
+                {!search && <button className={'prev-button'} disabled={!prevPage} onClick={() => prev()}>Prev</button>}
+                {search && <button className={'prev-button'} disabled={!prevPage} onClick={() => searchPrev()}>Prev</button>}
 
-            {search && <button disabled={!prevPage} onClick={() => searchPrev()}>Prev</button>}
-            {search && <button disabled={!nextPage} onClick={() => searchNext()}>Next</button>}
-            <hr/>
+                <select className={'admin-order-select'} disabled={searcher} id={'select'} onChange={() => ordersChange()}>
+                    <option value={1}>waiting for approved</option>
+                    <option value={5}>taken</option>
+                    <option value={4}>rejected</option>
+                </select>
+
+                {!search && <button className={'next-button'} disabled={!nextPage} onClick={() => next()}>Next</button>}
+                {search && <button className={'next-button'} disabled={!nextPage} onClick={() => searchNext()}>Next</button>}
+            </div>
+
             <div>
-                <input type="text" id={'searcher'} onChange={(e) => search(e)} value={searcher}/>
-                {orders && orders.map(order => <AdminOrder key={order.id} order={order}/>)}
+                <input className={'order-searcher'} type="text" id={'searcher'} onChange={(e) => search(e)} value={searcher}/>
+                <div className={'admin-orders-div'}>
+                    {orders && orders.map(order => <AdminOrder key={order.id} order={order}/>)}
+                </div>
             </div>
 
         </div>

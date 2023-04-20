@@ -24,7 +24,7 @@ const AdminUserButtons = ({user}) => {
     }
 
     return (
-        <div>
+        <div className={'user-buttons'}>
             {(user.is_employee && !user.is_superuser) && <button onClick={() => toUser()}>To user</button>}
             {!user.is_employee && <button onClick={() => toEmployee()}>To employee</button>}
             {user.is_active && <button onClick={() => deactivate()}>Deactivate</button>}
@@ -32,6 +32,7 @@ const AdminUserButtons = ({user}) => {
         </div>
     )
 }
+
 export {
     AdminUserButtons
 };

@@ -28,7 +28,7 @@ const SuperUserButtons = ({user}) => {
     }
 
     return (
-        <div>
+        <div className={'user-buttons'}>
             {!user.is_active && <button onClick={() => activate()}>Activate</button>}
             {user.is_active && <button onClick={() => deactivate()}>Deactivate</button>}
             {(user.is_staff || user.is_employee) && <button onClick={() => toUser()}>To User</button>}

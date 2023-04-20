@@ -45,11 +45,12 @@ const Users = () => {
             {loading && <LoadingPage/>}
             {error && <ErrorPage error={error}/>}
 
-            <button disabled={!prevPage} onClick={() => prev()}>Prev</button>
-            <button disabled={!nextPage} onClick={() => next()}>Next</button>
-
-            <div>
-                <input type="text" id={'searcher'} onChange={(e) => search(e)} value={searcher}/>
+            <div className={'buttons-wrap'}>
+                <button className={'prev-button'} disabled={!prevPage} onClick={() => prev()}>Prev</button>
+                <input className={'user-searcher'} type="text" id={'searcher'} onChange={(e) => search(e)} value={searcher}/>
+                <button className={'next-button'} disabled={!nextPage} onClick={() => next()}>Next</button>
+            </div>
+            <div className={'users-div'}>
                 {users && users.map(user => <User user={user}/>)}
             </div>
         </div>

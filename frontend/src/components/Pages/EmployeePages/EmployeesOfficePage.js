@@ -8,13 +8,15 @@ const EmployeesOfficePage = () => {
 
     return (
         <div>
-            <button onClick={() => navigate('/employee/office/profile')}>Profile</button>
-            <br/>
-            My orders:
+            <div className={'office-button-wrapper'}>
+                 <button onClick={() => navigate('/employee/office/profile')}>Profile</button>
+            </div>
+            <h1>My orders</h1>
             <EmployeeOfficeOrders/>
         </div>
     )
 }
+
 export {
     EmployeesOfficePage
 };

@@ -32,7 +32,7 @@ const ProfileForm = () => {
 
     const profileUpdate = async (profile) => {
 
-        const avatar = document.getElementById('avatar').files
+        const avatar = document.getElementById('avatar-input').files
         formData.append('user_photo', avatar[0])
 
         await user_service.profileUpdate(profile)
@@ -62,8 +62,13 @@ const ProfileForm = () => {
             <input type="number" placeholder={'age'} {...register('age')}/>
             <input type="text" placeholder={'phone'} {...register('phone')}/>
 
-            {self.profile.user_photo && <img className={'profile-img'} src={`${BASE_URL}/${self.profile.user_photo}`} alt="photo"/>}
-            <input type="file" id={'avatar'} className={'avatar-input'}/>
+            <input type="file" id={'avatar-input'} className={'avatar-input'}/>
+
+            {self.profile.user_photo
+                ? <img className={'avatar-img'} src={`${BASE_URL}/${self.profile.user_photo}`} onClick={() => {
+                document.getElementById('avatar-input').click()
+            }} alt="photo" />
+                : <div className={'empty-avatar'}> + </div>} <br/>
 
             <button className={'profile-form-button'} disabled={!isValid}>Save</button>
 
@@ -76,6 +81,8 @@ const ProfileForm = () => {
         </form>
     )
 }
+
+
 export {
     ProfileForm
 };

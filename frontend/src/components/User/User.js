@@ -5,10 +5,10 @@ import {SuperUserButtons} from "./SuperUserButtons";
 
 const User = ({user}) => {
 
-    const {user: worker} = useSelector(state => state.userReducer)
+    const {self: worker} = useSelector(state => state.userReducer)
 
     return (
-        <div>
+        <div className={'user-div'}>
             <div>Id: {user.id}</div>
             <div>Name: {user.profile?.name}</div>
             <div>Surname: {user.profile?.surname}</div>
@@ -21,12 +21,12 @@ const User = ({user}) => {
             <div>Admin: {user.is_staff.toString()}</div>
             <div>SuperUser: {user.is_superuser.toString()}</div>
 
-            {worker && worker.is_staff && !worker.is_superuser && <AdminUserButtons user={user}/>}
-            {worker && worker.is_superuser && <SuperUserButtons user={user}/>}
-            <hr/>
+            {worker && worker.is_staff && !worker.is_superuser && worker.id !== user.id && <AdminUserButtons user={user}/>}
+            {worker && worker.is_superuser && worker.id !== user.id && <SuperUserButtons user={user}/>}
         </div>
     )
 }
+
 export {
     User
 };

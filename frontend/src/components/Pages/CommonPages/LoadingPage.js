@@ -7,6 +7,8 @@ const LoadingPage = () => {
         </div>
     )
 }
+
+
 export {
     LoadingPage
 };

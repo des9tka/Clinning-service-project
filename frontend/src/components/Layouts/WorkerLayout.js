@@ -9,8 +9,10 @@ const WorkerLayout = () => {
     EmployeeAccess()
 
     return (
-        <div>
-            <WorkerHeader/>
+        <div className={'employee-layout-div'}>
+            <div className={'header-div'}>
+                <WorkerHeader/>
+            </div>
             <Outlet/>
         </div>
     )

@@ -36,8 +36,8 @@ const setEmployeeOrders = createAsyncThunk(
 
 const setAllowEmployeesOrders = createAsyncThunk(
     'orderSlice/setAllowEmployeesOrders',
-    async (_, {rejectWithValue}) => {
-        const data = await order_service.getAll(1, 3)
+    async ({page}, {rejectWithValue}) => {
+        const data = await order_service.getAll(page, 3)
         return data
     }
 )
@@ -91,6 +91,8 @@ const orderSlice = createSlice({
                 state.loading = true
             })
             .addCase(setAllowEmployeesOrders.fulfilled, (state, action) => {
+                state.nextPage = action.payload.data.next_page
+                state.prevPage = action.payload.data.prev_page
                 state.orders = action.payload.data.data
                 state.loading = false
             })

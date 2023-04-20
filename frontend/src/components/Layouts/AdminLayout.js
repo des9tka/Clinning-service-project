@@ -11,12 +11,15 @@ const AdminLayout = () => {
 
 
     return (
-        <div>
-            <AdminHeader/>
+        <div className={'admin-layout-div'}>
+            <div className={'header-div'}>
+                <AdminHeader/>
+            </div>
             <Outlet/>
         </div>
     )
 }
+
 export {
     AdminLayout
 };

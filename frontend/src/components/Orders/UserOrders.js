@@ -84,7 +84,6 @@ const UserOrders = () => {
 
             <hr/>
 
-
             <div className={'searcher-div'}>
                 <input type="text" className={'searcher'} id={'searcher'} placeholder={'search...'} onChange={(e) => search(e)} value={searcher}/>
             </div>
@@ -95,6 +94,7 @@ const UserOrders = () => {
         </div>
     )
 }
+
 
 export {
     UserOrders
