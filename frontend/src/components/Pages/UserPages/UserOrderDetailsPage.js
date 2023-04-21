@@ -28,35 +28,45 @@ const UserOrderDetailsPage = () => {
         )
     }
 
+
     return (
         <div>
-            {loading && <LoadingPage/>}
-            {error && <ErrorPage/>}
+            <div className={'order-details-page-wrap'}>
+                {loading && <LoadingPage/>}
+                {error && <ErrorPage/>}
+                <div className={'order-details-div'}>
+                    <div>Id: {order.id}</div>
+                    <div>Address: {order.address}</div>
+                    <div>Footage: {order.footage}</div>
+                    <div>Task: {order.task_description}</div>
+                    <div>Service: {order.service}</div>
+                    <div>Date: {order.date}</div>
+                    <div>Time: {order.time}</div>
 
-            <div>Id: {order.id}</div>
-            <div>Address: {order.address}</div>
-            <div>Footage: {order.footage}</div>
-            <div>Task: {order.task_description}</div>
-            <div>Service: {order.service}</div>
-            <div>Date: {order.date}</div>
-            <div>Time: {order.time}</div>
+                    {(order.status === 6 && order.status === 7) && <div>Rating: {order.rating}</div>}
+                    {order.status !== 1 && <div>Price: {order.price}</div>}
+                    {order.status !== 1 && <div>Employees need: {order.employees_quantity}</div>}
 
-            {(order.status === 6 && order.status === 7) && <div>Rating: {order.rating}</div>}
-            {order.status !== 1 && <div>Price: {order.price}</div>}
-            {order.status !== 1 && <div>Employees need: {order.employees_quantity}</div>}
-            {(order.status !== 1 && order.status !== 2) && <div>Employees now: </div>}
-            {(order.status !== 1 && order.status !== 2 && users && order.employees_current[0]) && users.map(employee => <EmployeesBuilder employee={employee}/>)}
 
-            <div className={'order_photo_wrap'}>
-                 {order.photos.map((photo, index) => <OrderPhotosBuilder key={index} photo={photo}/>)}
+                    <div className={'order_photo_wrap'}>
+                        {order.photos.map((photo, index) => <OrderPhotosBuilder key={index} photo={photo}/>)}
+                    </div>
+
+                    {order.status !== 1 && order.status !== 2 && <h3>Employees</h3>}
+                    <div className={'employee-wrapper'}>
+                        {order.status !== 1 && order.status !== 2 && order.employees_current[0] && users.map(employee => <EmployeesBuilder
+                            employee={employee}/>)}
+                    </div>
+
+                    <div className={'superuser-button-wrapper'}>
+                        <UserOrderButtons id={order.id} status={order.status}/>
+                    </div>
+                </div>
             </div>
-
-            <hr/>
-
-            <UserOrderButtons id={order.id} status={order.status}/>
         </div>
     )
 }
+
 export {
     UserOrderDetailsPage
 };

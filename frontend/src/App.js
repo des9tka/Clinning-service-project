@@ -3,7 +3,7 @@ import {Navigate, Route, Routes} from "react-router-dom";
 import {
     AdminAboutPage,
     AdminLayout, AdminOfficePage, AdminOrderDetailsPage, AdminOrderPage, AdminUserPage,
-    AuthLayout, ChangeServicePage, EmployeesAboutPage, EmployeesOfficePage, EmployeesOrdersPage, ErrorPage, HelpPage,
+    AuthLayout, ChangeServicePage, EmployeesAboutPage, EmployeesOfficePage, EmployeesOrdersPage, ErrorPage,
     HomePage, LoginPage,
     PaymentPage,
     ProfilePage, RegisterPage,
@@ -32,7 +32,6 @@ function App() {
                     <Route path={'office/order/:id/details'} element={<UserOrderDetailsPage/>}/>
                     <Route path={'office/order/:id/payment/:rate'} element={<PaymentPage/>}/>
                     <Route path={'about'} element={<UserAboutPage/>}/>
-                    <Route path={'help'} element={<HelpPage/>}/>
                 </Route>
 
                 <Route path={'auth'} element={<AuthLayout/>}>

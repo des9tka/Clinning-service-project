@@ -1,10 +1,12 @@
 import {useEffect, useState} from "react";
 
 import {order_service} from "../../services";
+import {useNavigate} from "react-router-dom";
 
 const EmployeeOrderButtons = ({order, user}) => {
 
     const [rate, setRate] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (order.status === 5) {
@@ -20,13 +22,13 @@ const EmployeeOrderButtons = ({order, user}) => {
     }, [])
 
     const take = () => {
-        order_service.take(order.id).then((response) => {
-            window.location.reload()
+        order_service.take(order.id).then(() => {
+            navigate('/employee/office')
         }).catch((err) => console.log(err))
     }
 
     const done = () => {
-        order_service.done(order.id, rate).then((response) => {
+        order_service.done(order.id, rate).then(() => {
             window.location.reload()
         }).catch((err) => console.log(err))
     }
@@ -35,12 +37,14 @@ const EmployeeOrderButtons = ({order, user}) => {
 
     return (
         <div>
-            {(!taken && order.status === 3) && <button onClick={() => take()}>Take</button>}
-            {order.status === 5 && <select id={'select'} onChange={(e) => setRate(e.target.value)}></select>}
-            {order.status === 5 && <button onClick={() => done()} disabled={!rate}>Done</button>}
+            {(!taken && order.status === 3) && <button className={'employees-buttons'} onClick={() => take()}>Take</button>}
+            {order.status === 5 && <select className={'employee-order-rate-select'} id={'select'} onChange={(e) => setRate(e.target.value)}></select>}
+            {order.status === 5 && <button className={'employees-buttons'} onClick={() => done()} disabled={!rate}>Done</button>}
         </div>
     )
 }
+
+
 export {
     EmployeeOrderButtons
 };

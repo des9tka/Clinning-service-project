@@ -66,24 +66,30 @@ const SuperUserOrders = () => {
     return (
         <div>
             <hr/>
-            <select disabled={searcher} id={'select'} onChange={() => ordersChange()}>
-                <option value={1}>pending</option>
-                <option value={2}>admin confirmed</option>
-                <option value={3}>user approved</option>
-                <option value={4}>rejected</option>
-                <option value={5}>taken</option>
-                <option value={6}>done</option>
-                <option value={7}>paid</option>
-            </select>
-            <hr/>
-            {!search && <button disabled={!prevPage} onClick={() => prev()}>Prev</button>}
-            {!search && <button disabled={!nextPage} onClick={() => next()}>Next</button>}
+            <div className={'pagination-buttons-div'}>
+                {!search && <button className={'office-buttons'} disabled={!prevPage} onClick={() => prev()}>Prev</button>}
+                {search && <button className={'office-buttons'} disabled={!prevPage} onClick={() => searchPrev()}>Prev</button>}
 
-            {search && <button disabled={!prevPage} onClick={() => searchPrev()}>Prev</button>}
-            {search && <button disabled={!nextPage} onClick={() => searchNext()}>Next</button>}
+                <select className={'order-select'} disabled={searcher} id={'select'} onChange={() => ordersChange()}>
+                    <option value={1}>pending</option>
+                    <option value={2}>admin confirmed</option>
+                    <option value={3}>user approved</option>
+                    <option value={4}>rejected</option>
+                    <option value={5}>taken</option>
+                    <option value={6}>done</option>
+                    <option value={7}>paid</option>
+                </select>
+
+                {!search && <button className={'office-buttons'} disabled={!nextPage} onClick={() => next()}>Next</button>}
+                {search && <button className={'office-buttons'} disabled={!nextPage} onClick={() => searchNext()}>Next</button>}
+            </div>
+
             <hr/>
-            <div>
-                <input type="text" id={'searcher'} onChange={(e) => search(e)} value={searcher}/>
+
+            <div className={'searcher-div'}>
+                <input className={'searcher'} type="text" id={'searcher'} placeholder={'search...'} onChange={(e) => search(e)} value={searcher}/>
+            </div>
+            <div className={'user-orders-div'}>
                 {orders && orders.map(order => <SuperUserOrder key={order.id} order={order}/>)}
             </div>
         </div>

@@ -21,7 +21,7 @@ class UserPagePagination(PageNumberPagination):
 
 
 class OrderPagePagination(PageNumberPagination):
-    page_size = 10
+    page_size = 25
     page_size_query_param = 'size'
 
     def get_paginated_response(self, data):

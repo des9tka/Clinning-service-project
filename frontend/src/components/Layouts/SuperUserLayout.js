@@ -9,12 +9,15 @@ const SuperUserLayout = () => {
     SuperuserAccess()
 
     return (
-        <div>
-            <SuperUserHeader/>
+        <div className={'superuser-layout-div'}>
+            <div className={'header-div'}>
+                <SuperUserHeader/>
+            </div>
             <Outlet/>
         </div>
     )
 }
+
 export {
     SuperUserLayout
 };

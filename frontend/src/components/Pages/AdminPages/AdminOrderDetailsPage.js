@@ -47,54 +47,60 @@ const AdminOrderDetailsPage = () => {
     }
 
     return (
-        <div>
-            {loading && <LoadingPage/>}
-            {error && <ErrorPage/>}
+        <div className={'order-details-page-wrap'}>
+            <div className={'order-details-div'}>
+                {loading && <LoadingPage/>}
+                {error && <ErrorPage/>}
 
-            <div>Id: {order.id}</div>
-            <div>Address: {order.address}</div>
-            <div>Footage: {order.footage}</div>
-            <div>Task: {order.task_description}</div>
-            <div>Service: {order.service}</div>
-            <div>Date: {order.date}</div>
-            <div>Time: {order.time}</div>
-            <div>Status: {order.status}</div>
-            <div>Rating: {order.rating}</div>
-            {order.price !== 0 && <div>Price: {order.price}</div>}
+                <div>Id: {order.id}</div>
+                <div>Address: {order.address}</div>
+                <div>Footage: {order.footage}</div>
+                <div>Task: {order.task_description}</div>
+                <div>Service: {order.service}</div>
+                <div>Date: {order.date}</div>
+                <div>Time: {order.time}</div>
+                <div>Status: {order.status}</div>
+                <div>Rating: {order.rating}</div>
+                {order.price !== 0 && <div>Price: {order.price}</div>}
 
-            <div className={'order_photo_wrap'}>
-                {order.photos.map((photo, index) => <OrderPhotosBuilder key={index} photo={photo}/>)}
+                <div className={'order_photo_wrap'}>
+                    {order.photos.map((photo, index) => <OrderPhotosBuilder key={index} photo={photo}/>)}
+                </div>
+
+                {order.status !== 1 && <div>Employees need: {order.employees_quantity}</div>}
+                {order.status !== 1 && <div>Employees now: </div>}
+                {order.status !== 1 && order.employees_current[0] && order.employees_current.map(employee_id => <EmployeesBuilder employee_id={employee_id}
+                                                                                                                                  order_id={order.id}
+                                                                                                                                  status={order.status}/>)}
+
+                {(order.status === 1 && !state.button) && <form onSubmit={handleSubmit(orderConfirm)}>
+
+                    <div className={'admin-order-inputs'}>
+                        <input type={'number'} placeholder={'Price'} {...register('price')} onChange={(e) => setState(prevState => {
+                            return ({...prevState, price: e.target.value})
+                        })}/>
+
+                        <input type="number" placeholder={'Employees Quantity'} {...register('employees_quantity')} onChange={(e) => setState((prevState) => {
+                            return ({...prevState, employees: e.target.value})
+                        })}/>
+                    </div>
+
+                    <AdminOrderButtons state={state} setState={setState} status={order.status}/>
+                </form>}
+
+                {state.button && <div className={'reject-div'}>
+                    <input id={'input'} type={'text'} placeholder={'Reason for rejecting'} onChange={(e) => setState((prevState) => {
+                        return ({...prevState, message: e.target.value})
+                    })}/>
+                    <br/>
+                    <button className={'reject-button'} disabled={state.message === ''} onClick={() => reject()}>Reject</button>
+                </div>}
+                <hr/>
             </div>
-
-            {order.status !== 1 && <div>Employees need: {order.employees_quantity}</div>}
-            {order.status !== 1 && <div>Employees now: </div>}
-            {order.status !== 1 && order.employees_current[0] && order.employees_current.map(employee_id => <EmployeesBuilder employee_id={employee_id}
-                                                                                                                              order_id={order.id}
-                                                                                                                              status={order.status}/>)}
-
-            {(order.status === 1 && !state.button) && <form onSubmit={handleSubmit(orderConfirm)}>
-
-                <input type={'number'} placeholder={'Price'} {...register('price')} onChange={(e) => setState(prevState => {
-                    return ({...prevState, price: e.target.value})
-                })}/>
-
-                <input type="number" placeholder={'Employees Quantity'} {...register('employees_quantity')} onChange={(e) => setState((prevState) => {
-                    return ({...prevState, employees: e.target.value})
-                })}/>
-
-                <AdminOrderButtons state={state} setState={setState} status={order.status}/>
-            </form>}
-
-            {state.button && <div>
-                <input id={'input'} type={'text'} placeholder={'Reason for rejecting'} onChange={(e) => setState((prevState) => {
-                   return ({...prevState, message: e.target.value})
-                })}/>
-                <button disabled={state.message === ''} onClick={() => reject()}>Reject</button>
-            </div>}
-            <hr/>
         </div>
     )
 }
+
 export {
     AdminOrderDetailsPage
 };

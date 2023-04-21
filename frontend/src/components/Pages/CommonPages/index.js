@@ -1,5 +1,4 @@
 export * from './ErrorPage'
-export * from './HelpPage'
 export * from './HomePage'
 export * from './LoadingPage'
 export * from './LoginPage'

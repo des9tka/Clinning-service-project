@@ -9,10 +9,11 @@ body, html {
 
 /*auth*/
 
-.auth-layout-div, .user-layout-div, .admin-layout-div, .employee-layout-div {
+.auth-layout-div, .user-layout-div, .admin-layout-div, .employee-layout-div, .superuser-layout-div {
     width: 100vw;
     height: 100vh;
     text-align: center;
+    margin: 2px;
 }
 
 .auth-greeting {
@@ -304,6 +305,10 @@ a {
     }
 }
 
+.error-page {
+    text-align: center;
+}
+
 /*admin*/
 
 .buttons-wrap {
@@ -367,7 +372,7 @@ a {
     max-height: 40px;
     height: 100%;
     margin: 2px;
-    font-size: 80%;
+    font-size: 70%;
     border-radius: 25px;
 }
 
@@ -378,6 +383,47 @@ a {
 
 .admin-order-select option {
     text-align: center;
+}
+
+.admin-order-inputs {
+    width: 100%;
+    text-align: center;
+}
+
+.admin-order-inputs input {
+    width: 50%;
+    border-radius: 25px;
+    text-align: center;
+    height: 15%;
+    margin: 2%;
+}
+.admin-buttons-div {
+    width: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.admin-buttons-div button {
+    border-radius: 25px;
+    margin: 1%;
+}
+
+.reject-div {
+    width: 100%;
+    text-align: center;
+    align-items: center;
+}
+
+.reject-div input {
+    width: 35%;
+    height: 40%;
+    border-radius: 25px;
+    text-align: center;
+}
+
+.reject-button {
+    border-radius: 25px;
 }
 
 /*employee*/
@@ -415,6 +461,97 @@ a {
     justify-content: center;
 }
 
+.order-details-div {
+    border: 1px solid black;
+    border-radius: 25px;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.order-details-div div {
+    margin-bottom: 1%;
+    font-size: 18px;
+}
+
+.order-employee-wrap {
+    border: 1px solid black;
+    width: 30%;
+    border-radius: 25px;
+    align-items: center;
+    padding: 2%;
+}
+
+.order-img {
+    cursor: pointer;
+    max-height: 200px;
+    max-width: 250px;
+    width: 80%;
+    height: 80%;
+    border-radius: 25px;
+    border: 1px solid black;
+    margin-bottom: 10px;
+}
+
+.order-employee-img {
+    max-width: 100px;
+    width: 100%;
+    max-height: 100px;
+    height: 100%;
+    cursor: pointer;
+    border-radius: 25px;
+    border: 1px solid black;
+    margin-top: 5%;
+}
+
+.order_photo_wrap {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.order-details-page-wrap {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.employee-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.task-div {
+    font-size: 14px;
+}
+
+.employees-buttons {
+    border-radius: 25px;
+    font-size: 16px;
+}
+
+.employee-order-rate-select {
+    margin: 2%;
+    border-radius: 25px;
+    text-align: center;
+}
+
+.employee-order-rate-select option {
+    text-align: center;
+}
+
+.superuser-button-wrapper {
+    width: 100%;
+    text-align: center;
+}
+
+.superuser-button-wrapper button {
+    border-radius: 25px;
+}
 
 
 @media only screen and (max-width: 600px) {
@@ -476,13 +613,83 @@ a {
         max-height: 40px;
         height: 100%;
         margin: 2px;
-        font-size: 80%;
+        font-size: 70%;
         border-radius: 25px;
     }
 
     .employee-order-headers {
         max-font-size: 10px;
         font-size: 100%;
+    }
+
+    .order_photo_wrap {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    .employee-wrapper {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    .order-details-div div {
+        margin-bottom: 1%;
+        font-size: 14px;
+    }
+
+    .order-employee-wrap {
+        border: 1px solid black;
+        width: 80%;
+        border-radius: 25px;
+        align-items: center;
+        padding: 2%;
+        margin-bottom: 5px;
+    }
+
+    .order-details-div {
+        border: 1px solid black;
+        border-radius: 25px;
+        width: 80%;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    .employee-wrapper {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .order-img {
+        cursor: pointer;
+        max-width: 150px;
+        width: 100%;
+        max-height: 100px;
+        height: 100%;
+        border-radius: 25px;
+        border: 1px solid black;
+        margin-bottom: 15px;
+    }
+
+    .employees-buttons {
+        border-radius: 25px;
+        font-size: 12px;
+    }
+
+    .employee-order-rate-select {
+        margin: 2%;
+        border-radius: 25px;
+        text-align: center;
+    }
+
+    .employee-order-rate-select option {
+        text-align: center;
     }
 }
 
@@ -544,13 +751,81 @@ a {
         max-height: 40px;
         height: 100%;
         margin: 2px;
-        font-size: 80%;
+        font-size: 70%;
         border-radius: 25px;
     }
 
     .employee-order-headers {
         max-font-size: 16px;
         font-size: 100%;
+    }
+
+    .order_photo_wrap {
+        width: 100%;
+        display: flex;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+    }
+
+    .employee-wrapper {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    .order-details-div div {
+        margin-bottom: 1%;
+        font-size: 16px;
+    }
+
+    .order-employee-wrap {
+        border: 1px solid black;
+        width: 40%;
+        border-radius: 25px;
+        align-items: center;
+        padding: 2%;
+        margin: 2%
+    }
+
+    .order-details-div {
+        border: 1px solid black;
+        border-radius: 25px;
+        width: 80%;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    .employee-wrapper {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .order-img {
+        cursor: pointer;
+        width: 150px;
+        height: 100px;
+        border-radius: 25px;
+        border: 1px solid black;
+        margin-bottom: 15px;
+    }
+
+    .employees-buttons {
+        border-radius: 25px;
+        font-size: 14px;
+        margin: 2%;
+    }
+
+    .employee-order-rate-select {
+        margin: 2%;
+        border-radius: 25px;
+        text-align: center;
+    }
+
+    .employee-order-rate-select option {
+        text-align: center;
     }
 }
 

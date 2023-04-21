@@ -28,31 +28,38 @@ const EmployeesOrderDetailsPage = () => {
     }
 
     return (
-        <div>
+        <div className={'order-details-page-wrap'}>
             {loading && <LoadingPage/>}
             {error && <ErrorPage error={error}/>}
-            <div>Id: {order.id}</div>
-            <div>Address: {order.address}</div>
-            <div>Price: {order.price}</div>
-            <div>Date: {order.date}</div>
-            <div>Time: {order.time}</div>
-            <div>Status: {order.status}</div>
-            <div>Rating: {order.rating}</div>
-            <div>Footage: {order.footage}</div>
-            <div>Task: {order.task_description}</div>
-            <div>Employees: {order.employees_current.length}/{order.employees_quantity}</div>
+            <div className={'order-details-div'}>
+                <div>Id: {order.id}</div>
+                <div>Address: {order.address}</div>
+                <div>Price: {order.price}</div>
+                <div>Date: {order.date}</div>
+                <div>Time: {order.time}</div>
+                <div>Status: {order.status}</div>
+                <div>Rating: {order.rating}</div>
+                <div>Footage: {order.footage}</div>
+                <div className={'task-div'}>Task: {order.task_description}</div>
+                <div>Employees: {order.employees_current.length}/{order.employees_quantity}</div>
 
-            <div className={'order_photo_wrap'}>
-                {order.photos.map((photo, index) => <OrderPhotosBuilder key={index} photo={photo}/>)}
+                <div className={'order_photo_wrap'}>
+                    {order.photos.map((photo, index) => <OrderPhotosBuilder key={index} photo={photo}/>)}
+                </div>
+
+                <h3>Employees</h3>
+                <div className={'employee-wrapper'}>
+                    {users && users.map(employee => <EmployeesBuilder employee={employee}/>)}
+                </div>
+
+                <EmployeeOrderButtons order={order} user={self}/>
+                <hr/>
             </div>
-
-            {users && users.map(employee => <EmployeesBuilder employee={employee}/>)}
-
-            <EmployeeOrderButtons order={order} user={self}/>
-            <hr/>
         </div>
     )
 }
+
+
 export {
     EmployeesOrderDetailsPage
 };

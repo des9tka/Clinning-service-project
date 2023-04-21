@@ -8,6 +8,7 @@ const OrderForm = () => {
 
     const {handleSubmit, register} = useForm();
     const [files, setFiles] = useState([]);
+    const [text, setText] = useState('0');
     const navigate = useNavigate();
     const formData = new FormData();
 
@@ -55,7 +56,10 @@ const OrderForm = () => {
             <input type="text" placeholder={'Date (YYYY-MM-DD)'}  {...register('date')}/>
             <input type="text" placeholder={'Time (HH:MM)'}  {...register('time')}/>
             <input type="text" placeholder={'Footage'}  {...register('footage')}/>
-            <input type="text" placeholder={'Task description'} className={'task-field'}  {...register('task_description')}/>
+            <label>{text}/300</label>
+            <input type="text" placeholder={'Task description'} className={'task-field'} maxLength='300' onInput={(e) => {
+                setText(e.target.value.length)
+            }} {...register('task_description')}/>
             <input type="file" className={'order-fileInput'} multiple onChange={(e) => fileUploader(e)}/>
 
             <div className={'files-div'}>

@@ -19,7 +19,7 @@ class OrderModel(models.Model):
 
     address = models.CharField(max_length=128)
     footage = models.IntegerField()
-    task_description = models.TextField()
+    task_description = models.TextField(max_length=300)
     date = models.DateField()
     time = models.TimeField()
     price = models.FloatField(default=0)

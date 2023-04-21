@@ -9,7 +9,7 @@ const SuperUserOrder = ({order}) => {
     const dispatch = useDispatch();
 
     return (
-        <div>
+        <div className={'user-order'}>
             <div>id:{order.id}</div>
             <div>address:{order.address}</div>
             <div>status:{order.status}</div>
@@ -18,7 +18,7 @@ const SuperUserOrder = ({order}) => {
             <button onClick={() => {
                 navigate(`/superuser/orders/${order.id}/details`)
                 dispatch(orderActions.setOrder(order))
-            }}>Details</button>
+            }} className={'order-details-buttons'}>Details</button>
 
             <hr/>
         </div>
