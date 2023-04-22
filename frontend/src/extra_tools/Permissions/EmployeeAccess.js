@@ -9,19 +9,27 @@ const EmployeeAccess = () => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const {self} = useSelector(state => state.userReducer);
 
-    useEffect(() => {
-        dispatch(userActions.setSelfUser()).then((response) => {
-            if (response.payload.data.is_employee && !response.payload.data.is_staff && !response.payload.data.is_superuser) {
+    const checker = (user) => {
+        if (user.is_employee && !user.is_staff && !user.is_superuser) {
             //path
         } else {
             navigate('/auth')
         }
-        })
+    }
+
+    useEffect(() => {
+        if (!self) {
+            dispatch(userActions.setSelfUser()).then((data) => {
+                checker(data.payload.data)
+            })
+        } else {
+            checker(self)
+        }
     }, [])
 
 }
-
 
 export {
     EmployeeAccess

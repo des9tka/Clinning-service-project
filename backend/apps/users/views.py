@@ -202,6 +202,12 @@ class ProfileUpdateView(UpdateAPIView):
     http_method_names = ('patch',)
 
     def get_object(self):
+        if not hasattr(self.request.user, 'profile'):
+            data = self.request.data
+            print(data)
+            serializer = ProfileSerializer(data=data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save(user=self.request.user)
         return self.request.user.profile
 
 

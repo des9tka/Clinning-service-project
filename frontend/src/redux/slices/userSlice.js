@@ -79,6 +79,9 @@ const userSlice = createSlice({
         },
         setError: (state, action) => {
             state.error = action.payload
+        },
+        setSelf: (state, action) => {
+            state.self = action.payload
         }
     },
     extraReducers: builder =>
@@ -139,7 +142,7 @@ const userSlice = createSlice({
             })
 })
 
-const {reducer: userReducer, actions: {setUsers, setUser, setNextPage, setPrevPage, setError}} = userSlice;
+const {reducer: userReducer, actions: {setUsers, setUser, setNextPage, setPrevPage, setError, setSelf}} = userSlice;
 
 const userActions = {
     setUsers,
@@ -147,6 +150,7 @@ const userActions = {
     setNextPage,
     setPrevPage,
     setError,
+    setSelf,
     setUserById,
     setAllUsers,
     setSelfUser,

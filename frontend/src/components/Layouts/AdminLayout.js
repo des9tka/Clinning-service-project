@@ -9,7 +9,6 @@ const AdminLayout = () => {
     TokenValidCheck()
     AdminAccess()
 
-
     return (
         <div className={'admin-layout-div'}>
             <div className={'header-div'}>

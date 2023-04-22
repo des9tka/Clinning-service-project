@@ -1,4 +1,4 @@
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {joiResolver} from "@hookform/resolvers/joi";
 import {useForm} from "react-hook-form";
 import {useDispatch, useSelector} from "react-redux";
@@ -6,15 +6,13 @@ import {useDispatch, useSelector} from "react-redux";
 import {user_service} from "../../../services";
 import {profile_validator} from "../../../validators";
 import {BASE_URL} from "../../../configs";
-import {userActions} from "../../../redux";
 import {LoadingPage} from "../../Pages";
 
 const ProfileForm = () => {
 
     const formData = new FormData();
-    const dispatch = useDispatch();
-    const {self} = useSelector(state => state.userReducer)
-    let profile = null;
+    const {self} = useSelector(state => state.userReducer);
+    const [previewAvatar, setPreviewAvatar] = useState(null);
 
     const {setValue, register, handleSubmit, formState: {isValid, errors}} = useForm({
         resolver: joiResolver(profile_validator),
@@ -22,24 +20,22 @@ const ProfileForm = () => {
     })
 
     useEffect(() => {
-        dispatch(userActions.setSelfUser()).then((value) => {
-            profile = value.payload.data.profile
-            if (profile) {
-                setValue('name', `${profile.name}`);
-                setValue('surname', `${profile.surname}`);
-                setValue('age', `${profile.age}`);
-                setValue('phone', `${profile.phone}`);
-            }
-        })
-    }, [])
+        if (self) {
+            setValue('name', `${self.profile.name}`, {shouldValidate: true});
+            setValue('surname', `${self.profile.surname}`, {shouldValidate: true});
+            setValue('age', `${self.profile.age}`, {shouldValidate: true});
+            setValue('phone', `${self.profile.phone}`, {shouldValidate: true});
+        }
+    }, [self])
 
     const profileUpdate = async (profile) => {
 
         const avatar = document.getElementById('avatar-input').files
-        formData.append('user_photo', avatar[0])
+        if (avatar[0]) {
+            formData.append('user_photo', avatar[0])
+        }
 
         await user_service.profileUpdate(profile)
-
 
         user_service.addPhoto(formData)
             .then(() => {
@@ -58,6 +54,12 @@ const ProfileForm = () => {
         )
     }
 
+    if (previewAvatar) {
+        document.getElementById('avatar-preview').addEventListener('click', () => {
+            document.getElementById('avatar-input').click()
+        })
+    }
+
     return (
         <form className={'profile-form'} onSubmit={handleSubmit(profileUpdate)} encType="multipart/form-data">
             <input type="text" placeholder={'name'} {...register('name')} />
@@ -65,18 +67,39 @@ const ProfileForm = () => {
             <input type="number" placeholder={'age'} {...register('age')}/>
             <input type="text" placeholder={'phone'} {...register('phone')}/>
 
-            <input type="file" id={'avatar-input'} className={'avatar-input'}/>
+            <input type="file" id={'avatar-input'} className={'avatar-input'} onChange={(e) => {
+                let avatarPreview = null;
+                if (!previewAvatar) {
+                    avatarPreview = document.createElement('img');
+                } else {
+                    avatarPreview = document.getElementById('avatar-preview')
+                }
+                const avatarWrap = document.getElementById('img-wrap');
 
-            <div className={'img-wrap'}>
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
 
-                {profile && self.profile.user_photo
-                    ? <img className={'avatar-img'} src={`${BASE_URL}/${self.profile.user_photo}`} onClick={() => {
-                        document.getElementById('avatar-input').click()
-                    }} alt="photo"/>
+                reader.onload = () => {
+                    avatarPreview.src = reader.result
+                }
 
-                    : <div onClick={() => {
-                        document.getElementById('avatar-input').click()
-                    }} className={'empty-avatar'}> </div>}
+                avatarPreview.className = 'avatar-img';
+                avatarPreview.id = 'avatar-preview';
+                avatarWrap.appendChild(avatarPreview);
+                setPreviewAvatar(e.target.value)
+            }
+            }/>
+
+            <div id={'img-wrap'} className={'img-wrap'}>
+
+                {!previewAvatar && self?.profile.user_photo && <img className={'avatar-img'} src={`${BASE_URL}/${self.profile.user_photo}`} onClick={() => {
+                    document.getElementById('avatar-input').click()
+                }} alt="photo"/>}
+
+                {!previewAvatar && !self?.profile.user_photo && <div onClick={() => {
+                    document.getElementById('avatar-input').click()
+                }} className={'empty-avatar'} id={'empty-avatar'}></div>}
 
             </div>
 

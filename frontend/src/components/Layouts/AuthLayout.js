@@ -4,7 +4,6 @@ const AuthLayout = () => {
 
     const navigate = useNavigate();
 
-
     return (
         <div className={'auth-layout-div'}>
             <h1 className={'auth-greeting'}>Welcome to Our <br/>Cleaning Service!</h1>

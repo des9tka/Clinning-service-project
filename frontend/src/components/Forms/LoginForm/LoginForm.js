@@ -1,16 +1,23 @@
 import {useForm} from "react-hook-form";
 import {useState} from "react";
+import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
 
 import {auth_service} from "../../../services";
+import {userActions} from "../../../redux";
 
 const LoginForm = () => {
+
+    const dispatch = useDispatch();
     const navigate = useNavigate();
+    dispatch(userActions.setSelf(null))
+
     const [state, setState] = useState({
         message: null,
         email: null,
         password: null
     })
+
     const {register, handleSubmit} = useForm({
         mode: 'all',
     })
@@ -42,14 +49,19 @@ const LoginForm = () => {
     }
 
     const activate = () => {
-        auth_service.activation(state.email).then((response) => setState((prevState) => ({...prevState, message: response.data}))).catch((error) => setState((prevState) => ({...prevState, message: error.response.data})))
+        auth_service.activation(state.email).then((response) => setState((prevState) => ({
+            ...prevState,
+            message: response.data
+        }))).catch((error) => setState((prevState) => ({...prevState, message: error.response.data})))
     }
 
 
     return (
         <form className={'login-form'} onSubmit={handleSubmit(log)}>
             {state.message !== 'Not active.' && <div className={'login-error-div rm'}>{state.message}</div>}
-            {state.message === 'Not active.' && <div className={'login-error-div'}>Your account is not active. <br/> Send me <a className={'activate-request-link'} onClick={() => activate()}>activation link</a>.</div>}
+            {state.message === 'Not active.' &&
+                <div className={'login-error-div'}>Your account is not active. <br/> Send me <a className={'activate-request-link'} onClick={() => activate()}>activation
+                    link</a>.</div>}
             <input type="text" className={'login-email login-items'} placeholder={'email'}  {...register('email')} onChange={(e) => {
                 setState((prevState) => ({...prevState, email: e.target.value}))
             }}/>
@@ -62,7 +74,6 @@ const LoginForm = () => {
         </form>
     )
 }
-
 
 export {
     LoginForm
