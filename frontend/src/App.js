@@ -68,6 +68,7 @@ function App() {
                     <Route path={'home'} element={<HomePage/>}/>
                     <Route path={'services'} element={<SuperUserServicePage/>}/>
                     <Route path={'users'} element={<SuperUserUsersPage/>}/>
+                    <Route path={'office'} element={<ProfilePage/>}/>
                     <Route path={'users/:id/change_service'} element={<ChangeServicePage/>}/>
                     <Route path={'orders'} element={<SuperUserOrdersPage/>}/>
                     <Route path={'orders/:id/details'} element={<SuperUserDetailsPage/>}/>

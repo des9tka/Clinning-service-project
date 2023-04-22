@@ -10,7 +10,6 @@ const ProfilePage = () => {
     )
 }
 
-
 export {
     ProfilePage
 };

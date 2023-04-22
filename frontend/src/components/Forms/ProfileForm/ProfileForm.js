@@ -1,11 +1,11 @@
 import {useEffect} from "react";
 import {joiResolver} from "@hookform/resolvers/joi";
 import {useForm} from "react-hook-form";
+import {useDispatch, useSelector} from "react-redux";
 
 import {user_service} from "../../../services";
 import {profile_validator} from "../../../validators";
 import {BASE_URL} from "../../../configs";
-import {useDispatch, useSelector} from "react-redux";
 import {userActions} from "../../../redux";
 import {LoadingPage} from "../../Pages";
 
@@ -14,6 +14,7 @@ const ProfileForm = () => {
     const formData = new FormData();
     const dispatch = useDispatch();
     const {self} = useSelector(state => state.userReducer)
+    let profile = null;
 
     const {setValue, register, handleSubmit, formState: {isValid, errors}} = useForm({
         resolver: joiResolver(profile_validator),
@@ -22,11 +23,13 @@ const ProfileForm = () => {
 
     useEffect(() => {
         dispatch(userActions.setSelfUser()).then((value) => {
-            const profile = value.payload.data.profile
-            setValue('name', `${profile.name}`);
-            setValue('surname', `${profile.surname}`);
-            setValue('age', `${profile.age}`);
-            setValue('phone', `${profile.phone}`);
+            profile = value.payload.data.profile
+            if (profile) {
+                setValue('name', `${profile.name}`);
+                setValue('surname', `${profile.surname}`);
+                setValue('age', `${profile.age}`);
+                setValue('phone', `${profile.phone}`);
+            }
         })
     }, [])
 
@@ -64,11 +67,18 @@ const ProfileForm = () => {
 
             <input type="file" id={'avatar-input'} className={'avatar-input'}/>
 
-            {self.profile.user_photo
-                ? <img className={'avatar-img'} src={`${BASE_URL}/${self.profile.user_photo}`} onClick={() => {
-                document.getElementById('avatar-input').click()
-            }} alt="photo" />
-                : <div className={'empty-avatar'}> + </div>} <br/>
+            <div className={'img-wrap'}>
+
+                {profile && self.profile.user_photo
+                    ? <img className={'avatar-img'} src={`${BASE_URL}/${self.profile.user_photo}`} onClick={() => {
+                        document.getElementById('avatar-input').click()
+                    }} alt="photo"/>
+
+                    : <div onClick={() => {
+                        document.getElementById('avatar-input').click()
+                    }} className={'empty-avatar'}> </div>}
+
+            </div>
 
             <button className={'profile-form-button'} disabled={!isValid}>Save</button>
 
