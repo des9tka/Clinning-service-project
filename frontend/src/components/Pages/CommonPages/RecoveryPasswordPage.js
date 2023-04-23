@@ -37,17 +37,24 @@ const RecoveryPasswordPage = () => {
     }
 
     return (
-        <div>
+        <div className={'password-recovery-div'}>
             <form onSubmit={handleSubmit(change)}>
-                {errors.password && <div>{errors.password.message}</div>}
-                {message !== '' && <div>{message}</div>}
-                <input type="text" id={'first'} placeholder={'new password'} {...register('password')}/>
-                <input type="text" id={'second'} placeholder={'repeat the password'} onChange={(e) => matching(e)}/>
-                <button disabled={!isValid || message !== ''}>Change password</button>
+                <div>
+                    {errors.password && <div className={'error-message'}>{errors.password.message}</div>}
+                    {message !== '' && <div className={'message'}>{message}</div>}
+                    <label className={'recovery-page-label'} htmlFor="password">New Password</label>
+                    <input type="password" id={'first'} {...register('password')}/>
+                </div>
+                <div className="form-group">
+                    <label className={'recovery-page-label'} htmlFor="confirm-password">Confirm Password</label>
+                    <input type="password" id={'second'} onChange={(e) => matching(e)}/>
+                </div>
+                <button className={'submit-button'} disabled={!isValid || message !== ''}>Change password</button>
             </form>
         </div>
     )
 }
+
 
 export {
     RecoveryPasswordPage

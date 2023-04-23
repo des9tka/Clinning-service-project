@@ -9,7 +9,7 @@ import {
     ProfilePage, RegisterPage,
     ServicePage, SuperUserAboutPage, SuperUserDetailsPage, SuperUserOrdersPage, SuperUserUsersPage,
     UserAboutPage, EmployeesOrderDetailsPage,
-    UserOfficePage,
+    UserOfficePage,SuperUserServiceDetails,
     UserOrderDetailsPage, RecoveryPasswordPage,
     UserOrderFormPage, WorkerLayout, SuperUserServicePage, UserLayout, SuperUserLayout, RecoveryPasswordRequestPage, ActivateUserPage, LoadingPage
 } from "./components";
@@ -67,6 +67,7 @@ function App() {
                     <Route index element={<Navigate to={'/superuser/home'}/>}/>
                     <Route path={'home'} element={<HomePage/>}/>
                     <Route path={'services'} element={<SuperUserServicePage/>}/>
+                    <Route path={'services/:id/details'} element={<SuperUserServiceDetails/>}/>
                     <Route path={'users'} element={<SuperUserUsersPage/>}/>
                     <Route path={'office'} element={<ProfilePage/>}/>
                     <Route path={'users/:id/change_service'} element={<ChangeServicePage/>}/>

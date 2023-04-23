@@ -30,8 +30,8 @@ const OrderServices = () => {
             {loading && <LoadingPage/>}
             {error && <ErrorPage error={error}/>}
             <div className={'service-pagination-buttons'}>
-                <button disabled={!prevPage} onClick={() => prev()}>Prev</button>
-                <button disabled={!nextPage} onClick={() => next()}>Next</button>
+                <button className={'prev-button'} disabled={!prevPage} onClick={() => prev()}>Prev</button>
+                <button className={'next-button'} disabled={!nextPage} onClick={() => next()}>Next</button>
             </div>
 
             <div className={'services-div'}>
@@ -40,6 +40,7 @@ const OrderServices = () => {
         </div>
     )
 }
+
 export {
     OrderServices
 };

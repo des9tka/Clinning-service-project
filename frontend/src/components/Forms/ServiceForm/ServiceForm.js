@@ -1,14 +1,17 @@
 import {useForm} from "react-hook-form";
 import {useState} from "react";
+import {joiResolver} from "@hookform/resolvers/joi";
 
 import {c_service_service} from "../../../services";
+import {service_validator} from "../../../validators";
 
 const ServiceForm = () => {
 
     const [files, setFiles] = useState([]);
 
     const {register, handleSubmit, formState: {isValid, errors}} = useForm({
-        mode: 'all'
+        mode: 'all',
+        resolver: joiResolver(service_validator)
     });
 
     const serviceConfirm = async (data) => {
@@ -42,30 +45,39 @@ const ServiceForm = () => {
 
     return (
         <div>
-            <form onSubmit={handleSubmit(serviceConfirm)} encType="multipart/form-data">
+            <form className={'service-form'} onSubmit={handleSubmit(serviceConfirm)} encType="multipart/form-data">
                 <input type="text" placeholder={'Service name'} {...register('name', {required: true, minLength: 2, maxLength: 30})}/>
                 <input type="text" placeholder={'Service address'} {...register('address', {required: true, minLength: 2, maxLength: 50})}/>
                 <input type="text" placeholder={'Service city'} {...register('city', {required: true, minLength: 2, maxLength: 30})}/>
-                <input type="file" multiple onChange={(e) => fileUploader(e)}/>
-                <button disabled={!isValid}>Create</button>
 
+                <input id={'input-file'} className={'hide'} type="file" multiple onChange={(e) => fileUploader(e)}/>
 
-                <div>
+                <div className={'upload-photo-div'} onClick={() => {
+                    document.getElementById('input-file').click()
+                }
+                }>Upload photo</div>
+
+                <div className={'photo-preview-div'}>
                     {files && files.map((file, index) => <div>
                         {`file ${index + 1}`} - <button onClick={() => remove(file)}>remove</button>
                     </div>)}
                 </div>
 
-                <div>
-                    {errors.name && errors.name.message}
-                    {errors.address && errors.address.message}
-                    {errors.city && errors.city.message}
+                <button disabled={!isValid}>Create</button>
+
+                <div className={'service-errors-div'}>
+                    <div className={'errors'}>
+                        {errors.name && <div>{errors.name.message}</div>}
+                        {errors.address && <div>{errors.address.message}</div>}
+                        {errors.city && <div>{errors.city.message}</div>}
+                    </div>
                 </div>
 
             </form>
         </div>
     )
 }
+
 export {
     ServiceForm
 };

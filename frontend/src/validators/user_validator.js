@@ -36,6 +36,7 @@ const password_validator = Joi.object({
     }),
 })
 
+
 export {
     user_validator,
     email_validator,

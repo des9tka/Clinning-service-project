@@ -2,7 +2,7 @@ import {useForm} from "react-hook-form";
 
 import {order_service, user_service} from "../../../services";
 import {useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 const OrderForm = () => {
 
@@ -35,7 +35,7 @@ const OrderForm = () => {
         setFiles(files.filter(file => file.name !== photo.name))
     }
 
-     const fileUploader = (e) => {
+    const fileUploader = (e) => {
         const file = e.target.files
         let same = files.filter(photo => photo.name === file[0].name)
         if (files.length < 10) {
@@ -49,12 +49,34 @@ const OrderForm = () => {
             alert('Allow to upload 10 photos')
         }
     }
+    useEffect(() => {
+        const select = document.querySelector('select');
+        const startTime = '09:00';
+        const endTime = '20:00';
+
+        let currentTime = startTime;
+        while (currentTime <= endTime) {
+            const option = document.createElement('option');
+            option.text = currentTime;
+            option.value = currentTime;
+            select.appendChild(option);
+
+            const [hours, minutes] = currentTime.split(':');
+            const date = new Date();
+            date.setHours(hours);
+            date.setMinutes(minutes);
+            date.setMinutes(date.getMinutes() + 5);
+            currentTime = date.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+        }
+    }, [])
+
 
     return (
         <form onSubmit={handleSubmit(addOrder)} className={'order-form'}>
             <input type="text" placeholder={'Address'} {...register('address')}/>
-            <input type="text" placeholder={'Date (YYYY-MM-DD)'}  {...register('date')}/>
-            <input type="text" placeholder={'Time (HH:MM)'}  {...register('time')}/>
+            <input type="date" placeholder={'Date (YYYY-MM-DD)'}  {...register('date')}/>
+            <select {...register('time')} className={'order-select'}></select>
+
             <input type="text" placeholder={'Footage'}  {...register('footage')}/>
             <label>{text}/300</label>
             <input type="text" placeholder={'Task description'} className={'task-field'} maxLength='300' onInput={(e) => {

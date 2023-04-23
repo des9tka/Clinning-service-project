@@ -99,6 +99,7 @@ const userSlice = createSlice({
                 state.error = action.payload
             })
 
+
             .addCase(setAllUsers.pending, (state, action) => {
                 state.loading = true
             })
@@ -113,6 +114,7 @@ const userSlice = createSlice({
                 state.loading = false
                 state.error = action.payload
             })
+
 
             .addCase(setOrderEmployeesByOrderId.pending, (state, action) => {
                 state.loading = true

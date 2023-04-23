@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {joiResolver} from "@hookform/resolvers/joi";
 import {useForm} from "react-hook-form";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 
 import {user_service} from "../../../services";
 import {profile_validator} from "../../../validators";
@@ -20,7 +20,7 @@ const ProfileForm = () => {
     })
 
     useEffect(() => {
-        if (self) {
+        if (self && self.profile !== null) {
             setValue('name', `${self.profile.name}`, {shouldValidate: true});
             setValue('surname', `${self.profile.surname}`, {shouldValidate: true});
             setValue('age', `${self.profile.age}`, {shouldValidate: true});
@@ -93,11 +93,11 @@ const ProfileForm = () => {
 
             <div id={'img-wrap'} className={'img-wrap'}>
 
-                {!previewAvatar && self?.profile.user_photo && <img className={'avatar-img'} src={`${BASE_URL}/${self.profile.user_photo}`} onClick={() => {
+                {!previewAvatar && self?.profile?.user_photo && <img className={'avatar-img'} src={`${BASE_URL}/${self.profile.user_photo}`} onClick={() => {
                     document.getElementById('avatar-input').click()
                 }} alt="photo"/>}
 
-                {!previewAvatar && !self?.profile.user_photo && <div onClick={() => {
+                {!previewAvatar && !self?.profile?.user_photo && <div onClick={() => {
                     document.getElementById('avatar-input').click()
                 }} className={'empty-avatar'} id={'empty-avatar'}></div>}
 
@@ -114,7 +114,6 @@ const ProfileForm = () => {
         </form>
     )
 }
-
 
 export {
     ProfileForm

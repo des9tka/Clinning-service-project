@@ -14,20 +14,23 @@ const RecoveryPasswordRequestPage = () => {
     });
 
     const restore = (email) => {
-        auth_service.request_password_recovery(email).then(() => setMessage('Recovery Link was sanded to your mail')).catch((e) => console.log(e))
+        auth_service.request_password_recovery(email).then(() => setMessage('Recovery Link was sanded to your mail')).catch((e) => setMessage(e.response.data))
     }
 
     return (
-        <div>
-            <form onSubmit={handleSubmit(restore)}>
-                {errors.email && <div>{errors.email.message}</div>}
-                {message && <div>{message}</div>}
-                <input type="text" placeholder={'email'} {...register('email')}/>
-                <button disabled={!isValid}>Change Password</button>
+        <div className={'request-recovery-password-div'}>
+            <form onSubmit={handleSubmit(restore)} className={'request-recovery-password-form'}>
+                {errors.email && <div className={'error-message'}>{errors.email.message}</div>}
+                {message && <div className={'message'}>{message}</div>}
+                <label htmlFor="email" className={'password-label'}>Email</label>
+                <input type="text" {...register('email')} className={'email-input'}/>
+                <button className={'submit-button'} disabled={!isValid}>Change Password</button>
             </form>
         </div>
     )
 }
+
+
 export {
     RecoveryPasswordRequestPage
 };

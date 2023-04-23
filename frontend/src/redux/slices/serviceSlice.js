@@ -22,6 +22,18 @@ const setAllServices = createAsyncThunk(
     }
 )
 
+const setServiceById = createAsyncThunk(
+    'serviceSlice/setServiceById',
+    async ({id}, rejectWithValue) => {
+        try {
+            const data = c_service_service.getById(id)
+            return data
+        } catch (e) {
+            return rejectWithValue(e.response.data)
+        }
+    }
+)
+
 const serviceSlice = createSlice({
     name: 'serviceSlice',
     initialState,
@@ -55,6 +67,19 @@ const serviceSlice = createSlice({
                 state.error = action.payload
                 state.loading = false
             })
+
+            .addCase(setServiceById.pending, (state, action) => {
+                state.loading = true
+            })
+            .addCase(setServiceById.fulfilled, (state, action) => {
+                state.service = action.payload.data
+                state.loading = false
+                state.error = null
+            })
+            .addCase(setServiceById.rejected, (state, action) => {
+                state.error = action.payload
+                state.loading = false
+            })
 })
 
 const {reducer: serviceReducer, actions: {setServices, setService, setNextPage, setPrevPage}} = serviceSlice;
@@ -64,8 +89,10 @@ const serviceActions = {
     setService,
     setNextPage,
     setPrevPage,
-    setAllServices
+    setAllServices,
+    setServiceById
 }
+
 
 export {
     serviceActions,

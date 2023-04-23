@@ -13,12 +13,11 @@ const OrderService = ({service}) => {
     }
 
     return (
-        <div className={'service-div'}>
+        <div onClick={() => changeService()} className={'service-div'}>
+            <div>Service - {service.id}</div>
             <div>Name: {service.name}</div>
             <div>City: {service.city}</div>
             <div>Address: {service.address}</div>
-            <div>Service_id: {service.id}</div>
-            <button onClick={() => changeService()} className={'service-button'}>Change Service</button>
         </div>
     )
 }

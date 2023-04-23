@@ -1,5 +1,6 @@
 import os
 import time
+from datetime import datetime, timedelta
 
 from core.services.email_service import EmailService
 from core.services.jwt_service import ActivateToken, JWTService, RecoveryToken
@@ -47,7 +48,15 @@ class RequestRecoveryPasswordView(GenericAPIView):
         serializer = EmailSerializer(data=data)
         serializer.is_valid(raise_exception=True)
         user = UserModel.objects.find_by_email(email=serializer.data['email'])
+
+        cache_key = f"password_recovery:{user.email}"
+        last_request_time = cache.get(cache_key)
+        if last_request_time and (datetime.now() - last_request_time) < timedelta(minutes=10):
+            return Response('You can do only one request every 10 minutes.', status=status.HTTP_403_FORBIDDEN)
+
         EmailService.recovery_password_by_email(user)
+        cache.set(cache_key, datetime.now(), timeout=600)
+
         return Response(status=status.HTTP_200_OK)
 
 
@@ -94,6 +103,7 @@ class RequestOfActivationLinkView(GenericAPIView):
 
         cache_key = f'request_activation_{user.id}'
         last_request = cache.get(cache_key)
+
         if last_request and (last_request + 300) > time.time():
             return Response('You can make only one request every 5 minutes.', status.HTTP_403_FORBIDDEN)
 

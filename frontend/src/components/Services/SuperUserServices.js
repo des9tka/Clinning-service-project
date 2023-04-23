@@ -16,7 +16,7 @@ const SuperUserServices = () => {
 
     useEffect(() => {
         dispatch(serviceActions.setAllServices({query}))
-    },[query])
+    }, [query])
 
     const prev = () => {
         setQuery(value => ({page: query.get('page') - 1}))
@@ -31,15 +31,24 @@ const SuperUserServices = () => {
             {loading && <LoadingPage/>}
             {error && <ErrorPage error={error}/>}
 
-            <button disabled={!prevPage} onClick={() => prev()}>prev</button>
-            <button disabled={!nextPage} onClick={() => next()}>next</button>
+            <div className={'services-div'}>
+                <div className={'service-form-div'}>
+                    <ServiceForm/>
+                </div>
+                <div className={'services-wrap'}>
+                    {services && services.map(service => <SuperUserService service={service}/>)}
+                </div>
+            </div>
 
-            <ServiceForm/>
-
-            {services && services.map(service => <SuperUserService service={service}/>)}
+            <div className={'service-buttons-wrap'}>
+                <button className={'prev-button'} disabled={!prevPage} onClick={() => prev()}>prev</button>
+                <button className={'next-button'} disabled={!nextPage} onClick={() => next()}>next</button>
+            </div>
         </div>
     )
 }
+
+
 export {
     SuperUserServices
 };

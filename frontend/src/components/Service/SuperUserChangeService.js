@@ -13,7 +13,7 @@ const SuperUserChangeService = ({service, id}) => {
     }
 
     return (
-        <div>
+        <div className={'service-div'}>
             <div>Name: {service.name}</div>
             <div>City: {service.city}</div>
             <div>Address: {service.address}</div>
