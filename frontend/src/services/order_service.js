@@ -11,7 +11,6 @@ const order_service = {
     getOrderEmployeesById: (id) => axiosService.get(`${urls.ORDERS}/${id}${orderAttr.employees}`),
     take: (id) => axiosService.patch(`${urls.ORDERS}/${id}${orderAttr.take}`),
     confirm: (id) => axiosService.patch(`${urls.ORDERS}/${id}${orderAttr.confirm}`),
-    // approve: (id) => axiosService.patch(`${urls.ORDERS}/${id}${orderAttr.approve}`),
     done: (id, rate) => axiosService.patch(`${urls.ORDERS}/${id}${orderAttr.done}${rate}`),
     reject: (id, data) => axiosService.patch(`${urls.ORDERS}/${id}${orderAttr.reject}`, {data}),
     update: (id, order) => axiosService.patch(`${urls.ORDERS}/${id}${orderAttr.patch}`, order),

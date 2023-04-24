@@ -21,6 +21,9 @@ from .serializers import CustomTokenObtainPairSerializer, EmailSerializer, Passw
 
 
 class CustomTokenObtainPairView(TokenObtainPairView):
+    """
+    Creating a pairs tokens.
+    """
     serializer_class = CustomTokenObtainPairSerializer
 
     def post(self, request, *args, **kwargs):
@@ -30,6 +33,9 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
 
 class ActivateUserByTokenView(GenericAPIView):
+    """
+    Self changing 'active' status of user by token, from false to true.
+    """
     permission_classes = AllowAny,
 
     def patch(self, *args, **kwargs):
@@ -41,6 +47,9 @@ class ActivateUserByTokenView(GenericAPIView):
 
 
 class RequestRecoveryPasswordView(GenericAPIView):
+    """
+    Request of recovery password link to email.
+    """
     permission_classes = AllowAny,
 
     def post(self, *args, **kwargs):
@@ -61,6 +70,9 @@ class RequestRecoveryPasswordView(GenericAPIView):
 
 
 class RecoveryPasswordByTokenView(GenericAPIView):
+    """
+    Changing password by token.
+    """
     permission_classes = AllowAny,
 
     def post(self, *args, **kwargs):
@@ -70,7 +82,7 @@ class RecoveryPasswordByTokenView(GenericAPIView):
         try:
             serializer.is_valid(raise_exception=True)
         except (Exception,):
-            return Response('Invalid password.', status=status.HTTP_400_BAD_REQUEST)
+            return Response('Invalid email or password.', status=status.HTTP_400_BAD_REQUEST)
 
         user = JWTService.validate_token(token, RecoveryToken)
         old_password = user.password
@@ -85,6 +97,9 @@ class RecoveryPasswordByTokenView(GenericAPIView):
 
 
 class TokenValidCheck(GenericAPIView):
+    """
+    Checking of valid token.
+    """
     def get(self, *args, **kwargs):
         return Response('Authenticated')
 
@@ -96,6 +111,9 @@ class StripeTokenView(GenericAPIView):
 
 
 class RequestOfActivationLinkView(GenericAPIView):
+    """
+     Request of activation link to email.
+    """
     permission_classes = AllowAny,
 
     def post(self, request, *args, **kwargs):

@@ -38,7 +38,7 @@ const RecoveryPasswordPage = () => {
 
     return (
         <div className={'password-recovery-div'}>
-            <form onSubmit={handleSubmit(change)}>
+            <form className={'password-recovery-form'} onSubmit={handleSubmit(change)}>
                 <div>
                     {errors.password && <div className={'error-message'}>{errors.password.message}</div>}
                     {message !== '' && <div className={'message'}>{message}</div>}

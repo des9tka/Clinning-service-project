@@ -34,6 +34,14 @@ UserModel: Type[User] = get_user_model()
 
 
 class UserListCreateView(ListCreateAPIView):
+    """
+    get:
+        List all users.
+    post:
+        Create new user.
+
+    (provided filter)
+    """
     serializer_class = UserSerializer
     queryset = UserModel.objects.all()
     pagination_class = UserPagePagination
@@ -57,7 +65,6 @@ class UserListCreateView(ListCreateAPIView):
                     Q(profile__age__lte=query) |
                     Q(profile__phone__exact=query)
                 )
-                print(query)
                 return queryset
             except (Exception,):
                 print(Exception)
@@ -71,9 +78,12 @@ class UserListCreateView(ListCreateAPIView):
 
 
 class ChangeUserServiceView(GenericAPIView):
+    """
+    Changing service to making an order.
+    """
+
     def patch(self, *args, **kwargs):
         pk = kwargs['pk']
-        print(pk)
         user = self.request.user
         service = get_object_or_404(ServiceModel, pk=pk)
         user.service = service
@@ -83,6 +93,9 @@ class ChangeUserServiceView(GenericAPIView):
 
 
 class ChangeEmployeeServiceView(GenericAPIView):
+    """
+    Changing service of employee.
+    """
     permission_classes = IsSuperUser,
 
     def patch(self, *args, **kwargs):
@@ -129,6 +142,9 @@ class ToAdminView(SuperUserTools, ABC):
 
 
 class ToUserView(AdminTools, ABC):
+    """
+    Changing status of user - from employee to user.
+    """
 
     def patch(self, *args, **kwargs):
         user: User = self.get_object()
@@ -142,6 +158,9 @@ class ToUserView(AdminTools, ABC):
 
 
 class ToEmployeeView(AdminTools, ABC):
+    """
+        Changing status of user - from user to employee.
+    """
 
     def patch(self, *args, **kwargs):
         user: User = self.get_object()
@@ -155,6 +174,9 @@ class ToEmployeeView(AdminTools, ABC):
 
 
 class UserActivateView(AdminTools, ABC):
+    """
+        Changing active status of user, from false to true.
+    """
 
     def patch(self, *args, **kwargs):
         user: User = self.get_object()
@@ -166,6 +188,9 @@ class UserActivateView(AdminTools, ABC):
 
 
 class UserDeactivateView(AdminTools, ABC):
+    """
+        Changing active status of user, from true to false.
+    """
 
     def patch(self, *args, **kwargs):
         user: User = self.get_object()
@@ -179,6 +204,9 @@ class UserDeactivateView(AdminTools, ABC):
 
 
 class AddOrderToUserView(GenericAPIView):
+    """
+    Making an order by user.
+    """
     def post(self, *args, **kwargs):
         data = self.request.data
         user = self.request.user
@@ -187,7 +215,6 @@ class AddOrderToUserView(GenericAPIView):
         order_serializer = OrderSerializer(data=data)
         order_serializer.is_valid(raise_exception=True)
         order_serializer.save(user=user, service=service, rating=user.profile.rating)
-        files = self.request.FILES
         order = OrderModel.objects.latest('id')
         for key in files:
             serializer = OrderPhotoSerializer(data={'photos': files[key]})
@@ -198,13 +225,15 @@ class AddOrderToUserView(GenericAPIView):
 
 
 class ProfileUpdateView(UpdateAPIView):
+    """
+    Patch the profile of user.
+    """
     serializer_class = ProfileSerializer
     http_method_names = ('patch',)
 
     def get_object(self):
         if not hasattr(self.request.user, 'profile'):
             data = self.request.data
-            print(data)
             serializer = ProfileSerializer(data=data)
             serializer.is_valid(raise_exception=True)
             serializer.save(user=self.request.user)
@@ -212,12 +241,21 @@ class ProfileUpdateView(UpdateAPIView):
 
 
 class RetrieveDestroyUserView(RetrieveDestroyAPIView):
+    """
+    get:
+        List user by id.
+    delete:
+        Delete user by Id.
+    """
     queryset = UserModel.objects.all()
     serializer_class = UserSerializer
     permission_classes = AllowAny,
 
 
 class AddUserPhotoView(UpdateAPIView):
+    """
+    Add photo to profile user.
+    """
     queryset = UserModel.objects.all()
     serializer_class = UserPhotoSerializer
 
@@ -226,6 +264,9 @@ class AddUserPhotoView(UpdateAPIView):
 
 
 class ListUserOrdersView(ListAPIView):
+    """
+    List user`s orders.
+    """
     pagination_class = OrderPagePagination
     serializer_class = OrderSerializer
     filterset_class = OrderFilter
@@ -235,12 +276,18 @@ class ListUserOrdersView(ListAPIView):
 
 
 class DeleteUserView(DestroyAPIView):
+    """
+    Delete user by Id.
+    """
     permission_classes = IsSuperUser,
     queryset = UserModel.objects.all()
     serializer_class = UserSerializer
 
 
 class GetSelfUserView(GenericAPIView):
+    """
+    List self request user.
+    """
     def get(self, *args, **kwargs):
         user = self.request.user
         serializer = UserSerializer(instance=user)
@@ -248,6 +295,9 @@ class GetSelfUserView(GenericAPIView):
 
 
 class GetUserByTokenView(GenericAPIView):
+    """
+    List user by token.
+    """
     permission_classes = AllowAny,
 
     def get(self, *args, **kwargs):

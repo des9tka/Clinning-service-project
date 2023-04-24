@@ -1,14 +1,8 @@
 from core.pagination.page_pagination import OrderPagePagination, ServicePagePagination
 
 from rest_framework import status
-from rest_framework.generics import (
-    DestroyAPIView,
-    GenericAPIView,
-    ListAPIView,
-    ListCreateAPIView,
-    RetrieveUpdateDestroyAPIView,
-)
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.generics import GenericAPIView, ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 from apps.orders.serializers import OrderSerializer
@@ -20,6 +14,12 @@ from .serializers import ServicePhotoSerializer, ServiceSerializer
 
 
 class ServiceListCreateView(ListCreateAPIView):
+    """
+    get:
+        List service by Id.
+    post:
+        Create service.
+    """
     queryset = ServiceModel.objects.all()
     serializer_class = ServiceSerializer
     pagination_class = ServicePagePagination
@@ -32,6 +32,9 @@ class ServiceListCreateView(ListCreateAPIView):
 
 
 class ServiceOrdersView(ListAPIView):
+    """
+    Getting orders by service Id that equal to request user Id.
+    """
     pagination_class = OrderPagePagination
     serializer_class = OrderSerializer
 
@@ -41,6 +44,9 @@ class ServiceOrdersView(ListAPIView):
 
 
 class ServiceOrderRetrieveView(GenericAPIView):
+    """
+    List orders by service Id.
+    """
     permission_classes = AllowAny,
 
     def get(self, *args, **kwargs):
@@ -51,12 +57,23 @@ class ServiceOrderRetrieveView(GenericAPIView):
 
 
 class ServiceRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
+    """
+    get:
+        List service by Id.
+    patch:
+        Service partial changing.
+    delete:
+        Delete service by Id.
+    """
     permission_classes = IsSuperUser,
     queryset = ServiceModel.objects.all()
     serializer_class = ServiceSerializer
 
 
 class AddPhotoToService(GenericAPIView):
+    """
+    Add photo to service.
+    """
     queryset = ServiceModel.objects.all()
     permission_classes = AllowAny,
 

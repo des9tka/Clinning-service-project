@@ -93,7 +93,7 @@ const ProfileForm = () => {
 
             <div id={'img-wrap'} className={'img-wrap'}>
 
-                {!previewAvatar && self?.profile?.user_photo && <img className={'avatar-img'} src={`${BASE_URL}/${self.profile.user_photo}`} onClick={() => {
+                {!previewAvatar && self?.profile?.user_photo && <img className={'avatar-img'} src={`${BASE_URL}${self.profile.user_photo}`} onClick={() => {
                     document.getElementById('avatar-input').click()
                 }} alt="photo"/>}
 

@@ -18,7 +18,6 @@ from .extra_conf import *
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -45,8 +44,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_filters',
+    'drf_yasg',
 
-    #my_apps
+    # my_apps
     'core',
     'apps.users',
     'apps.c_services',
@@ -84,7 +84,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'configs.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
@@ -98,7 +97,6 @@ DATABASES = {
         'PORT': os.environ.get('MYSQL_PORT')
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -118,7 +116,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -130,11 +127,12 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/drf-static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'storage')
 MEDIA_URL = '/media/'
 
@@ -144,4 +142,3 @@ MEDIA_URL = '/media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 APPEND_SLASH = False
-

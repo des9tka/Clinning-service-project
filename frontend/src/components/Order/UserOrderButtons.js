@@ -1,7 +1,7 @@
 import {useNavigate} from "react-router-dom";
+import {useEffect, useState} from "react";
 
 import {order_service} from "../../services";
-import {useEffect, useState} from "react";
 
 
 const UserOrderButtons = ({status, id}) => {
@@ -20,7 +20,7 @@ const UserOrderButtons = ({status, id}) => {
 
     useEffect(() => {
         if (status === 6) {
-            const select = document.getElementById('select')
+            const select = document.getElementById('user-select')
             for (let i = 11; i <= 50; i++) {
                 const option = document.createElement('option');
                 const value = (i / 10).toFixed(1);
@@ -29,7 +29,7 @@ const UserOrderButtons = ({status, id}) => {
                 select.appendChild(option);
             }
         }
-    })
+    }, [])
 
     return (
         <div>
@@ -43,7 +43,7 @@ const UserOrderButtons = ({status, id}) => {
             </div>}
 
             {status === 6 && <div>
-                <select id={'select'} onChange={(e) => setRate(e.target.value)}></select>
+                <select className={'user-order-rate-select'} id={'user-select'} onChange={(e) => setRate(e.target.value)}></select>
                 <button disabled={!rate} onClick={() => navigate(`/office/order/${id}/payment/${rate}`)}>Pay</button>
             </div>}
         </div>

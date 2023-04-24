@@ -26,6 +26,9 @@ from .serializers import OrderPhotoSerializer, OrderSerializer, OrderStatusSeria
 
 
 class OrderListView(ListAPIView):
+    """
+    List all orders. (provided filters, first - checks validity of the order, second - filters by status)
+    """
     queryset = OrderModel.objects.all()
     serializer_class = OrderSerializer
     permission_classes = [IsAdmin | IsEmployee | IsSuperUser | IsAuthenticated]
@@ -44,6 +47,7 @@ class OrderListView(ListAPIView):
         date_filter = Q(date__lt=date)
         time_filter = Q(date__exact=date, time__lte=time)
 
+        """Checking for invalid orders by date/time."""
         OrderModel.objects.filter(
             Q(status_id__lte=6) & (date_filter | time_filter)
         ).update(status=rejected_status)
@@ -59,6 +63,9 @@ class OrderListView(ListAPIView):
 
 
 class OrderSearchView(ListAPIView):
+    """
+    List orders by using searcher.
+    """
     queryset = OrderModel.objects.all()
     serializer_class = OrderSerializer
     permission_classes = [IsAdmin | IsEmployee | IsSuperUser | IsAuthenticated]
@@ -74,6 +81,9 @@ class OrderSearchView(ListAPIView):
 
 
 class AddUserOrderToEmployeeView(GenericAPIView):
+    """
+    Adds employees to user order. (if order employees quantity full - status changes)
+    """
     queryset = OrderModel.objects.all()
 
     def patch(self, *args, **kwargs):
@@ -102,6 +112,9 @@ class AddUserOrderToEmployeeView(GenericAPIView):
 
 
 class PatchTheOrderView(GenericAPIView):
+    """
+    Partially changing order. (provides price and employees quantity)
+    """
     queryset = OrderModel
     permission_classes = IsAdmin,
 
@@ -118,6 +131,9 @@ class PatchTheOrderView(GenericAPIView):
 
 
 class RemoveEmployeeFromOrder(GenericAPIView):
+    """
+    Remove employee from user order by employee and order id.
+    """
     permission_classes = AllowAny,
 
     def patch(self, *arks, **kwargs):
@@ -136,6 +152,9 @@ class RemoveEmployeeFromOrder(GenericAPIView):
 
 
 class RejectOrderView(GenericAPIView):
+    """
+    Changing status of order on 'rejected'.
+    """
     permission_classes = IsAuthenticated,
     queryset = OrderModel.objects.all()
 
@@ -157,6 +176,9 @@ class RejectOrderView(GenericAPIView):
 
 
 class UserConfirmOrderView(GenericAPIView):
+    """
+    User confirm order which was pathed by admin.
+    """
 
     def patch(self, *args, **kwargs):
         pk = kwargs['pk']
@@ -170,6 +192,9 @@ class UserConfirmOrderView(GenericAPIView):
 
 
 class EmployeeDoneOrderView(GenericAPIView):
+    """
+    Changing status of order on 'done' and rate user.
+    """
     queryset = OrderModel.objects.all()
 
     def patch(self, *args, **kwargs):
@@ -198,12 +223,18 @@ class EmployeeDoneOrderView(GenericAPIView):
 
 
 class OrderStatusListCreateView(ListCreateAPIView):
+    """
+    List of order statuses.
+    """
     queryset = OrderStatusModel.objects.all()
     serializer_class = OrderStatusSerializer
     permission_classes = AllowAny,
 
 
 class AddPhotoToOrder(GenericAPIView):
+    """
+    Add photo to order by user.
+    """
     queryset = OrderModel.objects.all()
     permission_classes = AllowAny,
 
@@ -219,12 +250,21 @@ class AddPhotoToOrder(GenericAPIView):
 
 
 class RetrieveDeleteOrderView(RetrieveDestroyAPIView):
+    """
+    get:
+        List order by Id.
+    delete:
+        Delete order by Id.
+    """
     queryset = OrderModel.objects.all()
     serializer_class = OrderSerializer
     permission_classes = IsAuthenticated,
 
 
 class EmployeeOrdersView(ListAPIView):
+    """
+    List all orders which contains request employee id. (provided filters, first - checks validity of the order, second - filters by status)
+    """
     permission_classes = IsEmployee,
     pagination_class = OrderPagePagination
     queryset = OrderModel.objects.all()
@@ -243,14 +283,15 @@ class EmployeeOrdersView(ListAPIView):
         date_filter = Q(date__lt=date)
         time_filter = Q(date__exact=date, time__lte=time)
 
-        print(time_filter)
-
         OrderModel.objects.filter(
             Q(status_id__lte=6) & (date_filter | time_filter)
         ).update(status=rejected_status)
 
+        print(search_query)
+
         try:
             query = int(search_query)
+            print(type(query))
             queryset = OrderModel.objects.filter(
                 Q(price__exact=query) |
                 Q(rating__exact=query) |
@@ -258,10 +299,9 @@ class EmployeeOrdersView(ListAPIView):
                 Q(status__exact=query) |
                 Q(footage__lt=query)
             )
-            print(query)
             return queryset.objects.filter(employees_current=user.id)
         except (Exception,):
-            print(1)
+            print('exc')
 
         queryset = OrderModel.objects.filter(
             Q(address__contains=search_query) |
@@ -271,6 +311,9 @@ class EmployeeOrdersView(ListAPIView):
 
 
 class StripePaymentIntentView(GenericAPIView):
+    """
+    Setting rating to employees and pay for order.
+    """
     permission_classes = IsAuthenticated,
     queryset = OrderModel
 
@@ -311,6 +354,9 @@ class StripePaymentIntentView(GenericAPIView):
 
 
 class GetOrderEmployeeView(GenericAPIView):
+    """
+    Getting all employees from current order by Id.
+    """
     queryset = OrderModel.objects.all()
 
     def get(self, *args, **kwargs):

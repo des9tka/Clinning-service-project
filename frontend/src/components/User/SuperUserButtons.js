@@ -6,25 +6,27 @@ const SuperUserButtons = ({user}) => {
 
     const navigate = useNavigate();
 
-    const activate = async () => {
-        await user_service.activate(user.id)
-        window.location.reload()
+    const activate = () => {
+        user_service.activate(user.id).then(() => window.location.reload())
     }
-    const deactivate = async () => {
-        await user_service.deactivate(user.id)
-        window.location.reload()
+    const deactivate = () => {
+        user_service.deactivate(user.id).then(() => window.location.reload())
     }
-    const toUser = async () => {
-        await user_service.toUser(user.id)
-        window.location.reload()
+    const toUser = () => {
+        user_service.toUser(user.id).then(() => window.location.reload())
     }
-    const toAdmin = async () => {
-        await user_service.toAdmin(user.id)
-        window.location.reload()
+    const toAdmin = () => {
+        user_service.toAdmin(user.id).then(() => window.location.reload())
     }
-    const toEmployee = async () => {
-        await user_service.toEmployee(user.id)
-        window.location.reload()
+    const toEmployee = () => {
+        user_service.toEmployee(user.id).then(() => window.location.reload())
+    }
+
+    const userDelete = () => {
+        const confirm = prompt(`Are you sure to delete this user? Write '${user.profile?.name}' to confirm.`)
+        if (confirm === user.profile?.name) {
+            user_service.delete(user.id).then(() => window.location.reload())
+        }
     }
 
     return (
@@ -35,6 +37,7 @@ const SuperUserButtons = ({user}) => {
             {!user.is_staff && <button onClick={() => toAdmin()}>To Amin</button>}
             {!user.is_employee && <button onClick={() => toEmployee()}>To Employee</button>}
             {(user.is_staff || user.is_employee) && <button onClick={() => navigate(`/superuser/users/${user.id}/change_service`)}>Change Service</button>}
+            <button onClick={() => userDelete()}>delete {user.profile?.name}</button>
         </div>
     )
 }

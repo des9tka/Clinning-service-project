@@ -1,4 +1,4 @@
-const BASE_URL = '/api'
+const BASE_URL = '/api/v1'
 
 
 const urls = {
@@ -12,8 +12,7 @@ const urls = {
         request_password_recovery: '/auth/request_password_recovery',
         stripe_token: 'auth/stripe_token',
         activate_request: '/auth/activate_request'
-    },
-    MEDIA: '/media'
+    }
 }
 
 export {

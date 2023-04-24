@@ -47,7 +47,7 @@ const Users = () => {
 
             <div className={'buttons-wrap'}>
                 <button className={'prev-button'} disabled={!prevPage} onClick={() => prev()}>Prev</button>
-                <input className={'user-searcher'} type="text" id={'searcher'} onChange={(e) => search(e)} value={searcher}/>
+                <input className={'searcher'} placeholder={'search...'} type="text" id={'searcher'} onChange={(e) => search(e)} value={searcher}/>
                 <button className={'next-button'} disabled={!nextPage} onClick={() => next()}>Next</button>
             </div>
             <div className={'users-div'}>

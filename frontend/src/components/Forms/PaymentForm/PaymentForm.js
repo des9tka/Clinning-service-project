@@ -1,9 +1,9 @@
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js"
-
 import {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 
 import {order_service} from "../../../services";
+import {ErrorPage} from "../../Pages";
 
 const checkoutFormOptions = {
   style: {
@@ -54,13 +54,14 @@ const PaymentForm = ({ success = () => {} }) => {
 
       } catch ({message, response}) {
         console.log(response ? response.data : message)
+        return <ErrorPage error={response ? response.data : message}/>
       }
     }
   }
 
   return (
-    <form onSubmit={handleSubmit} className="checkout-form">
-      <CardElement options={checkoutFormOptions} />
+    <form onSubmit={handleSubmit} className={"checkout-form"} style={{ maxWidth: '500px' }}>
+      <CardElement options={checkoutFormOptions} style={{ base: { fontSize: '16px' } }}/>
       <button>Pay</button>
     </form>
   )

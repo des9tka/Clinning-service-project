@@ -16,6 +16,7 @@ sqlparse = "==0.4.3"
 tzdata = "==2022.7"
 pillow = "*"
 stripe = "*"
+drf-yasg = "*"
 
 
 [dev-packages]

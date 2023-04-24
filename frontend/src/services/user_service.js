@@ -4,6 +4,7 @@ import {urls, userAttr} from "../configs";
 
 const user_service = {
     getAll: (page = 1, searcher = '') => axiosService.get(`${urls.USERS}?searcher=${searcher}`, {params: {page}}),
+    delete: (id) => axiosService.delete(`${urls.USERS}/${id}`),
     getSelf: () => axiosService.get(`${urls.USERS}${userAttr.self}`),
     getOrders: (page = 1, status = 1) => axiosService.get(`${urls.USERS}${userAttr.orders}`, {params: {page, status}}),
     getById: (id) => axiosService.get(`${urls.USERS}/${id}`),
