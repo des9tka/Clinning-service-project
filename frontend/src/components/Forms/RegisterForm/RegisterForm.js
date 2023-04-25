@@ -44,12 +44,18 @@ const RegisterForm = () => {
     return (
         <form className={'register-form'} onSubmit={handleSubmit(reg)}>
             {state && <h3>{state}</h3>}
-            <input type="text" placeholder={'email'} {...register('email')}/>
-            <input type="text" placeholder={'password'} {...register('password')}/>
-            <input type="text" placeholder={'name'} {...register('name')}/>
-            <input type="text" placeholder={'surname'} {...register('surname')}/>
-            <input type="number" placeholder={'age'} {...register('age')}/>
-            <input type="text" placeholder={'phone'} {...register('phone')}/><br/>
+            <label>Email</label>
+            <input type="text" {...register('email')}/>
+            <label>Password</label>
+            <input type="text" {...register('password')}/>
+            <label>Name</label>
+            <input type="text" {...register('name')}/>
+            <label>Surname</label>
+            <input type="text" {...register('surname')}/>
+            <label>Age</label>
+            <input type="number" {...register('age')}/>
+            <label>Phone</label>
+            <input type="text" {...register('phone')}/><br/>
             <button className={'register-form-button'} disabled={!isValid}>Register</button>
 
             <div className={'register-error-div'}>

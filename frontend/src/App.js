@@ -7,7 +7,7 @@ import {
     HomePage, LoginPage,
     PaymentPage,
     ProfilePage, RegisterPage,
-    ServicePage, SuperUserAboutPage, SuperUserDetailsPage, SuperUserOrdersPage, SuperUserUsersPage,
+    ServicePage, SuperUserAboutPage, SuperUserOrderDetailsPage, SuperUserOrdersPage, SuperUserUsersPage,
     UserAboutPage, EmployeesOrderDetailsPage,
     UserOfficePage,SuperUserServiceDetails,
     UserOrderDetailsPage, RecoveryPasswordPage,
@@ -72,7 +72,7 @@ function App() {
                     <Route path={'office'} element={<ProfilePage/>}/>
                     <Route path={'users/:id/change_service'} element={<ChangeServicePage/>}/>
                     <Route path={'orders'} element={<SuperUserOrdersPage/>}/>
-                    <Route path={'orders/:id/details'} element={<SuperUserDetailsPage/>}/>
+                    <Route path={'orders/:id/details'} element={<SuperUserOrderDetailsPage/>}/>
                     <Route path={'about'} element={<SuperUserAboutPage/>}/>
                 </Route>
 

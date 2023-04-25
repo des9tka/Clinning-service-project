@@ -62,10 +62,14 @@ const ProfileForm = () => {
 
     return (
         <form className={'profile-form'} onSubmit={handleSubmit(profileUpdate)} encType="multipart/form-data">
-            <input type="text" placeholder={'name'} {...register('name')} />
-            <input type="text" placeholder={'surname'} {...register('surname')}/>
-            <input type="number" placeholder={'age'} {...register('age')}/>
-            <input type="text" placeholder={'phone'} {...register('phone')}/>
+            <label>Name</label>
+            <input type="text" {...register('name')} />
+            <label>Surname</label>
+            <input type="text" {...register('surname')}/>
+            <label>Age</label>
+            <input type="number" {...register('age')}/>
+            <label>Phone</label>
+            <input type="text" {...register('phone')}/>
 
             <input type="file" id={'avatar-input'} className={'avatar-input'} onChange={(e) => {
                 let avatarPreview = null;

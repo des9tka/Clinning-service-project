@@ -3,7 +3,7 @@ import {useEffect} from "react";
 import {useParams} from "react-router-dom";
 
 import {UserOrderButtons} from "../../Order";
-import {OrderPhotosBuilder} from "../../OrderPhoto";
+import {PhotosBuilder} from "../../OrderPhoto";
 import {EmployeesBuilder} from "../../EmployeesBuilder";
 import {orderActions, userActions} from "../../../redux";
 import {LoadingPage, ErrorPage} from "../CommonPages";
@@ -49,7 +49,7 @@ const UserOrderDetailsPage = () => {
 
 
                     <div className={'order_photo_wrap'}>
-                        {order.photos.map((photo, index) => <OrderPhotosBuilder key={index} photo={photo}/>)}
+                        {order.photos.map((photo, index) => <PhotosBuilder key={index} photo={photo}/>)}
                     </div>
 
                     {order.status !== 1 && order.status !== 2 && <h3>Employees</h3>}

@@ -2,7 +2,7 @@ import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 import {ErrorPage, LoadingPage} from "../CommonPages";
-import {OrderPhotosBuilder} from "../../OrderPhoto";
+import {PhotosBuilder} from "../../OrderPhoto";
 import {EmployeesBuilder} from "../../EmployeesBuilder";
 import {EmployeeOrderButtons} from "../../Order/EmployeeOrderButtons";
 import {orderActions, userActions} from "../../../redux";
@@ -44,7 +44,7 @@ const EmployeesOrderDetailsPage = () => {
                 <div>Employees: {order.employees_current.length}/{order.employees_quantity}</div>
 
                 <div className={'order_photo_wrap'}>
-                    {order.photos.map((photo, index) => <OrderPhotosBuilder key={index} photo={photo}/>)}
+                    {order.photos.map((photo, index) => <PhotosBuilder key={index} photo={photo}/>)}
                 </div>
 
                 <h3>Employees</h3>

@@ -4,6 +4,7 @@ from datetime import datetime
 
 import pytz
 import stripe
+from configs import settings
 from core.pagination.page_pagination import OrderPagePagination
 from core.services.email_service import EmailService
 
@@ -36,6 +37,8 @@ class OrderListView(ListAPIView):
     filterset_class = OrderFilter
 
     def get_queryset(self):
+        print(settings.MEDIA_ROOT)
+        print(settings.MEDIA_URL)
         user_confirmed_status = OrderStatusModel.objects.get(name='user_confirmed')
         rejected_status = OrderStatusModel.objects.get(name='rejected')
         tz = pytz.timezone('Europe/Kiev')

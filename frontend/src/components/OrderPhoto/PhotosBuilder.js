@@ -1,6 +1,6 @@
 import {BASE_URL} from "../../configs";
 
-const OrderPhotosBuilder = ({photo}) => {
+const PhotosBuilder = ({photo}) => {
 
     return (
         <div>
@@ -9,5 +9,6 @@ const OrderPhotosBuilder = ({photo}) => {
     )
 }
 
-
-export {OrderPhotosBuilder};
+export {
+    PhotosBuilder
+};

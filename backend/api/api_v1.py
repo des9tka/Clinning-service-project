@@ -26,9 +26,7 @@ urlpatterns = [
     path('/services', include('apps.c_services.urls')),
     path('/orders', include('apps.orders.urls')),
     path('/doc', schema_view.with_ui('swagger', cache_timeout=0))
-]
-
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 handler400 = 'rest_framework.exceptions.bad_request'
 handler500 = 'rest_framework.exceptions.server_error'

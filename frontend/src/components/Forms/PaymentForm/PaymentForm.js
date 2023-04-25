@@ -1,4 +1,4 @@
-import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js"
+import {CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 
@@ -25,7 +25,7 @@ const PaymentForm = ({ success = () => {} }) => {
   const stripe = useStripe();
   const elements = useElements();
   const {id: url, rate} = useParams();
-  const [amount, setAmount] = useState()
+  const [amount, setAmount] = useState();
   const navigate = useNavigate();
 
   useEffect(() => {

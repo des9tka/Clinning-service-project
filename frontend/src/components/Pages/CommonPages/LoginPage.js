@@ -8,7 +8,7 @@ const LoginPage = () => {
     auth_service.deleteTokens()
 
     return (
-        <div>
+        <div className={'login-page-div'}>
             <h1>SIGN IN</h1>
             <LoginForm/>
             <div className={'swapLinks-div'}>
