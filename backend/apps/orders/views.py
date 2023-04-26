@@ -4,7 +4,6 @@ from datetime import datetime
 
 import pytz
 import stripe
-from configs import settings
 from core.pagination.page_pagination import OrderPagePagination
 from core.services.email_service import EmailService
 
@@ -37,12 +36,14 @@ class OrderListView(ListAPIView):
     filterset_class = OrderFilter
 
     def get_queryset(self):
-        print(settings.MEDIA_ROOT)
-        print(settings.MEDIA_URL)
-        user_confirmed_status = OrderStatusModel.objects.get(name='user_confirmed')
-        rejected_status = OrderStatusModel.objects.get(name='rejected')
-        tz = pytz.timezone('Europe/Kiev')
         user = self.request.user
+        tz = pytz.timezone('Europe/Kiev')
+        queryset = OrderModel.objects.all()
+        search_query = self.request.GET.get('search')
+        rejected_status = OrderStatusModel.objects.get(name='rejected')
+        user_confirmed_status = OrderStatusModel.objects.get(name='user_confirmed')
+
+        print(search_query)
 
         time = datetime.now(tz).strftime("%H:%M:%S")
         date = datetime.now(tz).strftime("%Y-%m-%d")
@@ -50,37 +51,45 @@ class OrderListView(ListAPIView):
         date_filter = Q(date__lt=date)
         time_filter = Q(date__exact=date, time__lte=time)
 
-        """Checking for invalid orders by date/time."""
+        # Checking for invalid orders by date/time.
         OrderModel.objects.filter(
             Q(status_id__lte=6) & (date_filter | time_filter)
         ).update(status=rejected_status)
 
-        if user.is_employee and not user.is_superuser:
-            return OrderModel.objects.filter(service_id=user.service, status=user_confirmed_status, rating__lte=user.profile.rating).order_by('-rating')
-        elif user.is_superuser:
-            return OrderModel.objects.all().order_by('-rating')
-        elif user.is_staff and not user.is_superuser:
-            return OrderModel.objects.filter(service_id=user.service).order_by('-rating')
+        if search_query and search_query != '':
+            if search_query.isnumeric():
+                queryset = queryset.filter(
+                    Q(service_id__exact=int(search_query)) |
+                    Q(id__exact=int(search_query)) |
+                    Q(price=int(search_query)) |
+                    Q(footage=int(search_query))
+                )
+            elif search_query.replace('.', '', 1).isdigit():
+                queryset = queryset.filter(
+                    Q(rating=float(search_query))
+                )
+            else:
+                queryset = queryset.filter(
+                    Q(address__istartswith=search_query) |
+                    Q(task_description__icontains=search_query)
+                )
+
+            if user.is_staff:
+                return queryset.filter(service_id=user.service_id).order_by('-rating')
+            elif user.is_employee:
+                return queryset.filter(service_id=user.service_id, rating__lte=user.profile.rating)
+            else:
+                return queryset.filter(user_id=user)
+
         else:
-            return OrderModel.objects.filter(user_id=user.id).order_by('-rating')
-
-
-class OrderSearchView(ListAPIView):
-    """
-    List orders by using searcher.
-    """
-    queryset = OrderModel.objects.all()
-    serializer_class = OrderSerializer
-    permission_classes = [IsAdmin | IsEmployee | IsSuperUser | IsAuthenticated]
-    pagination_class = OrderPagePagination
-    filterset_class = OrderFilter
-
-    def get_queryset(self):
-        user = self.request.user
-        if user.is_staff:
-            return OrderModel.objects.filter(service_id=user.service_id)
-        else:
-            return OrderModel.objects.filter(user_id=user)
+            if user.is_employee and not user.is_superuser:
+                return OrderModel.objects.filter(service_id=user.service, status=user_confirmed_status, rating__lte=user.profile.rating).order_by('-rating')
+            elif user.is_superuser:
+                return OrderModel.objects.all().order_by('-rating')
+            elif user.is_staff and not user.is_superuser:
+                return OrderModel.objects.filter(service_id=user.service).order_by('-rating')
+            else:
+                return OrderModel.objects.filter(user_id=user.id).order_by('-rating')
 
 
 class AddUserOrderToEmployeeView(GenericAPIView):
@@ -196,7 +205,7 @@ class UserConfirmOrderView(GenericAPIView):
 
 class EmployeeDoneOrderView(GenericAPIView):
     """
-    Changing status of order on 'done' and rate user.
+    Changing status of order on 'done', rate user and order.
     """
     queryset = OrderModel.objects.all()
 
@@ -220,7 +229,7 @@ class EmployeeDoneOrderView(GenericAPIView):
             EmailService.done_order_email(user, order.id)
 
         except (Exception,):
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response(Exception, status=status.HTTP_400_BAD_REQUEST)
 
         return Response(status=status.HTTP_200_OK)
 

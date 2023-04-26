@@ -4,7 +4,7 @@ import {useNavigate, useParams} from "react-router-dom";
 
 import {orderActions, userActions} from "../../../redux";
 import {EmployeesBuilder} from "../../EmployeesBuilder";
-import {PhotosBuilder} from "../../OrderPhoto";
+import {PhotosBuilder} from "../../PhotoBuilder";
 import {LoadingPage, ErrorPage} from "../CommonPages";
 import {order_service} from "../../../services";
 
@@ -17,14 +17,14 @@ const SuperUserOrderDetailsPage = () => {
     const {id} = useParams();
 
     useEffect(() => {
-        dispatch(orderActions.setOrderById({id}))
+        if (!order) {
+            dispatch(orderActions.setOrderById({id}))
+        }
         dispatch(userActions.setOrderEmployeesByOrderId({id}))
-
     }, [])
 
-
-    const deleteOrder = () => {
-        order_service.delete(id)
+    const deleteOrder = async () => {
+        await order_service.delete(id)
         navigate('/superuser/orders')
         window.location.reload()
     }

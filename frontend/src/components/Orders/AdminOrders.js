@@ -1,33 +1,24 @@
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
+import {useSearchParams} from "react-router-dom";
 
-import {order_service} from "../../services";
 import {orderActions} from "../../redux";
 import {AdminOrder} from "../Order";
-import {useSearchParams} from "react-router-dom";
 import {LoadingPage} from "../Pages";
 
 
 const AdminOrders = () => {
 
     const dispatch = useDispatch();
-    const {orders, prevPage, nextPage} = useSelector(state => state.orderReducer);
-    const [query, setQuery] = useSearchParams({page: '1', status: '1'});
     const [searcher, setSearcher] = useState(null)
+    const [query, setQuery] = useSearchParams({page: '1', status: '1'});
+    const {orders, prevPage, nextPage} = useSelector(state => state.orderReducer);
 
     useEffect(() => {
         if (!searcher) {
-            order_service.getAll(query.get('page'), query.get('status')).then(({data}) => {
-                dispatch(orderActions.setOrders(data.data))
-                dispatch(orderActions.setPrevPage(data.prev_page))
-                dispatch(orderActions.setNextPage(data.next_page))
-            }).catch((e) => console.log(e))
+            dispatch(orderActions.setAllOrders({page: query.get('page'), status: query.get('status'),  search: ''}))
         } else if (searcher) {
-            order_service.search(searcher, query.get('page')).then(value => {
-                dispatch(orderActions.setOrders(value.data.data))
-                dispatch(orderActions.setPrevPage(value.data.prev_page))
-                dispatch(orderActions.setNextPage(value.data.next_page))
-            }).catch((e) => console.log(e))
+            dispatch(orderActions.setAllOrders({page: query.get('page'), status: query.get('status'), search: searcher}))
         }
 
     }, [query, searcher])
@@ -80,7 +71,7 @@ const AdminOrders = () => {
                 {search && <button className={'prev-button'} disabled={!prevPage} onClick={() => searchPrev()}>Prev</button>}
 
                 <select className={'admin-order-select'} disabled={searcher} id={'select'} onChange={() => ordersChange()}>
-                    <option value={1}>waiting for approved</option>
+                    <option value={1}>waiting for approve</option>
                     <option value={5}>taken</option>
                     <option value={4}>rejected</option>
                 </select>
@@ -90,7 +81,7 @@ const AdminOrders = () => {
             </div>
 
             <div>
-                <input className={'order-searcher'} type="text" id={'searcher'} onChange={(e) => search(e)} value={searcher}/>
+                <input className={'order-searcher'} type="text" id={'searcher'} placeholder={'search...'} onChange={(e) => search(e)} value={searcher}/>
                 <div className={'admin-orders-div'}>
                     {orders && orders.map(order => <AdminOrder key={order.id} order={order}/>)}
                 </div>

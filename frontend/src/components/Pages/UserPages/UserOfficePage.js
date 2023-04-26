@@ -2,7 +2,6 @@ import {useNavigate} from "react-router-dom";
 
 import {UserOrders} from "../../Orders";
 
-
 const UserOfficePage = () => {
     const navigate = useNavigate();
     return (

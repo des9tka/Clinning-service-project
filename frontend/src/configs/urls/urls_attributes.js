@@ -11,7 +11,8 @@ const userAttr = {
     change_service: '/change_service/',
     change_employee_service: '/change_employee_service/',
     add_photo: '/add_photo',
-    self: '/self'
+    self: '/self',
+    best_employees: '/best_employees'
 };
 
 const serviceAttr = {

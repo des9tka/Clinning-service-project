@@ -16,8 +16,8 @@ const UserOrder = ({order}) => {
             <div>Task: {order.task_description.slice(0, 10)}...</div>
 
             <button onClick={() => {
-                navigate(`/office/order/${order.id}/details`)
                 dispatch(orderActions.setOrder(order))
+                navigate(`/office/order/${order.id}/details`)
             }} className={'order-details-buttons'}>Details</button>
         </div>
     )

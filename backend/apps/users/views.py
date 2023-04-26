@@ -54,27 +54,27 @@ class UserListCreateView(ListCreateAPIView):
             return [IsAdminUser()]
 
     def get_queryset(self):
+        queryset = UserModel.objects.all()
         if self.request.method == 'GET':
             search_query = self.request.GET.get('searcher', '')
 
-            try:
-                query = int(search_query)
-                queryset = User.objects.filter(
-                    Q(id__lte=query) |
-                    Q(profile__rating__lte=query) |
-                    Q(profile__age__lte=query) |
-                    Q(profile__phone__exact=query)
-                )
+            if search_query and search_query != '':
+                if search_query.isnumeric():
+                    queryset = queryset.filter(
+                        Q(id__exact=int(search_query)) |
+                        Q(service_id__exact=int(search_query)) |
+                        Q(profile__age__lte=int(search_query)) |
+                        Q(profile__phone__exact=int(search_query)) |
+                        Q(profile__rating__exact=float(search_query))
+                    )
+                else:
+                    queryset = queryset.filter(
+                        Q(email__icontains=search_query) |
+                        Q(profile__name__icontains=search_query) |
+                        Q(profile__surname__icontains=search_query) |
+                        Q(profile__name__icontains=search_query)
+                    )
                 return queryset
-            except (Exception,):
-                print(Exception)
-
-            queryset = User.objects.filter(
-                Q(email__icontains=search_query) |
-                Q(profile__name__icontains=search_query) |
-                Q(profile__surname__icontains=search_query)
-            )
-            return queryset
 
 
 class ChangeUserServiceView(GenericAPIView):
@@ -207,6 +207,7 @@ class AddOrderToUserView(GenericAPIView):
     """
     Making an order by user.
     """
+
     def post(self, *args, **kwargs):
         data = self.request.data
         user = self.request.user
@@ -288,6 +289,7 @@ class GetSelfUserView(GenericAPIView):
     """
     List self request user.
     """
+
     def get(self, *args, **kwargs):
         user = self.request.user
         serializer = UserSerializer(instance=user)
@@ -305,3 +307,11 @@ class GetUserByTokenView(GenericAPIView):
         user = JWTService.validate_token(token, ActivateToken)
         serializer = UserSerializer(instance=user)
         return Response(serializer.data, status.HTTP_200_OK)
+
+
+class ListBestEmployee(GenericAPIView):
+    permission_classes = AllowAny,
+
+    def get(self, *args, **kwargs):
+        print(UserModel.objects.filter(is_employee='true').order_by('-rating')[:5])
+        return UserModel.objects.filter(is_employee='true').order_by('-rating')[:5]

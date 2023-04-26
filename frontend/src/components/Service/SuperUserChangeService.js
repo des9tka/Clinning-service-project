@@ -1,6 +1,7 @@
 import {useNavigate} from "react-router-dom";
 
 import {user_service} from "../../services";
+import {ErrorPage} from "../Pages";
 
 const SuperUserChangeService = ({service, id}) => {
 
@@ -9,7 +10,9 @@ const SuperUserChangeService = ({service, id}) => {
     const changeService = () => {
         user_service.change_employee_service(id, service.id).then(() => {
             navigate('/superuser/users')
-        }).catch((e) => console.log(e))
+        }).catch((e) => {
+            return <ErrorPage/>
+        })
     }
 
     return (

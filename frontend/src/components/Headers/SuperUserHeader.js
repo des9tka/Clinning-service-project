@@ -10,7 +10,7 @@ const SuperUserHeader = () => {
             <NavLink to={'/superuser/orders'}>Orders</NavLink>
             <NavLink to={'/superuser/office'}>Office</NavLink>
             <NavLink to={'/superuser/about'}>About</NavLink>
-            <NavLink to={'/auth'}>Exit</NavLink>
+            <NavLink to={'/auth/login'}>Exit</NavLink>
         </div>
     )
 }

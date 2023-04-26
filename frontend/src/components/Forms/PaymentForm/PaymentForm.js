@@ -1,4 +1,4 @@
-import {CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import {CardElement, useStripe, useElements} from "@stripe/react-stripe-js";
 import {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 
@@ -6,65 +6,64 @@ import {order_service} from "../../../services";
 import {ErrorPage} from "../../Pages";
 
 const checkoutFormOptions = {
-  style: {
-    base: {
-      fontSize: "16px",
-      color: "#424770",
-      "::placeholder": {
-        color: "#aab7c4",
-      },
+    style: {
+        base: {
+            fontSize: "16px",
+            color: "#424770",
+            "::placeholder": {
+                color: "#aab7c4",
+            },
+        },
+        invalid: {
+            color: "#9e2146",
+        },
     },
-    invalid: {
-      color: "#9e2146",
-    },
-  },
-  hidePostalCode: true,
+    hidePostalCode: true,
 }
 
-const PaymentForm = ({ success = () => {} }) => {
-  const stripe = useStripe();
-  const elements = useElements();
-  const {id: url, rate} = useParams();
-  const [amount, setAmount] = useState();
-  const navigate = useNavigate();
+const PaymentForm = ({success = () => {}}) => {
+    const stripe = useStripe();
+    const elements = useElements();
+    const {id: url, rate} = useParams();
+    const [amount, setAmount] = useState();
+    const navigate = useNavigate();
 
-  useEffect(() => {
-    order_service.getById(url).then((response) => {
-      setAmount((response.data.price) * 100)
-    })
-  },[])
+    useEffect(() => {
+        order_service.getById(url).then((response) => {
+            setAmount((response.data.price) * 100)
+        })
+    }, [])
 
-  const handleSubmit = async (event) => {
-    event.preventDefault()
+    const handleSubmit = async (event) => {
+        event.preventDefault()
 
-    const { error, paymentMethod } = await stripe.createPaymentMethod({
-      type: "card",
-      card: elements.getElement(CardElement),
-    })
+        const {error, paymentMethod} = await stripe.createPaymentMethod({
+            type: "card",
+            card: elements.getElement(CardElement),
+        })
 
-    if (!error) {
-      const {id} = paymentMethod
+        if (!error) {
+            const {id} = paymentMethod
 
-      try {
-        await order_service.payment(id, amount, url, rate)
+            try {
+                await order_service.payment(id, amount, url, rate)
 
-        success()
-        alert('Succeed payment!')
-        navigate('/office')
+                success()
+                alert('Succeed payment!')
+                navigate('/office')
 
-      } catch ({message, response}) {
-        console.log(response ? response.data : message)
-        return <ErrorPage error={response ? response.data : message}/>
-      }
+            } catch ({message, response}) {
+                return <ErrorPage error={response ? response.data : message}/>
+            }
+        }
     }
-  }
 
-  return (
-    <form onSubmit={handleSubmit} className={"checkout-form"} style={{ maxWidth: '500px' }}>
-      <CardElement options={checkoutFormOptions} style={{ base: { fontSize: '16px' } }}/>
-      <button>Pay</button>
-    </form>
-  )
+    return (
+        <form onSubmit={handleSubmit} className={"checkout-form"} style={{maxWidth: '500px'}}>
+            <CardElement options={checkoutFormOptions} style={{base: {fontSize: '16px'}}}/>
+            <button>Pay</button>
+        </form>
+    )
 }
 
 export {

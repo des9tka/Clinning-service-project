@@ -3,6 +3,7 @@ import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 
 import {order_service, user_service} from "../../../services";
+import {ErrorPage} from "../../Pages";
 
 const OrderForm = () => {
 
@@ -25,8 +26,11 @@ const OrderForm = () => {
         }).catch((e) => {
             if ('address' || 'time' || 'date' || 'footage' || 'task_description' in e.response.data) {
                 setState(prevState => ({...prevState, message: 'Some forms is empty. Full it and try again!'}))
+            } else {
+                return <ErrorPage error={e.response.data}/>
             }
         })
+
         try {
             if (newOrder) {
                 for (let i = 0; i < state.files.length; i++) {

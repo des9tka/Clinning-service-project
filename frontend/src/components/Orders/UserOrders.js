@@ -1,10 +1,9 @@
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
+import {useSearchParams} from "react-router-dom";
 
 import {UserOrder} from "../Order";
-import {order_service} from "../../services";
 import {orderActions} from "../../redux";
-import {useSearchParams} from "react-router-dom";
 
 
 const UserOrders = () => {
@@ -16,19 +15,10 @@ const UserOrders = () => {
 
     useEffect(() => {
         if (!searcher) {
-            order_service.getAll(query.get('page'), query.get('status')).then(value => {
-                dispatch(orderActions.setOrders(value.data.data))
-                dispatch(orderActions.setPrevPage(value.data.prev_page))
-                dispatch(orderActions.setNextPage(value.data.next_page))
-            }).catch((e) => console.log(e))
+            dispatch(orderActions.setAllOrders({page: query.get('page'), status: query.get('status'), search: ''}))
         } else if (searcher) {
-            order_service.search(searcher, query.get('page')).then(value => {
-                dispatch(orderActions.setOrders(value.data.data))
-                dispatch(orderActions.setPrevPage(value.data.prev_page))
-                dispatch(orderActions.setNextPage(value.data.next_page))
-            }).catch((e) => console.log(e))
+            dispatch(orderActions.setAllOrders({page: query.get('page'), status: query.get('status'), search: searcher}))
         }
-
     }, [query, searcher])
 
     const prev = () => {

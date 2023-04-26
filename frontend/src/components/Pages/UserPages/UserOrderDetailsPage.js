@@ -3,7 +3,7 @@ import {useEffect} from "react";
 import {useParams} from "react-router-dom";
 
 import {UserOrderButtons} from "../../Order";
-import {PhotosBuilder} from "../../OrderPhoto";
+import {PhotosBuilder} from "../../PhotoBuilder";
 import {EmployeesBuilder} from "../../EmployeesBuilder";
 import {orderActions, userActions} from "../../../redux";
 import {LoadingPage, ErrorPage} from "../CommonPages";
@@ -27,7 +27,6 @@ const UserOrderDetailsPage = () => {
             </div>
         )
     }
-
 
     return (
         <div>

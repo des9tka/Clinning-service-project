@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'django_filters',
     'drf_yasg',
 
-    # my_apps
+    #my_apps
     'core',
     'apps.users',
     'apps.c_services',

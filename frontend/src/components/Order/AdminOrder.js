@@ -8,7 +8,6 @@ const AdminOrder = ({order}) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-
     return (
         <div className={'admin-order-div'}>
             <div>Address: {order.address}</div>

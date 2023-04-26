@@ -9,7 +9,7 @@ const AdminHeader = () => {
             <NavLink to={'orders'}>Orders</NavLink>
             <NavLink to={'office'}>Office</NavLink>
             <NavLink to={'about'}>About</NavLink>
-            <NavLink to={'/auth'}>Exit</NavLink>
+            <NavLink to={'/auth/login'}>Exit</NavLink>
         </div>
     )
 }

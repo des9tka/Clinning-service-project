@@ -8,7 +8,7 @@ const WorkerHeader = () => {
             <NavLink to={'/employee/orders'}>Orders</NavLink>
             <NavLink to={'/employee/office'}>Office</NavLink>
             <NavLink to={'/employee/about'}>About</NavLink>
-            <NavLink to={'/auth'}>Exit</NavLink>
+            <NavLink to={'/auth/login'}>Exit</NavLink>
         </div>
     )
 }

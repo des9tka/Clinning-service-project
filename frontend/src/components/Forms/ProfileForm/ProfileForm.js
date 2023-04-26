@@ -6,7 +6,7 @@ import {useSelector} from "react-redux";
 import {user_service} from "../../../services";
 import {profile_validator} from "../../../validators";
 import {BASE_URL} from "../../../configs";
-import {LoadingPage} from "../../Pages";
+import {ErrorPage, LoadingPage} from "../../Pages";
 
 const ProfileForm = () => {
 
@@ -41,8 +41,8 @@ const ProfileForm = () => {
             .then(() => {
                 window.location.reload()
             })
-            .catch((err) => {
-                console.log(err)
+            .catch((e) => {
+                return <ErrorPage error={e.response.data}/>
             })
     }
 

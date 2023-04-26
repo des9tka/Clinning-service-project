@@ -11,13 +11,12 @@ const EmployeeOfficeOrders = () => {
     const dispatch = useDispatch();
     const {orders, loading, error, nextPage, prevPage} = useSelector(state => state.orderReducer)
     const [query, setQuery] = useSearchParams({page: '1'});
-    const [searcher, setSearcher] = useState('')
     const [button, settButton] = useState('done');
 
     useEffect(() => {
-        dispatch(orderActions.setEmployeeOrders({query, searcher}))
+        dispatch(orderActions.setEmployeeOrders({query, status: 3}))
             .catch((e) => console.log(e))
-    }, [query, searcher])
+    }, [query])
 
     const prev = () => {
         setQuery(value => ({page: value.get('page') - 1}))
@@ -25,17 +24,6 @@ const EmployeeOfficeOrders = () => {
 
     const next = () => {
         setQuery(value => ({page: +value.get('page') + 1}))
-    }
-
-    const search = (e) => {
-        let data = e.target.value
-        let symbol = "&";
-        data = data.replace(/\s+/g, symbol);
-        if (data === ' ') {
-            setSearcher(null)
-        } else {
-            setSearcher(data)
-        }
     }
 
     const buttonChange = () => {
@@ -53,7 +41,6 @@ const EmployeeOfficeOrders = () => {
 
             <div className={'buttons-wrap'}>
                 <button className={'prev-button'} disabled={!prevPage} onClick={() => prev()}>Prev</button>
-                <input className={'employee-order-searcher'} type="text" id={'searcher'} onChange={(e) => search(e)} value={searcher}/>
                 <button className={'next-button'} disabled={!nextPage} onClick={() => next()}>Next</button>
             </div>
 

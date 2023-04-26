@@ -24,6 +24,19 @@ const setUserById = createAsyncThunk(
     }
 )
 
+const setBestEmployee = createAsyncThunk(
+    'userSlice/setBestEmployee',
+    async (_, {rejectWithValue}) => {
+        try {
+            const data = await user_service.bestEmployee()
+            return data
+        } catch (e) {
+            console.log(e)
+            return rejectWithValue(e.response.data)
+        }
+    }
+)
+
 const setOrderEmployeesByOrderId = createAsyncThunk(
     'userSlice/setOrderEmployeesByOrderId',
     async ({id}, {rejectWithValue}) => {
@@ -142,6 +155,20 @@ const userSlice = createSlice({
                 state.loading = false
                 state.error = action.payload
             })
+
+            .addCase(setBestEmployee.pending, (state, action) => {
+                state.loading = true
+            })
+            .addCase(setBestEmployee.fulfilled, (state, action) => {
+                console.log(action.payload)
+                state.loading = false
+                state.error = null
+                state.users = action.payload.data
+            })
+            .addCase(setBestEmployee.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload
+            })
 })
 
 const {reducer: userReducer, actions: {setUsers, setUser, setNextPage, setPrevPage, setError, setSelf}} = userSlice;
@@ -156,7 +183,8 @@ const userActions = {
     setUserById,
     setAllUsers,
     setSelfUser,
-    setOrderEmployeesByOrderId
+    setOrderEmployeesByOrderId,
+    setBestEmployee
 }
 
 export {

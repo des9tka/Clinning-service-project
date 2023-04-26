@@ -32,8 +32,8 @@ const PaymentPage = () => {
         </div>
 
     )
-
 }
+
 export {
     PaymentPage
 };

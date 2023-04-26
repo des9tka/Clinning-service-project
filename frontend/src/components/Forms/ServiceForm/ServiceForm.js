@@ -20,7 +20,6 @@ const ServiceForm = () => {
             c_service_service.add_photos(service.data.id, files).then(() => window.location.reload())
         } catch (e) {
             c_service_service.delete(service.data.id)
-            console.log(e)
         }
     }
 
@@ -54,8 +53,7 @@ const ServiceForm = () => {
 
                 <div className={'upload-photo-div'} onClick={() => {
                     document.getElementById('input-file').click()
-                }
-                }>Upload photo</div>
+                }}>Upload photo</div>
 
                 <div className={'photo-preview-div'}>
                     {files && files.map((file, index) => <div>
@@ -72,7 +70,6 @@ const ServiceForm = () => {
                         {errors.city && <div>{errors.city.message}</div>}
                     </div>
                 </div>
-
             </form>
         </div>
     )

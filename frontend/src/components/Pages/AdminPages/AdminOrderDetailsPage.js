@@ -5,7 +5,7 @@ import {useEffect, useState} from "react";
 
 
 import {order_service} from "../../../services";
-import {PhotosBuilder} from "../../OrderPhoto";
+import {PhotosBuilder} from "../../PhotoBuilder";
 import {EmployeesBuilder} from "../../EmployeesBuilder";
 import {orderActions} from "../../../redux";
 import {LoadingPage, ErrorPage} from "../CommonPages";

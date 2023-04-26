@@ -3,7 +3,7 @@ import {axiosService} from "./axios_service";
 import {urls, userAttr} from "../configs";
 
 const user_service = {
-    getAll: (page = 1, searcher = '') => axiosService.get(`${urls.USERS}?searcher=${searcher}`, {params: {page}}),
+    getAll: (page = 1, searcher = '') => axiosService.get(`${urls.USERS}`, {params: {page, searcher}}),
     delete: (id) => axiosService.delete(`${urls.USERS}/${id}`),
     getSelf: () => axiosService.get(`${urls.USERS}${userAttr.self}`),
     getOrders: (page = 1, status = 1) => axiosService.get(`${urls.USERS}${userAttr.orders}`, {params: {page, status}}),
@@ -18,7 +18,8 @@ const user_service = {
     toUser: (id) => axiosService.patch(`${urls.USERS}/${id}${userAttr.to_user}`),
     profileUpdate: (profile) => axiosService.patch(`${urls.USERS}${userAttr.profile_update}`, profile),
     addPhoto: (user_photo) => axiosService.patch(`${urls.USERS}${userAttr.add_photo}`, user_photo),
-    getByToken: (token) => axiosService.get(`${urls.USERS}/${token}`)
+    getByToken: (token) => axiosService.get(`${urls.USERS}/${token}`),
+    bestEmployees: () => axiosService.get(`${urls.USERS}${userAttr.best_employees}`)
 }
 
 export {

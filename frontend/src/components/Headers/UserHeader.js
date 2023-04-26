@@ -7,7 +7,7 @@ const UserHeader = () => {
             <NavLink to={'/home'}>Home</NavLink>
             <NavLink to={'/office'}>My cabinet</NavLink>
             <NavLink to={'/about'}>About</NavLink>
-            <NavLink to={'/auth'}>Exit</NavLink>
+            <NavLink to={'/auth/login'}>Exit</NavLink>
         </div>
     )
 }

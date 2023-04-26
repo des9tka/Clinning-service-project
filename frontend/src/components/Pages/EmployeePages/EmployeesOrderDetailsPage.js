@@ -1,8 +1,9 @@
 import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
+
 import {ErrorPage, LoadingPage} from "../CommonPages";
-import {PhotosBuilder} from "../../OrderPhoto";
+import {PhotosBuilder} from "../../PhotoBuilder";
 import {EmployeesBuilder} from "../../EmployeesBuilder";
 import {EmployeeOrderButtons} from "../../Order/EmployeeOrderButtons";
 import {orderActions, userActions} from "../../../redux";

@@ -9,7 +9,6 @@ const AdminUserPage = () => {
     )
 }
 
-
 export {
     AdminUserPage
 };

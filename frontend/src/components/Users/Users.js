@@ -13,7 +13,6 @@ const Users = () => {
     const [query, setQuery] = useSearchParams({page: '1'});
     const [searcher, setSearcher] = useState('')
 
-
     useEffect(() => {
         dispatch(userActions.setAllUsers({query, searcher}));
         dispatch(userActions.setSelfUser());
@@ -27,19 +26,6 @@ const Users = () => {
         setQuery(value => ({page: +query.get('page') + 1}));
     }
 
-
-    const search = (e) => {
-        let data = e.target.value
-        let symbol = "&";
-        data = data.replace(/\s+/g, symbol);
-        if (data === ' ') {
-            setSearcher(null)
-        } else {
-            setSearcher(data)
-        }
-    }
-
-
     return (
         <div>
             {loading && <LoadingPage/>}
@@ -47,7 +33,7 @@ const Users = () => {
 
             <div className={'buttons-wrap'}>
                 <button className={'prev-button'} disabled={!prevPage} onClick={() => prev()}>Prev</button>
-                <input className={'searcher'} placeholder={'search...'} type="text" id={'searcher'} onChange={(e) => search(e)} value={searcher}/>
+                <input className={'searcher'} placeholder={'search...'} type="text" id={'searcher'} onChange={(e) => setSearcher(e.target.value)} value={searcher}/>
                 <button className={'next-button'} disabled={!nextPage} onClick={() => next()}>Next</button>
             </div>
             <div className={'users-div'}>

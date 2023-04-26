@@ -28,8 +28,8 @@ const LoginForm = () => {
     const log = async (user) => {
         try {
             auth_service.deleteTokens()
-            const {data} = await auth_service.login(user).catch((response) => {
-                switch (response.response.data.non_field_errors[0]) {
+            const {data} = await auth_service.login(user).catch((e) => {
+                switch (e.response.data.non_field_errors[0]) {
                     case 'Not exist.':
                         setState((prevState) => ({...prevState, message: 'User with current mail is not exist.'}))
                         break
@@ -40,14 +40,14 @@ const LoginForm = () => {
                         setState((prevState) => ({...prevState, message: 'Incorrect password.'}))
                         break
                     default:
-                        setState((prevState) => ({...prevState, message: 'Invalid mail.'}))
+                        setState((prevState) => ({...prevState, message: 'Something went wrong, wait a few seconds and try again.'}))
                 }
             })
-            await auth_service.setTokens(data, 1)
+            auth_service.setTokens(data)
             setState((prevState) => ({...prevState, message: null}))
             navigate('/')
         } catch (err) {
-            setState((prevState) => ({...prevState, message: 'Something went wrong, try again.'}))
+            console.log('Error')
         }
     }
 
@@ -57,7 +57,6 @@ const LoginForm = () => {
             message: response.data
         }))).catch((error) => setState((prevState) => ({...prevState, message: error.response.data})))
     }
-
 
     return (
         <form className={'login-form'} onSubmit={handleSubmit(log)}>
@@ -79,7 +78,6 @@ const LoginForm = () => {
         </form>
     )
 }
-
 
 export {
     LoginForm

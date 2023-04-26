@@ -1,7 +1,8 @@
 import {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 import {order_service} from "../../services";
-import {useNavigate} from "react-router-dom";
+import {ErrorPage} from "../Pages";
 
 const EmployeeOrderButtons = ({order, user}) => {
 
@@ -24,13 +25,17 @@ const EmployeeOrderButtons = ({order, user}) => {
     const take = () => {
         order_service.take(order.id).then(() => {
             navigate('/employee/office')
-        }).catch((err) => console.log(err))
+        }).catch((err) => {
+            return <ErrorPage error={err}/>
+        })
     }
 
     const done = () => {
         order_service.done(order.id, rate).then(() => {
             window.location.reload()
-        }).catch((err) => console.log(err))
+        }).catch((err) => {
+            return <ErrorPage error={err}/>
+        })
     }
 
     const taken = order.employees_current.includes(user?.id)
@@ -43,7 +48,6 @@ const EmployeeOrderButtons = ({order, user}) => {
         </div>
     )
 }
-
 
 export {
     EmployeeOrderButtons

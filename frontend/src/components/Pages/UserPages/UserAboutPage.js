@@ -6,4 +6,6 @@ const UserAboutPage = () => {
         </div>
     )
 }
-export {UserAboutPage};
+export {
+    UserAboutPage
+};

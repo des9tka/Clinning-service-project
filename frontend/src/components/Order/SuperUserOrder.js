@@ -3,7 +3,6 @@ import {useDispatch} from "react-redux";
 
 import {orderActions} from "../../redux";
 
-
 const SuperUserOrder = ({order}) => {
 
     const navigate = useNavigate();
@@ -15,16 +14,15 @@ const SuperUserOrder = ({order}) => {
             <div>address:{order.address}</div>
             <div>status:{order.status}</div>
 
-
             <button onClick={() => {
-                navigate(`/superuser/orders/${order.id}/details`)
                 dispatch(orderActions.setOrder(order))
+                navigate(`/superuser/orders/${order.id}/details`)
             }} className={'order-details-buttons'}>Details</button>
-
             <hr/>
         </div>
     )
 }
+
 export {
     SuperUserOrder
 };

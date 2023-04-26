@@ -5,16 +5,16 @@ import {useForm} from "react-hook-form";
 import {joiResolver} from "@hookform/resolvers/joi";
 
 import {serviceActions} from "../../../redux";
-import {LoadingPage} from "../CommonPages";
+import {ErrorPage, LoadingPage} from "../CommonPages";
 import {c_service_service} from "../../../services";
-import {PhotosBuilder} from "../../OrderPhoto";
+import {PhotosBuilder} from "../../PhotoBuilder";
 import {service_validator} from "../../../validators";
 
 const SuperUserServiceDetails = () => {
 
     const {id} = useParams();
     const dispatch = useDispatch();
-    const {service} = useSelector(state => state.serviceReducer)
+    const {service, loading, error} = useSelector(state => state.serviceReducer)
 
     const {register, handleSubmit, setValue, formState: {isValid, errors}} = useForm({
         mode: 'all',
@@ -34,7 +34,9 @@ const SuperUserServiceDetails = () => {
         if (prom === service.name) {
             await c_service_service.delete(service.id)
                 .then(() => window.location.reload())
-                .catch((err) => console.log(err))
+                .catch((err) => {
+                    return <ErrorPage/>
+                })
         }
     }
 
@@ -48,6 +50,8 @@ const SuperUserServiceDetails = () => {
 
     return (
         <div className={'service-details-div'}>
+            {loading && <LoadingPage/>}
+            {error && <ErrorPage/>}
             <div className={'service-details'}>
                 <form className={'service-form'} onSubmit={handleSubmit(serviceUpdate)}>
                     <label>Id - {service.id}</label>
@@ -79,7 +83,6 @@ const SuperUserServiceDetails = () => {
         </div>
     )
 }
-
 
 export {
     SuperUserServiceDetails

@@ -8,6 +8,7 @@ const AdminOrderPage = () => {
         </div>
     )
 }
+
 export {
     AdminOrderPage
 };

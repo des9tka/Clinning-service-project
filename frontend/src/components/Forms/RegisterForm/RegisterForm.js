@@ -9,9 +9,9 @@ import {userActions} from "../../../redux";
 
 const RegisterForm = () => {
 
-    const {error} = useSelector(state => state.userReducer);
     const dispatch = useDispatch();
     const [state, setState] = useState(null);
+    const {error} = useSelector(state => state.userReducer);
 
     const {register, handleSubmit, formState: {errors, isValid}} = useForm({
         resolver: joiResolver(user_validator),
@@ -33,7 +33,7 @@ const RegisterForm = () => {
             setState('Activate you account in your mail.')
             dispatch(userActions.setError(null))
         })
-            .catch(() => {
+            .catch((e) => {
                 if (!error) {
                     dispatch(userActions.setError('User with current email Exist!'))
                 }
@@ -67,7 +67,6 @@ const RegisterForm = () => {
                 {errors.phone && <div>Phone: {errors.phone.message}</div>}
                 {error && <div>Errors: {error}</div>}
             </div>
-
         </form>
     )
 }

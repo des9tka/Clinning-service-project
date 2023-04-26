@@ -1,5 +1,6 @@
 import {BASE_URL} from "../../configs";
 
+
 const PhotosBuilder = ({photo}) => {
 
     return (

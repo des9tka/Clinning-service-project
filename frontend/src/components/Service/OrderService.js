@@ -1,6 +1,7 @@
 import {useNavigate} from "react-router-dom";
 
 import {user_service} from "../../services";
+import {ErrorPage} from "../Pages";
 
 const OrderService = ({service}) => {
 
@@ -9,6 +10,8 @@ const OrderService = ({service}) => {
     const changeService = () => {
         user_service.changeService(service.id).then(() => {
             navigate('/office/create_order')
+        }).catch((e) => {
+            return <ErrorPage/>
         })
     }
 

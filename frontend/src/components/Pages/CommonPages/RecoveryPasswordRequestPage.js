@@ -1,9 +1,9 @@
 import {useForm} from "react-hook-form";
 import {joiResolver} from "@hookform/resolvers/joi/dist/joi";
+import {useState} from "react";
 
 import {email_validator} from "../../../validators";
 import {auth_service} from "../../../services";
-import {useState} from "react";
 
 const RecoveryPasswordRequestPage = () => {
 
@@ -29,7 +29,6 @@ const RecoveryPasswordRequestPage = () => {
         </div>
     )
 }
-
 
 export {
     RecoveryPasswordRequestPage

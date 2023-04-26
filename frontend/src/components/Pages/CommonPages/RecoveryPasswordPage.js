@@ -55,7 +55,6 @@ const RecoveryPasswordPage = () => {
     )
 }
 
-
 export {
     RecoveryPasswordPage
 };
