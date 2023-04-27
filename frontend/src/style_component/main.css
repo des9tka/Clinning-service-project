@@ -91,8 +91,6 @@ body, html {
     text-align: center;
 }
 
-
-
 a {
     text-decoration: none;
 }
@@ -268,7 +266,7 @@ button {
     width: 15vw;
     height: 15vw;
     border: 1px solid black;
-    border-radius: 25%;
+    border-radius: 50%;
 }
 
 .avatar-input {
@@ -292,6 +290,10 @@ button {
     margin-left: 10%;
 }
 
+.employees-wrapper {
+    display: flex;
+    justify-content: space-evenly;
+}
 
 .profile-form input {
     width: 50%;
@@ -355,11 +357,58 @@ button {
 
 /*common*/
 
+.info-wrap {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+}
+
+.info-div {
+    background-color: #fff;
+    box-shadow: 0px 15px 15px rgba(155, 121, 28, 0.8);
+    border: 1px solid black;
+    width: 75%;
+    padding: 1%;
+}
+
+.phone-div {
+    width: 100vw;
+    text-align: right;
+}
+
+.home-page-div {
+    text-align: center;
+    height: 100vh;
+    padding: 20px;
+}
+
+.phone {
+    font-size: 24px;
+    margin: 2%;
+}
+
+.head {
+    font-size: 64px;
+    font-weight: bold;
+    margin-bottom: 40px;
+}
+
+.description {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.employee-wrap {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 40px;
+}
+
 .loading-wrap {
     position: fixed;
     top: 30vh;
     right: 45vw;
-
 }
 
 .loading {
@@ -502,7 +551,6 @@ button {
     text-align: center;
 }
 
-
 /*employee*/
 
 .employee-order-div div {
@@ -557,6 +605,7 @@ button {
     border-radius: 25px;
     align-items: center;
     padding: 2%;
+    margin: 1%;
 }
 
 .order-img {

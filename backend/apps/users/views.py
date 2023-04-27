@@ -309,9 +309,15 @@ class GetUserByTokenView(GenericAPIView):
         return Response(serializer.data, status.HTTP_200_OK)
 
 
-class ListBestEmployee(GenericAPIView):
+class ListBestEmployee(ListAPIView):
+    permission_classes = AllowAny,
+
+    def get_queryset(self, *args, **kwargs):
+        return UserModel.objects.filter(is_employee=True).order_by('-rating')
+
+
+class Get(GenericAPIView):
     permission_classes = AllowAny,
 
     def get(self, *args, **kwargs):
-        print(UserModel.objects.filter(is_employee='true').order_by('-rating')[:5])
-        return UserModel.objects.filter(is_employee='true').order_by('-rating')[:5]
+        return Response('ok')

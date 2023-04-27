@@ -35,3 +35,4 @@ services:
       - ./client:/usr/share/nginx/html
       - ./backend/static:/usr/share/nginx/html/doc
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./backend/storage:/usr/share/nginx/static

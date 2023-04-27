@@ -7,7 +7,7 @@ import {useEffect, useState} from "react";
 import {order_service} from "../../../services";
 import {PhotosBuilder} from "../../PhotoBuilder";
 import {EmployeesBuilder} from "../../EmployeesBuilder";
-import {orderActions} from "../../../redux";
+import {orderActions, userActions} from "../../../redux";
 import {LoadingPage, ErrorPage} from "../CommonPages";
 import {AdminOrderButtons} from "../../Order";
 
@@ -25,6 +25,7 @@ const AdminOrderDetailsPage = () => {
 
     });
     const {order, loading, error} = useSelector(state => state.orderReducer)
+    const {users} = useSelector(state => state.userReducer)
 
     const orderConfirm = async (updatesOrder) => {
         await order_service.update(order.id, updatesOrder)
@@ -33,6 +34,7 @@ const AdminOrderDetailsPage = () => {
 
     useEffect(() => {
         dispatch(orderActions.setOrderById({id}))
+        dispatch(userActions.setOrderEmployeesByOrderId({id}))
     }, [])
 
     if (!order) {
@@ -69,9 +71,10 @@ const AdminOrderDetailsPage = () => {
 
                 {order.status !== 1 && <div>Employees need: {order.employees_quantity}</div>}
                 {order.status !== 1 && <div>Employees now: </div>}
-                {order.status !== 1 && order.employees_current[0] && order.employees_current.map(employee_id => <EmployeesBuilder employee_id={employee_id}
-                                                                                                                                  order_id={order.id}
-                                                                                                                                  status={order.status}/>)}
+                <div className={'employees-wrapper'}>
+                    {order.status !== 1 && users && order.employees_current[0] && users.map(user => <EmployeesBuilder employee={user} order_id={order.id}
+                                                                                                                      status={order.status}/>)}
+                </div>
 
                 {(order.status === 1 && !state.button) && <form onSubmit={handleSubmit(orderConfirm)}>
 

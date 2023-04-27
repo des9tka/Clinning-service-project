@@ -17,7 +17,6 @@ import {
 
 function App() {
 
-
     return (
         <div>
             <Routes>
@@ -82,6 +81,5 @@ function App() {
         </div>
     );
 }
-
 
 export default App;

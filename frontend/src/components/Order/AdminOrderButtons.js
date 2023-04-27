@@ -15,7 +15,7 @@ const AdminOrderButtons = ({status, employee, order_id, setState, state}) => {
         <div className={'admin-buttons-div'}>
             {(status === 1 && !state.button) && <button disabled={!state.employees || !state.price}>Confirm</button>}
             {(status === 1 && !state.button) && <button onClick={() => rejectOrder()}>Reject</button>}
-            {status === 5 && <button onClick={() => deleteEmployee()}>Delete {employee && employee.profile.name}</button>}
+            {status === 5 && <button onClick={() => deleteEmployee()}>Remove {employee && employee.profile.name}</button>}
         </div>
     )
 }

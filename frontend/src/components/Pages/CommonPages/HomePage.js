@@ -13,11 +13,13 @@ const HomePage = () => {
     },[])
 
     return (
-        <div>
-            <div>Phone number</div>
-            <h1></h1>
-            <h3>About Company</h3>
-            <div>best 5 employee</div>
+        <div className={'home-page-div'}>
+            <div className={'phone-div'}>
+                <div className={'phone'}>Phone number</div>
+            </div>
+            <h1 className={'head'}>Cleaning Service</h1>
+            <h3 className={'description'}>About Company</h3>
+            <div className={'employee-wrap'}>best 5 employee</div>
         </div>
     )
 }

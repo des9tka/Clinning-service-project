@@ -12,6 +12,7 @@ const ProfileForm = () => {
 
     const formData = new FormData();
     const {self} = useSelector(state => state.userReducer);
+    console.log(self);
     const [previewAvatar, setPreviewAvatar] = useState(null);
 
     const {setValue, register, handleSubmit, formState: {isValid, errors}} = useForm({

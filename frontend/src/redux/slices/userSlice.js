@@ -28,7 +28,7 @@ const setBestEmployee = createAsyncThunk(
     'userSlice/setBestEmployee',
     async (_, {rejectWithValue}) => {
         try {
-            const data = await user_service.bestEmployee()
+            const data = await user_service.bestEmployees()
             return data
         } catch (e) {
             console.log(e)

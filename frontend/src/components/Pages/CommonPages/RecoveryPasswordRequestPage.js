@@ -14,7 +14,13 @@ const RecoveryPasswordRequestPage = () => {
     });
 
     const restore = (email) => {
-        auth_service.request_password_recovery(email).then(() => setMessage('Recovery Link was sanded to your mail')).catch((e) => setMessage(e.response.data))
+        auth_service.request_password_recovery(email).then(() => setMessage('Recovery Link was sanded to your mail')).catch((e) => {
+            if (e.response.data.detail === 'Not found.') {
+                return setMessage('User is not exist.')
+            } else {
+                return setMessage('Error, try again.')
+            }
+        })
     }
 
     return (
