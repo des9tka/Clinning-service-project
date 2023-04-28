@@ -1,10 +1,13 @@
 from abc import ABC, abstractmethod
+from datetime import datetime, timedelta
 from typing import Type
 
 from core.pagination.page_pagination import OrderPagePagination, UserPagePagination
+from core.services.email_service import EmailService
 from core.services.jwt_service import ActivateToken, JWTService
 
 from django.contrib.auth import get_user_model
+from django.core.cache import cache
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 
@@ -309,15 +312,34 @@ class GetUserByTokenView(GenericAPIView):
         return Response(serializer.data, status.HTTP_200_OK)
 
 
-class ListBestEmployee(ListAPIView):
+class ListBestEmployeeView(ListAPIView):
+    """
+    List best 5 employees.
+    """
     permission_classes = AllowAny,
+    queryset = UserModel
+    serializer_class = UserSerializer
 
     def get_queryset(self, *args, **kwargs):
-        return UserModel.objects.filter(is_employee=True).order_by('-rating')
+        return UserModel.objects.filter(is_employee='True', is_superuser='False').order_by('-profile__rating')[:5]
 
 
-class Get(GenericAPIView):
-    permission_classes = AllowAny,
+class EmployeeRejectRequestView(GenericAPIView):
+    """
+    Request for reject order from employee side.
+    """
+    def post(self, *args, **kwargs):
+        pk = kwargs.get('pk')
+        message = self.request.data.get('reason', None)
+        employee = self.request.user
 
-    def get(self, *args, **kwargs):
-        return Response('ok')
+        cache_key = f"employee_request_reject:{employee.email}/{pk}"
+        last_request_time = cache.get(cache_key)
+        if last_request_time and (datetime.now() - last_request_time) < timedelta(minutes=10):
+            return Response('You can do only one request every 10 minutes.', status=status.HTTP_403_FORBIDDEN)
+
+        admin = UserModel.objects.filter(is_staff='True', service_id=employee.service).order_by('?').first()
+        EmailService.request_of_reject(admin, employee, message, pk)
+        cache.set(cache_key, datetime.now(), timeout=600)
+        return Response(status=status.HTTP_200_OK)
+

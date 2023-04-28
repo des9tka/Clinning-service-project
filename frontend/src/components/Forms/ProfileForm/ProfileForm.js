@@ -12,7 +12,6 @@ const ProfileForm = () => {
 
     const formData = new FormData();
     const {self} = useSelector(state => state.userReducer);
-    console.log(self);
     const [previewAvatar, setPreviewAvatar] = useState(null);
 
     const {setValue, register, handleSubmit, formState: {isValid, errors}} = useForm({
@@ -36,11 +35,11 @@ const ProfileForm = () => {
             formData.append('user_photo', avatar[0])
         }
 
-        await user_service.profileUpdate(profile)
+        await user_service.profileUpdate(profile);
 
         user_service.addPhoto(formData)
             .then(() => {
-                window.location.reload()
+                window.location.reload();
             })
             .catch((e) => {
                 return <ErrorPage error={e.response.data}/>
@@ -57,7 +56,7 @@ const ProfileForm = () => {
 
     if (previewAvatar) {
         document.getElementById('avatar-preview').addEventListener('click', () => {
-            document.getElementById('avatar-input').click()
+            document.getElementById('avatar-input').click();
         })
     }
 
@@ -77,7 +76,7 @@ const ProfileForm = () => {
                 if (!previewAvatar) {
                     avatarPreview = document.createElement('img');
                 } else {
-                    avatarPreview = document.getElementById('avatar-preview')
+                    avatarPreview = document.getElementById('avatar-preview');
                 }
                 const avatarWrap = document.getElementById('img-wrap');
 
@@ -86,24 +85,24 @@ const ProfileForm = () => {
                 reader.readAsDataURL(file);
 
                 reader.onload = () => {
-                    avatarPreview.src = reader.result
+                    avatarPreview.src = reader.result;
                 }
 
                 avatarPreview.className = 'avatar-img';
                 avatarPreview.id = 'avatar-preview';
                 avatarWrap.appendChild(avatarPreview);
-                setPreviewAvatar(e.target.value)
+                setPreviewAvatar(e.target.value);
             }
             }/>
 
             <div id={'img-wrap'} className={'img-wrap'}>
 
                 {!previewAvatar && self?.profile?.user_photo && <img className={'avatar-img'} src={`${BASE_URL}${self.profile.user_photo}`} onClick={() => {
-                    document.getElementById('avatar-input').click()
+                    document.getElementById('avatar-input').click();
                 }} alt="photo"/>}
 
                 {!previewAvatar && !self?.profile?.user_photo && <div onClick={() => {
-                    document.getElementById('avatar-input').click()
+                    document.getElementById('avatar-input').click();
                 }} className={'empty-avatar'} id={'empty-avatar'}></div>}
 
             </div>

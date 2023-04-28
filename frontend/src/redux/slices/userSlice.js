@@ -160,7 +160,6 @@ const userSlice = createSlice({
                 state.loading = true
             })
             .addCase(setBestEmployee.fulfilled, (state, action) => {
-                console.log(action.payload)
                 state.loading = false
                 state.error = null
                 state.users = action.payload.data

@@ -11,4 +11,5 @@ export * from './Service'
 export * from './Services'
 export * from './User'
 export * from './Users'
+export * from './Tools'
 

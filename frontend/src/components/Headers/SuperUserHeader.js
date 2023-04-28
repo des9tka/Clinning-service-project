@@ -1,5 +1,7 @@
 import {NavLink} from "react-router-dom";
 
+import {Toggle} from "../Tools";
+
 const SuperUserHeader = () => {
 
     return (
@@ -11,6 +13,7 @@ const SuperUserHeader = () => {
             <NavLink to={'/superuser/office'}>Office</NavLink>
             <NavLink to={'/superuser/about'}>About</NavLink>
             <NavLink to={'/auth/login'}>Exit</NavLink>
+            <Toggle/>
         </div>
     )
 }

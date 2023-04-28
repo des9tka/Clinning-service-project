@@ -56,7 +56,6 @@ class RequestRecoveryPasswordView(GenericAPIView):
         data = self.request.data
         serializer = EmailSerializer(data=data)
         serializer.is_valid(raise_exception=True)
-        print(1111111111111111111111111)
         user = get_object_or_404(UserModel, email=serializer.data['email'])
 
         cache_key = f"password_recovery:{user.email}"

@@ -1,5 +1,7 @@
 import {NavLink} from "react-router-dom";
 
+import {Toggle} from "../Tools";
+
 const AdminHeader = () => {
 
     return (
@@ -10,6 +12,7 @@ const AdminHeader = () => {
             <NavLink to={'office'}>Office</NavLink>
             <NavLink to={'about'}>About</NavLink>
             <NavLink to={'/auth/login'}>Exit</NavLink>
+            <Toggle/>
         </div>
     )
 }

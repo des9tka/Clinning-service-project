@@ -1,6 +1,6 @@
 import datetime
 import os
-from datetime import datetime
+from datetime import date, datetime
 
 import pytz
 import stripe
@@ -43,8 +43,6 @@ class OrderListView(ListAPIView):
         rejected_status = OrderStatusModel.objects.get(name='rejected')
         user_confirmed_status = OrderStatusModel.objects.get(name='user_confirmed')
 
-        print(search_query)
-
         time = datetime.now(tz).strftime("%H:%M:%S")
         date = datetime.now(tz).strftime("%Y-%m-%d")
 
@@ -83,6 +81,7 @@ class OrderListView(ListAPIView):
 
         else:
             if user.is_employee and not user.is_superuser:
+                print('qfsefse')
                 return OrderModel.objects.filter(service_id=user.service, status=user_confirmed_status, rating__lte=user.profile.rating).order_by('-rating')
             elif user.is_superuser:
                 return OrderModel.objects.all().order_by('-rating')
@@ -214,6 +213,7 @@ class EmployeeDoneOrderView(GenericAPIView):
         order = self.get_object()
         user = UserModel.objects.get(id=order.user_id)
         order_status = OrderStatusModel.objects.get(name='done')
+        date_done = date.today()
 
         try:
             if user.profile.rating == 0:
@@ -225,6 +225,7 @@ class EmployeeDoneOrderView(GenericAPIView):
 
             order.rating = float(rate)
             order.status = order_status
+            order.done_at = date_done
             order.save()
             EmailService.done_order_email(user, order.id)
 

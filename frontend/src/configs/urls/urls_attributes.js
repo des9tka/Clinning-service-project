@@ -12,7 +12,9 @@ const userAttr = {
     change_employee_service: '/change_employee_service/',
     add_photo: '/add_photo',
     self: '/self',
-    best_employees: '/best_employees'
+    best_employees: '/best_employees',
+    get_by_token: '/get_by_token/',
+    request_of_reject: '/request_of_reject/'
 };
 
 const serviceAttr = {

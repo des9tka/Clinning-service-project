@@ -1,5 +1,7 @@
 import {NavLink} from "react-router-dom";
 
+import {Toggle} from "../Tools";
+
 const UserHeader = () => {
 
     return (
@@ -8,6 +10,7 @@ const UserHeader = () => {
             <NavLink to={'/office'}>My cabinet</NavLink>
             <NavLink to={'/about'}>About</NavLink>
             <NavLink to={'/auth/login'}>Exit</NavLink>
+            <Toggle/>
         </div>
     )
 }

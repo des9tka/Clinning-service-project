@@ -29,6 +29,7 @@ class OrderModel(models.Model):
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name='orders')
     employees_quantity = models.IntegerField(default=1)
     employees_current = models.ManyToManyField(UserModel, blank=True, related_query_name='employees_orders')
+    done_at = models.DateField(blank=True, default='1000-01-01')
 
 
 class PhotoOrderModel(models.Model):

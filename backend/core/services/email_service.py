@@ -7,7 +7,6 @@ from django.template.loader import get_template
 
 
 class EmailService:
-
     url = os.environ.get('office_link')
 
     @staticmethod
@@ -65,6 +64,8 @@ class EmailService:
         cls.__send_email(user.email, 'employee_remove_order_email.html', {'name': user.profile.name, 'order': order_id, 'employee': employee,
                                                                           'url': cls.url}, 'Order Inconvenience')
 
+        cls.__send_email(employee.email, 'remove_employee.html', {'name': employee.profile.name, 'order_id': order_id}, 'Order Inconvenience')
+
     @classmethod
     def employee_order_taken(cls, user, order):
         cls.__send_email(user.email, 'employee_order_notification.html', {'name': user.profile.name, 'order': order, 'url': cls.url}, 'Order Taken')
@@ -74,3 +75,9 @@ class EmailService:
         token = JWTService.create_token(user, ActivateToken)
         url = f'http://localhost/auth/{token}/activate'
         cls.__send_email(user.email, 'activate_request.html', {'name': user.profile.name, 'url': url}, 'Activate Request')
+
+    @classmethod
+    def request_of_reject(cls, admin, employee, reason, order_id):
+        url = f'http://localhost/admin/order/{order_id}/details'
+        cls.__send_email(admin.email, 'request_of_reject.html', {'admin': admin, 'employee': employee, 'reason': reason, 'url': url, 'id': order_id},
+                         'Activate Request')
