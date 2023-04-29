@@ -8,18 +8,19 @@
     --background_color: #333333;
 }
 
-
 body, html {
     margin: 0;
-    height: 100%;
+    min-height: 100vh;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    overflow: auto;
     background: var(--background_color);
+
 }
 
-/*auth*/
 
 .auth-layout-div, .user-layout-div, .admin-layout-div, .employee-layout-div, .superuser-layout-div {
     width: 100vw;
@@ -30,6 +31,7 @@ body, html {
 
 .auth-greeting {
     margin-bottom: 20vh;
+    color: var(--text_color);
 }
 
 .auth-buttons-div {
@@ -40,15 +42,16 @@ body, html {
 }
 
 .auth-buttons {
-    color: #333333;
-    border: 1px solid #333333;
+    color: var(--text_color);
+    border: 1px solid var(--text_color);
+    background: 1px solid var(--background_color);
     width: 25%;
     font-size: 2vh;
 }
 
 .auth-buttons:hover {
-    background: #333333;
-    color: white;
+    background: var(--text_color);
+    color: var(--background_color);
 }
 
 .register-form {
@@ -57,12 +60,13 @@ body, html {
     flex-direction: column;
     align-items: center;
     margin-bottom: 5%;
+    background: var(--background_color);
 }
 
 .register-form input {
     text-align: center;
     border: 1px solid black;
-    color: #333333;
+    color: var(--text_color);
     width: 75%;
     height: 10%;
     margin-bottom: 1%;
@@ -70,8 +74,8 @@ body, html {
 }
 
 .register-form-button {
-    color: #333333;
-    border: 1px solid #333333;
+    color: var(--text_color);
+    border: 1px solid var(--text_color);
     width: 25%;
     font-size: 2.5vw;
     margin-top: 5%;
@@ -79,6 +83,7 @@ body, html {
 }
 
 .swapLinks-div {
+    margin-top: 2%;
     display: flex;
     justify-content: space-evenly;
     text-align: center;
@@ -89,8 +94,8 @@ body, html {
 }
 
 .register-form-button:hover {
-    background: black;
-    color: white;
+    background: var(--text_color);
+    color: var(--background_color);
 }
 
 .register-error-div > div {
@@ -105,16 +110,17 @@ body, html {
 
 a {
     text-decoration: none;
+    color: var(--text_color);
 }
 
 button:hover {
-    background: black;
-    color: white;
+    background: var(--text_color);
+    color: var(--background_color);
 }
 
 button {
-    background-color: #fff;
-    box-shadow: 0px 15px 15px rgba(0, 0, 0, 0.1);
+    background-color: var(--text_color);
+    box-shadow: 0px 1px 15px var(--text_color);
 }
 
 .login-form {
@@ -123,11 +129,13 @@ button {
     justify-content: center;
     flex-direction: column;
     align-items: center;
+    background: var(--background_color);
 }
 
 .login-form-button {
-    color: #333333;
-    border: 1px solid #333333;
+    color: var(--text_color);
+    border: 1px solid var(--text_color);
+    background: 1px solid var(--background_color);
     width: 25%;
     font-size: 2vh;
     margin-top: 5%;
@@ -135,18 +143,22 @@ button {
 }
 
 .login-form-button:hover {
-    color: white;
-    background: #333333;
+    color: var(--background_color);
+    background: var(--text_color);
 }
 
 .login-form input {
     text-align: center;
-    border: 1px solid black;
-    color: black;
+    border: 1px solid var(--text_color);
+    color: var(--text_color);
     width: 75%;
     height: 10%;
     margin-bottom: 1%;
     font-size: 2.5vh;
+}
+
+.auth-board {
+    color: var(--text_color)
 }
 
 .activate-request-link {
@@ -165,8 +177,49 @@ button {
 
 /*tools*/
 
+.order-rate-select {
+  color: black;
+  background-color: cornsilk;
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  box-shadow: none;
+  font-size: 16px;
+    margin: 1%;
+}
+
+/* Style the arrow icon */
+.order-rate-select::-ms-expand {
+  display: none;
+}
+
+.order-rate-select::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  width: 0;
+  height: 0;
+  border-top: 8px solid black;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.order-rate-select:focus {
+  outline: none;
+}
+
+/* Style the options */
+.order-rate-select option {
+  color: black;
+  background-color: cornsilk;
+}
+
 .header {
-    border: 1px solid black;
+    border: 1px solid var(--text_color);
     display: flex;
     justify-content: space-evenly;
     width: 75vw;
@@ -196,16 +249,17 @@ button {
 }
 
 .office-buttons {
-    color: black;
-    border: 1px solid black;
+    color: var(--text_color);
+    border: 1px solid var(--text_color);
+    background: var(--background_color);
     font-size: 1.5vh;
     cursor: pointer;
     height: 1%;
 }
 
 .office-buttons:hover {
-    background: black;
-    color: white;
+    background: var(--text_color);
+    color: var(--background_color);
 }
 
 .pagination-buttons-div {
@@ -242,12 +296,12 @@ button {
     text-align: center;
     width: 50vw;
     height: 3vw;
-    color: black;
+    color: var(--text_color);
 }
 
 .user-order {
-    background-color: #fff;
-    box-shadow: 0px 15px 15px rgba(0, 0, 0, 0.1);
+    background-color: var(--background_color);
+    box-shadow: 0px 1px 15px var(--text_color);
     border: 1px solid black;
     width: 35vw;
     margin-bottom: 1.5vw;
@@ -257,6 +311,7 @@ button {
 }
 
 .user-orders-div {
+    color: var(--text_color);
     display: flex;
     justify-content: space-evenly;
     width: 100vw;
@@ -265,13 +320,15 @@ button {
 }
 
 .order-details-buttons {
-    border: 1px solid black;
+    color: var(--text_color);
+    background: var(--background_color);
+    border: 1px solid var(--text_color);
     font-size: 2.5vw;
 }
 
 .order-details-buttons:hover {
-    background: #333333;
-    color: white;
+    background: var(--text_color);
+    color: var(--background_color);
 }
 
 .avatar-img {
@@ -300,6 +357,7 @@ button {
     padding: 3%;
     width: 75%;
     margin-left: 10%;
+    background: var(--background_color);
 }
 
 .employees-wrapper {
@@ -313,13 +371,21 @@ button {
     margin-bottom: 0.5%;
     text-align: center;
     padding: 0.5%;
-    background-color: #fff;
-    box-shadow: 0px 15px 15px rgba(0, 0, 0, 0.1);
+    background-color: var(--background_color);
+    box-shadow: 0px 1px 15px var(--text_color);
+    color: var(--text_color);
 }
 
 .profile-form button {
     width: 10%;
     margin: 0 5%;
+    background: var(--background_color);
+    color: var(--text_color);
+}
+
+.profile-form button:hover {
+    background: var(--text_color);
+    color: var(--background_color);
 }
 
 .empty-avatar {
@@ -330,7 +396,7 @@ button {
     width: 100px;
     height: 100px;
     border-radius: 50%;
-    border: 2px solid black;
+    border: 2px solid var(--text_color);
     cursor: pointer;
 }
 
@@ -345,15 +411,11 @@ button {
     height: 0.5vw;
     max-width: 20px;
     max-height: 2px;
-    background-color: black;
+    background-color: var(--text_color);
 }
 
 .empty-avatar::before {
     transform: rotate(90deg);
-}
-
-.empty-avatar:hover {
-    background-color: #eee;
 }
 
 .img-wrap {
@@ -371,62 +433,62 @@ button {
 
 /*toggle*/
 .switch {
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 34px;
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
 }
 
 /* Hide the checkbox */
 .switch input {
-  display: none;
+    display: none;
 }
 
 /* The slider */
 .slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--text_color);
+    -webkit-transition: .4s;
+    transition: .4s;
 }
 
 .slider:before {
-  position: absolute;
-  content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: var(--background_color);
+    -webkit-transition: .4s;
+    transition: .4s;
 }
 
 .toggle-input:checked + .slider {
-  background-color: #2196F3;
+    background-color: var(--text_color);
 }
 
 .toggle-input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
+    box-shadow: 0 0 1px var(--text_color);
 }
 
 .toggle-input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
 }
 
 .slider.round {
-  border-radius: 34px;
+    border-radius: 34px;
 }
 
 .slider.round:before {
-  border-radius: 50%;
+    border-radius: 50%;
 }
 
 
@@ -436,10 +498,15 @@ button {
     justify-content: center;
 }
 
+.info-wrap {
+    width: 100%;
+}
+
 .info-div {
-    background-color: #fff;
-    box-shadow: 0px 15px 15px rgba(155, 121, 28, 0.8);
-    border: 1px solid black;
+    color: var(--text_color);
+    background-color: var(--background_color);
+    box-shadow: 0px 1px 15px var(--text_color);
+    border: 1px solid var(--text_color);
     width: 75%;
     padding: 1%;
 }
@@ -455,21 +522,24 @@ button {
     padding: 20px;
 }
 
-.phone {
+.phone, .contacts {
     font-size: 24px;
-    margin: 2%;
+    margin-right: 5%;
+    color: var(--text_color)
 }
 
 .head {
     font-size: 64px;
     font-weight: bold;
     margin-bottom: 40px;
+    color: var(--text_color)
 }
 
 .description {
     font-size: 36px;
     font-weight: bold;
     margin-bottom: 20px;
+    color: var(--text_color)
 }
 
 .employee-wrap {
@@ -482,6 +552,7 @@ button {
     position: fixed;
     top: 30vh;
     right: 45vw;
+    color: var(--text_color);
 }
 
 .loading {
@@ -490,9 +561,13 @@ button {
     font-size: 36px;
 }
 
+.about-text {
+    color: var(--text_color)
+}
+
 .spinner {
-    border: 8px solid rgba(0, 0, 0, 0.1);
-    border-top-color: #3498db;
+    border: 8px solid var(--text_color);
+    border-top-color: var(--background_color);
     border-radius: 50%;
     width: 50px;
     height: 50px;
@@ -549,21 +624,25 @@ button {
     text-align: center;
     width: 25%;
     margin: 5px 5px 10px 5px;
-    background-color: #fff;
-    box-shadow: 0px 15px 15px rgba(0, 0, 0, 0.1);
+    background-color: var(--background_color);
+    box-shadow: 0px 1px 15px var(--text_color);
+    color: var(--text_color);
 }
 
 .admin-order-div, .employee-order-div {
-    border: 1px solid black;
+    border: 1px solid var(--text_color);
     text-align: center;
     border-radius: 25px;
     margin: 5px 5px 10px 5px;
     width: 15%;
     height: 15%;
+    color: var(--text_color);
 }
 
 .admin-order-div button {
     margin-bottom: 2%;
+    color: var(--text_color);
+    background: var(--background_color);
 }
 
 .user-div div, .admin-order-div div {
@@ -578,6 +657,13 @@ button {
     height: 100%;
     margin: 2px;
     font-size: 70%;
+    background: var(--background_color);
+    color: var(--text_color);
+}
+
+.user-buttons button:hover {
+    background: var(--text_color);
+    color: var(--background_color);
 }
 
 .admin-order-select {
@@ -589,16 +675,23 @@ button {
     text-align: center;
 }
 
+.admin-order-form {
+    background: var(--background_color);
+}
+
 .admin-order-inputs {
     width: 100%;
     text-align: center;
 }
 
 .admin-order-inputs input {
+    border-radius: 25px;
     width: 50%;
     text-align: center;
     height: 15%;
     margin: 2%;
+    color: var(--text_color);
+    background: var(--background_color);
 }
 
 .admin-buttons-div {
@@ -610,6 +703,14 @@ button {
 
 .admin-buttons-div button {
     margin: 1%;
+    color: var(--text_color);
+    background: var(--background_color);
+    box-shadow: 0px 1px 15px var(--text_color);
+}
+
+.admin-buttons-div button:hover {
+    color: var(--background_color);
+    background: var(--text_color);
 }
 
 .reject-div {
@@ -645,7 +746,7 @@ button {
 
 .employee-order-headers {
     border-radius: 25px;
-    border: 1px solid black;
+    border: 1px solid var(--text_color);
     width: 20%;
     height: 5%;
     cursor: pointer;
@@ -659,7 +760,10 @@ button {
 }
 
 .order-details-div {
-    border: 1px solid black;
+    border: 1px solid var(--text_color);
+    padding: 1%;
+    background: var(--background_color);
+    color: var(--text_color);
     border-radius: 25px;
     width: 50%;
     display: flex;
@@ -673,11 +777,15 @@ button {
 }
 
 .order-employee-wrap {
-    border: 1px solid black;
     width: 25%;
     align-items: center;
     padding: 2%;
     margin: 1%;
+    box-shadow: 0px 1px 15px var(--text_color);
+}
+
+.order-employee-wrap div {
+    color: var(--text_color)
 }
 
 .order-img {
@@ -687,7 +795,7 @@ button {
     width: 80%;
     height: 80%;
     border-radius: 25px;
-    border: 1px solid black;
+    border: 1px solid var(--text_color);
     margin-bottom: 10px;
 }
 
@@ -698,7 +806,7 @@ button {
     height: 100%;
     cursor: pointer;
     border-radius: 25px;
-    border: 1px solid black;
+    border: 1px solid var(--text_color);
     margin-top: 5%;
 }
 
@@ -735,6 +843,8 @@ button {
 
 .employees-buttons {
     font-size: 16px;
+    color: var(--text_color);
+    background: var(--background_color);
 }
 
 .employee-order-rate-select, .user-order-rate-select {
@@ -757,13 +867,15 @@ button {
     display: flex;
     flex-direction: column;
     margin-bottom: 20px;
+    background: var(--background_color);
 }
 
 .service-form input[type="text"] {
     margin-bottom: 10px;
     padding: 10px;
     border-radius: 5px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--text_color);
+    color: var(--text_color)
 }
 
 .service-form input[type="file"] {
@@ -773,8 +885,8 @@ button {
 .service-form button {
     padding: 10px;
     border: none;
-    background-color: #5cb85c;
-    color: white;
+    background-color: var(--background_color);
+    color: var(--text_color);
     font-weight: bold;
     cursor: pointer;
 }
@@ -782,13 +894,13 @@ button {
 button {
     padding: 10px;
     border: none;
-    color: black;
+    color: var(--text_color);
     font-weight: bold;
     cursor: pointer;
 }
 
 .service-form button:disabled {
-    background-color: #ccc;
+    background-color: var(--background_color);
     cursor: not-allowed;
 }
 
@@ -799,7 +911,7 @@ button {
 }
 
 .prev-button:disabled, .next-button:disabled {
-    background-color: #ccc;
+    background-color: var(--background_color);
     cursor: not-allowed;
 }
 
@@ -848,15 +960,21 @@ button {
 }
 
 .service-div {
-    border: 1px solid black;
+    border: 1px solid var(--text_color);
     margin: 1%;
-    background-color: #fff;
-    box-shadow: 0px 15px 15px rgba(0, 0, 0, 0.1);
+    background-color: var(--background_color);
+    color: var(--text_color);
+    box-shadow: 0px 1px 15px var(--text_color);
+}
+
+.service-div button{
+    color: var(--text_color);
+    background: var(--background_color);
 }
 
 .service-div:hover {
-    background: black;
-    color: white;
+    background: var(--background_color);
+    color: var(--text_color);
 }
 
 .hide {
@@ -866,19 +984,40 @@ button {
 .upload-photo-div {
     width: 25%;
     text-align: center;
-    border: 1px solid black;
+    border: 1px solid var(--text_color);
+    color: var(--text_color);
+    background: var(--background_color);
     margin: 1%;
 }
 
 .upload-photo-div:hover {
-    background: black;
-    color: white;
+    background: var(--text_color);
+    color: var(--background_color);
     cursor: pointer;
 }
 
 .service-details {
     width: 50%;
     padding: 1%;
+}
+
+.service-details button{
+    background: var(--background_color);
+    color: var(--text_color);
+}
+
+.red:hover {
+     box-shadow: 0 2px 5px red;
+}
+
+.green:hover {
+     box-shadow: 0 2px 5px #93c54b;
+}
+
+.service-details button:hover{
+    background: var(--text_color);
+    color: var(--background_color);
+    box-shadow: 0 2px 5px red;
 }
 
 .display-none {
@@ -892,8 +1031,8 @@ button {
 }
 
 .service-details-div {
-    background-color: #fff;
-    box-shadow: 0px 15px 15px rgba(0, 0, 0, 0.1);
+    background-color: var(--background_color);
+    box-shadow: 0px 1px 15px var(--text_color);
     width: 100%;
     display: flex;
     justify-content: center;
@@ -919,6 +1058,7 @@ button {
     flex-direction: column;
     align-items: center;
     margin-top: 50px;
+    background: var(--background_color);
 }
 
 .order-form input[type="text"],
@@ -926,7 +1066,7 @@ button {
     padding: 10px;
     margin-bottom: 10px;
     border: none;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px var(--text_color);
     font-size: 16px;
 }
 
@@ -942,7 +1082,7 @@ button {
 .order-form input[type="file"] {
     width: 200px;
     height: 40px;
-    background-color: #fff;
+    background-color: var(--background_color);
     color: #000;
     font-weight: bold;
     cursor: pointer;
@@ -963,7 +1103,7 @@ label {
 }
 
 .order-form .order-form-button {
-    background-color: #5cb85c;
+    background-color: var(--background_color);
     color: #fff;
     border: none;
     padding: 10px 20px;
@@ -973,7 +1113,8 @@ label {
 }
 
 .order-form .order-form-button:hover {
-    background-color: #0062cc;
+    background-color: var(--background_color);
+    box-shadow: 0 0 5px #93c54b;
 }
 
 .order-form .files-div {
@@ -985,10 +1126,11 @@ label {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
+    color: var(--text_color)
 }
 
 .order-form .files-div button {
-    background-color: #dc3545;
+    background-color: var(--background_color);
     color: #fff;
     border: none;
     padding: 5px 10px;
@@ -999,7 +1141,11 @@ label {
 }
 
 .order-form .files-div button:hover {
-    background-color: #c82333;
+    background-color: var(--text_color);
+}
+
+.order-fileInput {
+    border: none;
 }
 
 
@@ -1009,18 +1155,18 @@ label {
     font-size: 16px;
     border: none;
     border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    background-color: #f2f2f2;
-    color: #333;
+    box-shadow: 0 0 5px var(--text_color);
+    background-color: var(--background_color);
+    color: var(--text_color);
     outline: none;
 }
 
 input[type="date"] {
     appearance: none;
-    border: 1px solid black;
+    border: 1px solid var(--text_color);
     border-radius: 3px;
     box-sizing: border-box;
-    color: #555;
+    color: var(--text_color);
     font-size: 16px;
     padding: 8px 10px;
     width: 25%;
@@ -1029,7 +1175,7 @@ input[type="date"] {
 
 input[type="date"]:focus {
     outline: none;
-    border-color: #0070f3;
+    border-color: var(--background_color);
 }
 
 .request-recovery-password-div {
@@ -1041,8 +1187,8 @@ input[type="date"]:focus {
 form {
     width: 60%;
     padding: 5%;
-    background-color: #fff;
-    box-shadow: 0px 15px 15px rgba(0, 0, 0, 0.1);
+    background-color: var(--text_color);
+    box-shadow: 0px 1px 15px var(--text_color);
     margin: 1% 15%;
 }
 
@@ -1055,7 +1201,7 @@ form {
     font-size: 14px;
     font-weight: 500;
     margin-bottom: 5px;
-    color: #333;
+    color: var(--text_color);
 }
 
 .email-input[type="text"] {
@@ -1072,8 +1218,8 @@ form {
     width: 100%;
     padding: 10px;
     border: none;
-    background-color: #0070f3;
-    color: #fff;
+    background-color: var(--background_color);
+    color: var(--text_color);
     font-size: 16px;
     font-weight: 500;
     cursor: pointer;
@@ -1081,7 +1227,7 @@ form {
 }
 
 button:disabled {
-    background-color: #ccc;
+    background-color: var(--background_color);
     cursor: not-allowed;
 }
 
@@ -1094,6 +1240,7 @@ button:disabled {
 .message {
     font-size: 14px;
     margin-bottom: 5px;
+    color: var(--text_color);
 }
 
 
@@ -1104,15 +1251,15 @@ button:disabled {
 }
 
 input {
-    background-color: #fff;
-    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+    background-color: var(--background_color);
+    box-shadow: 0px 2px 6px var(--text_color);
 }
 
 .request-recovery-password-form, .password-recovery-form {
     width: 400px;
     padding: 40px;
-    background-color: #fff;
-    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+    background-color: var(--background_color);
+    box-shadow: 0px 2px 6px var(--text_color);
     margin: 1%;
     text-align: center;
 }
@@ -1144,8 +1291,8 @@ input[type="password"] {
     width: 100%;
     padding: 10px;
     border: none;
-    background-color: #5cb85c;
-    color: #fff;
+    background-color: var(--background_color);
+    color: var(--text_color);
     font-size: 16px;
     font-weight: 500;
     cursor: pointer;
@@ -1153,7 +1300,7 @@ input[type="password"] {
 }
 
 .submit-button:disabled {
-    background-color: #ccc;
+    background-color: var(--background_color);
     cursor: not-allowed;
 }
 
@@ -1168,14 +1315,14 @@ input[type="password"] {
 .StripeElement {
     height: 40px;
     padding: 10px 12px;
-    border: 1px solid #ccc;
-    background-color: #fff;
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    border: 1px solid var(--background_color);
+    background-color: var(--text_color);
+    box-shadow: inset 0 1px 1px var(--text_color);
 }
 
 .StripeElement--focus {
-    border-color: #4d90fe;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-color: var(--text_color);
+    box-shadow: 0 1px 3px var(--text_color);
 }
 
 .StripeElement--invalid {
@@ -1188,8 +1335,8 @@ input[type="password"] {
     height: 40px;
     margin-top: 20px;
     padding: 0 10px;
-    background-color: #5cb85c;
-    color: #fff;
+    background-color: var(--background_color);
+    color: var(--text_color);
     font-size: 16px;
     font-weight: 600;
     border: none;
@@ -1242,7 +1389,7 @@ input[type="password"] {
     }
 
     .user-div, .admin-order-div, .employee-order-div {
-        border: 1px solid black;
+        border: 1px solid var(--text_color);
         text-align: center;
         width: 80%;
         max-width: 400px;
@@ -1288,7 +1435,7 @@ input[type="password"] {
     }
 
     .order-employee-wrap {
-        border: 1px solid black;
+        border: 1px solid var(--text_color);
         width: 80%;
         align-items: center;
         padding: 2%;
@@ -1296,13 +1443,13 @@ input[type="password"] {
     }
 
     .order-details-div {
-        border: 1px solid black;
+        border: 1px solid var(--text_color);
         width: 80%;
         display: flex;
         justify-content: center;
         flex-direction: column;
-        background-color: #fff;
-        box-shadow: 0px 15px 15px rgba(0, 0, 0, 0.1);
+        background-color: var(--background_color);
+        box-shadow: 0px 1px 15px var(--text_color);
     }
 
     .employee-wrapper {
@@ -1318,21 +1465,12 @@ input[type="password"] {
         width: 100%;
         max-height: 100px;
         height: 100%;
-        border: 1px solid black;
+        border: 1px solid var(--text_color);
         margin-bottom: 15px;
     }
 
     .employees-buttons {
         font-size: 12px;
-    }
-
-    .employee-order-rate-select {
-        margin: 2%;
-        text-align: center;
-    }
-
-    .employee-order-rate-select option {
-        text-align: center;
     }
 
     .profile-form input {
@@ -1391,7 +1529,7 @@ input[type="password"] {
     }
 
     .user-div, .admin-order-div, .employee-order-div {
-        border: 1px solid black;
+        border: 1px solid var(--text_color);
         text-align: center;
         width: 100%;
         max-width: 250px;

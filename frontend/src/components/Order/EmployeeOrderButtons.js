@@ -75,7 +75,7 @@ const EmployeeOrderButtons = ({order, user}) => {
 
             {(order.status === 5 && taken && state.button === 1) &&
                 <div>
-                <select className={'employee-order-rate-select'} id={'select'} onChange={(e) => setState(prevState => ({
+                <select className={'order-rate-select'} id={'select'} onChange={(e) => setState(prevState => ({
                     ...prevState, rate: e.target.value
                 }))}></select><br/>
                 <button className={'employees-buttons'} onClick={() => done()} disabled={!state.rate}>Done</button>

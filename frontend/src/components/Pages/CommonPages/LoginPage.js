@@ -9,7 +9,7 @@ const LoginPage = () => {
 
     return (
         <div className={'login-page-div'}>
-            <h1>SIGN IN</h1>
+            <h1 className={'auth-board'}>SIGN IN</h1>
             <LoginForm/>
             <div className={'swapLinks-div'}>
                 <Link to={'/auth/register'}>I`m new user</Link><br/>

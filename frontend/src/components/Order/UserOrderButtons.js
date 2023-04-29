@@ -43,7 +43,7 @@ const UserOrderButtons = ({status, id}) => {
             </div>}
 
             {status === 6 && <div>
-                <select className={'user-order-rate-select'} id={'user-select'} onChange={(e) => setRate(e.target.value)}></select>
+                <select className={'order-rate-select'} id={'user-select'} onChange={(e) => setRate(e.target.value)}></select>
                 <button disabled={!rate} onClick={() => navigate(`/office/order/${id}/payment/${rate}`)}>Pay</button>
             </div>}
         </div>

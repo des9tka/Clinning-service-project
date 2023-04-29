@@ -31,16 +31,17 @@ const SuperUserButtons = ({user}) => {
 
     return (
         <div className={'user-buttons'}>
-            {!user.is_active && <button onClick={() => activate()}>Activate</button>}
-            {user.is_active && <button onClick={() => deactivate()}>Deactivate</button>}
+            {!user.is_active && <button className={'green'} onClick={() => activate()}>Activate</button>}
+            {user.is_active && <button className={'red'} onClick={() => deactivate()}>Deactivate</button>}
             {(user.is_staff || user.is_employee) && <button onClick={() => toUser()}>To User</button>}
             {!user.is_staff && <button onClick={() => toAdmin()}>To Amin</button>}
             {!user.is_employee && <button onClick={() => toEmployee()}>To Employee</button>}
             {(user.is_staff || user.is_employee) && <button onClick={() => navigate(`/superuser/users/${user.id}/change_service`)}>Change Service</button>}
-            <button onClick={() => userDelete()}>delete {user.profile?.name}</button>
+            <button className={'red'} onClick={() => userDelete()}>delete {user.profile?.name}</button>
         </div>
     )
 }
+
 export {
     SuperUserButtons
 };

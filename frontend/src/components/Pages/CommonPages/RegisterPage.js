@@ -6,7 +6,7 @@ const RegisterPage = () => {
 
     return (
         <div>
-            <h1>SIGN UP</h1>
+            <h1 className={'about-text'}>SIGN UP</h1>
             <RegisterForm/>
             <div className={'swapLinks-div'}>
                 <Link to={'/auth/login'}>I`m signed up</Link><br/>

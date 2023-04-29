@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>List of overdue orders: </h1>
+{% for order in orders %}
+    <div class="order">
+        <h2>Order #{{ order.id }}</h2>
+        <p>Customer: {{ order.customer }}</p>
+        <p>Items:</p>
+        <ul>
+            {% for item in order.items.all %}
+                <li>{{ item.name }} - {{ item.price }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endfor %}
+</body>
+</html>

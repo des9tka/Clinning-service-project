@@ -76,7 +76,7 @@ const AdminOrderDetailsPage = () => {
                                                                                                                       status={order.status}/>)}
                 </div>
 
-                {(order.status === 1 && !state.button) && <form onSubmit={handleSubmit(orderConfirm)}>
+                {(order.status === 1 && !state.button) && <form className={'admin-order-form'} onSubmit={handleSubmit(orderConfirm)}>
 
                     <div className={'admin-order-inputs'}>
                         <input type={'number'} placeholder={'Price'} {...register('price')} onChange={(e) => setState(prevState => {

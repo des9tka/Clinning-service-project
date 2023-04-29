@@ -20,7 +20,6 @@ function App() {
     return (
         <div>
             <Routes>
-                <Route path={'/loading'} element={<LoadingPage/>}/>
                 <Route path={'/'} element={<UserLayout/>}>
                     <Route index element={<Navigate to={'/home'}/>}/>
                     <Route path={'home'} element={<HomePage/>}/>

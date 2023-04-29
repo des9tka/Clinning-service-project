@@ -1,4 +1,10 @@
+import {useEffect} from "react";
+
 const Toggle = () => {
+
+    useEffect(() => {
+         if (localStorage.getItem('theme') === 'dark') document.getElementById('toggle').click()
+    }, [])
 
     const setDarkTheme = () => {
         document.querySelector('body').setAttribute('data-theme', 'dark')
@@ -23,7 +29,6 @@ const Toggle = () => {
         </div>
     )
 }
-
 
 export {
     Toggle

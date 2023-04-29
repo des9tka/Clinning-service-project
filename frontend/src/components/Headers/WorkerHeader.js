@@ -15,6 +15,7 @@ const WorkerHeader = () => {
         </div>
     )
 }
+
 export {
     WorkerHeader
 };

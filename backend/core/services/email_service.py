@@ -1,5 +1,6 @@
 import os
 
+from configs.celery import app
 from core.services.jwt_service import ActivateToken, JWTService, RecoveryToken
 
 from django.core.mail import EmailMultiAlternatives
@@ -10,6 +11,7 @@ class EmailService:
     url = os.environ.get('office_link')
 
     @staticmethod
+    @app.task
     def __send_email(to: str, templates_name: str, context: dict, subject: ''):
         templates = get_template(templates_name)
         html_content = templates.render(context)
@@ -21,7 +23,7 @@ class EmailService:
     def register_email(cls, user):
         token = JWTService.create_token(user, ActivateToken)
         url = f'http://localhost/auth/{token}/activate'
-        cls.__send_email(user.email, 'register.html', {'name': user.profile.name, 'url': url}, 'Register')
+        cls.__send_email.delay(user.email, 'register.html', {'name': user.profile.name, 'url': url}, 'Register')
 
     @classmethod
     def recovery_password_by_email(cls, user):
@@ -32,43 +34,43 @@ class EmailService:
     @classmethod
     def password_changed(cls, user):
         print(user)
-        cls.__send_email(user.email, 'password_changed.html', {'name': user.profile.name}, 'Changed Password')
+        cls.__send_email.delay(user.email, 'password_changed.html', {'name': user.profile.name}, 'Changed Password')
 
     @classmethod
     def confirm_order_email(cls, user, order_id):
-        cls.__send_email(user.email, 'order_confirm.html', {'name': user.profile.name, 'order': order_id, 'url': cls.url}, 'Order Confirmed')
+        cls.__send_email.delay(user.email, 'order_confirm.html', {'name': user.profile.name, 'order': order_id, 'url': cls.url}, 'Order Confirmed')
 
     @classmethod
     def user_reject_order_email(cls, user, order_id):
-        cls.__send_email(user.email, 'user_reject_order_email.html', {'name': user.profile.name, 'order': order_id, 'url': cls.url}, 'Order Rejected')
+        cls.__send_email.delay(user.email, 'user_reject_order_email.html', {'name': user.profile.name, 'order': order_id, 'url': cls.url}, 'Order Rejected')
 
     @classmethod
     def admin_reject_order_email(cls, user, order_id, data, admin):
-        cls.__send_email(user.email, 'admin_reject_order_email.html', {'name': user.profile.name, 'order': order_id, 'data': data, 'admin': admin,
+        cls.__send_email.delay(user.email, 'admin_reject_order_email.html', {'name': user.profile.name, 'order': order_id, 'data': data, 'admin': admin,
                                                                        'url': cls.url}, 'Order Rejected')
 
     @classmethod
     def taken_order_email(cls, user, order_id):
-        cls.__send_email(user.email, 'taken_order_email.html', {'name': user.profile.name, 'order': order_id, 'url': cls.url}, 'Order Taken')
+        cls.__send_email.delay(user.email, 'taken_order_email.html', {'name': user.profile.name, 'order': order_id, 'url': cls.url}, 'Order Taken')
 
     @classmethod
     def done_order_email(cls, user, order_id):
-        cls.__send_email(user.email, 'done_order_email.html', {'name': user.profile.name, 'order': order_id, 'url': cls.url}, 'Order Done')
+        cls.__send_email.delay(user.email, 'done_order_email.html', {'name': user.profile.name, 'order': order_id, 'url': cls.url}, 'Order Done')
 
     @classmethod
     def payed_order_email(cls, user, order_id):
-        cls.__send_email(user.email, 'paid_order_email.html', {'name': user.profile.name, 'order': order_id, 'url': cls.url}, 'Order Payed')
+        cls.__send_email.delay(user.email, 'paid_order_email.html', {'name': user.profile.name, 'order': order_id, 'url': cls.url}, 'Order Payed')
 
     @classmethod
     def employee_remove_order_email(cls, user, order_id, employee):
-        cls.__send_email(user.email, 'employee_remove_order_email.html', {'name': user.profile.name, 'order': order_id, 'employee': employee,
+        cls.__send_email.delay(user.email, 'employee_remove_order_email.html', {'name': user.profile.name, 'order': order_id, 'employee': employee,
                                                                           'url': cls.url}, 'Order Inconvenience')
 
         cls.__send_email(employee.email, 'remove_employee.html', {'name': employee.profile.name, 'order_id': order_id}, 'Order Inconvenience')
 
     @classmethod
     def employee_order_taken(cls, user, order):
-        cls.__send_email(user.email, 'employee_order_notification.html', {'name': user.profile.name, 'order': order, 'url': cls.url}, 'Order Taken')
+        cls.__send_email.delay(user.email, 'employee_order_notification.html', {'name': user.profile.name, 'order': order, 'url': cls.url}, 'Order Taken')
 
     @classmethod
     def activate_request(cls, user):
@@ -81,3 +83,7 @@ class EmailService:
         url = f'http://localhost/admin/order/{order_id}/details'
         cls.__send_email(admin.email, 'request_of_reject.html', {'admin': admin, 'employee': employee, 'reason': reason, 'url': url, 'id': order_id},
                          'Activate Request')
+
+    @classmethod
+    def checked_overdue_order(cls, orders):
+        cls.__send_email(os.environ.get('EMAIL_HOST_USER'), 'overdue_orders.html', {'orders': orders}, 'List of Overdue Orders')

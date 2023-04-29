@@ -3,7 +3,7 @@ import {BASE_URL} from "../../configs";
 
 const EmployeesBuilder = ({status, order_id, employee}) => {
 
-    const link = employee.profile.user_photo.replace("http://localhost", "");
+    const link = employee.profile.user_photo?.replace("http://localhost", "");
 
     return (
         <div className={'order-employee-wrap'}>
@@ -16,7 +16,6 @@ const EmployeesBuilder = ({status, order_id, employee}) => {
         </div>
     )
 }
-
 
 export {
     EmployeesBuilder

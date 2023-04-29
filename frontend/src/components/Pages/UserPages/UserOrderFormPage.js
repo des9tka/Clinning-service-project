@@ -4,7 +4,7 @@ const UserOrderFormPage = () => {
 
     return (
         <div>
-            <h1 className={'board'}>Order Form</h1>
+            <h1 className={'about-text'}>Order Form</h1>
             <OrderForm/>
         </div>
     )

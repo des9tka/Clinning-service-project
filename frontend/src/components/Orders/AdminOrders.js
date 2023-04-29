@@ -70,7 +70,7 @@ const AdminOrders = () => {
                 {!search && <button className={'prev-button'} disabled={!prevPage} onClick={() => prev()}>Prev</button>}
                 {search && <button className={'prev-button'} disabled={!prevPage} onClick={() => searchPrev()}>Prev</button>}
 
-                <select className={'admin-order-select'} disabled={searcher} id={'select'} onChange={() => ordersChange()}>
+                <select className={'order-select'} disabled={searcher} id={'select'} onChange={() => ordersChange()}>
                     <option value={1}>waiting for approve</option>
                     <option value={5}>taken</option>
                     <option value={4}>rejected</option>

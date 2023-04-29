@@ -17,7 +17,10 @@ tzdata = "==2022.7"
 pillow = "*"
 stripe = "*"
 drf-yasg = "*"
-
+celery = "*"
+redis = "*"
+django-cron = "*"
+django-celery-beat = "*"
 
 [dev-packages]
 isort = "*"
