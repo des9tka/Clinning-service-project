@@ -6,16 +6,9 @@
 </head>
 <body>
 <h1>List of overdue orders: </h1>
-{% for order in orders %}
+{% for id in orders %}
     <div class="order">
-        <h2>Order #{{ order.id }}</h2>
-        <p>Customer: {{ order.customer }}</p>
-        <p>Items:</p>
-        <ul>
-            {% for item in order.items.all %}
-                <li>{{ item.name }} - {{ item.price }}</li>
-            {% endfor %}
-        </ul>
+        <p>Order #{{ id }}</p> - <a href='http://localhost/superuser/orders/{{ id }}/details'>More details</a>
     </div>
 {% endfor %}
 </body>

@@ -33,7 +33,6 @@ class EmailService:
 
     @classmethod
     def password_changed(cls, user):
-        print(user)
         cls.__send_email.delay(user.email, 'password_changed.html', {'name': user.profile.name}, 'Changed Password')
 
     @classmethod
@@ -87,3 +86,7 @@ class EmailService:
     @classmethod
     def checked_overdue_order(cls, orders):
         cls.__send_email(os.environ.get('EMAIL_HOST_USER'), 'overdue_orders.html', {'orders': orders}, 'List of Overdue Orders')
+
+    @classmethod
+    def order_pay_notification(cls, order, user, days_left):
+        cls.__send_email(user.email, 'order_pay_notification.html', {'order': order, 'days': days_left, 'url': cls.url, 'user': user}, 'Payment Notification')

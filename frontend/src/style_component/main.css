@@ -178,44 +178,44 @@ button {
 /*tools*/
 
 .order-rate-select {
-  color: black;
-  background-color: cornsilk;
-  padding: 8px;
-  border: none;
-  border-radius: 4px;
-  box-shadow: none;
-  font-size: 16px;
+    color: black;
+    background-color: cornsilk;
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+    box-shadow: none;
+    font-size: 16px;
     margin: 1%;
 }
 
 /* Style the arrow icon */
 .order-rate-select::-ms-expand {
-  display: none;
+    display: none;
 }
 
 .order-rate-select::before {
-  content: '';
-  display: block;
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  width: 0;
-  height: 0;
-  border-top: 8px solid black;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  transform: translateY(-50%);
-  pointer-events: none;
+    content: '';
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    width: 0;
+    height: 0;
+    border-top: 8px solid black;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    transform: translateY(-50%);
+    pointer-events: none;
 }
 
 .order-rate-select:focus {
-  outline: none;
+    outline: none;
 }
 
 /* Style the options */
 .order-rate-select option {
-  color: black;
-  background-color: cornsilk;
+    color: black;
+    background-color: cornsilk;
 }
 
 .header {
@@ -769,6 +769,7 @@ button {
     display: flex;
     justify-content: center;
     flex-direction: column;
+    box-shadow: 0px 1px 15px var(--text_color);
 }
 
 .order-details-div div {
@@ -862,6 +863,23 @@ button {
     text-align: center;
 }
 
+.about-wrap {
+    background: var(--background_color);
+    color: var(--text_color);
+    box-shadow: 0 1px 15px var(--text_color);
+    padding: 1%;
+    margin: 1%;
+}
+
+.superuser-button-wrapper button {
+    color: var(--text_color);
+    background: var(--background_color);
+}
+
+.superuser-button-wrapper button:hover {
+    color: var(--background_color);
+    background: var(--text_color);
+}
 
 .service-form {
     display: flex;
@@ -967,7 +985,7 @@ button {
     box-shadow: 0px 1px 15px var(--text_color);
 }
 
-.service-div button{
+.service-div button {
     color: var(--text_color);
     background: var(--background_color);
 }
@@ -1001,20 +1019,20 @@ button {
     padding: 1%;
 }
 
-.service-details button{
+.service-details button {
     background: var(--background_color);
     color: var(--text_color);
 }
 
 .red:hover {
-     box-shadow: 0 2px 5px red;
+    box-shadow: 0 2px 5px red;
 }
 
 .green:hover {
-     box-shadow: 0 2px 5px #93c54b;
+    box-shadow: 0 2px 5px #93c54b;
 }
 
-.service-details button:hover{
+.service-details button:hover {
     background: var(--text_color);
     color: var(--background_color);
     box-shadow: 0 2px 5px red;
@@ -1443,13 +1461,11 @@ input[type="password"] {
     }
 
     .order-details-div {
-        border: 1px solid var(--text_color);
         width: 80%;
         display: flex;
         justify-content: center;
         flex-direction: column;
         background-color: var(--background_color);
-        box-shadow: 0px 1px 15px var(--text_color);
     }
 
     .employee-wrapper {
@@ -1584,7 +1600,6 @@ input[type="password"] {
     }
 
     .order-details-div {
-        border: 1px solid black;
         border-radius: 25px;
         width: 80%;
         display: flex;

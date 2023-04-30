@@ -23,6 +23,11 @@ services:
     env_file:
       - .env
     restart: on-failure
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 5s
+      timeout: 10s
+      retries: 5
     volumes:
       - ./mysql:/var/lib/mysql
 
@@ -48,6 +53,9 @@ services:
       - ./backend:/app
     env_file:
       - .env
+    depends_on:
+      db:
+        condition: service_healthy
     restart: on-failure
     command: >
-      sh -c "celery -A configs worker -l info"
+      sh -c "celery -A configs worker -l info -B"

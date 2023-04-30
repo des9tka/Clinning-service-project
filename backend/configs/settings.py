@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django_filters',
     'drf_yasg',
     'django_cron',
+    'django_celery_beat',
 
 
     # my_apps

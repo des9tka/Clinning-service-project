@@ -1,16 +1,14 @@
 import datetime
 import os
-from datetime import date, datetime, timedelta
+from datetime import date, datetime
 
 import pytz
 import stripe
-from configs.celery import app
 from core.pagination.page_pagination import OrderPagePagination
 from core.services.email_service import EmailService
 
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
-from django.utils import timezone
 
 from rest_framework import status
 from rest_framework.generics import GenericAPIView, ListAPIView, ListCreateAPIView, RetrieveDestroyAPIView
@@ -380,15 +378,3 @@ class GetOrderEmployeeView(GenericAPIView):
         serializer = UserSerializer(instance=employees, many=True)
         return Response(serializer.data, status.HTTP_200_OK)
 
-
-@app.task
-def checkOverdueOrders():
-    orders_to_notify = []
-    orders = OrderModel.objects.filter(status=6)
-    for order in orders:
-        time_difference = timezone.now().date() - order.done_at
-        if time_difference > timedelta(days=3):
-            orders_to_notify.append(order.id)
-
-    if orders_to_notify:
-        EmailService.checked_overdue_order(orders_to_notify)
