@@ -14,7 +14,8 @@ const userAttr = {
     self: '/self',
     best_employees: '/best_employees',
     get_by_token: '/get_by_token/',
-    request_of_reject: '/request_of_reject/'
+    request_of_reject: '/request_of_reject/',
+    list_by_order: '/list_by_order/'
 };
 
 const serviceAttr = {

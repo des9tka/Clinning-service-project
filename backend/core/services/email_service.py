@@ -1,10 +1,15 @@
 import os
+from datetime import timedelta
 
 from configs.celery import app
 from core.services.jwt_service import ActivateToken, JWTService, RecoveryToken
 
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
+from django.utils import timezone
+
+from apps.orders.models import OrderModel
+from apps.users.models import UserModel
 
 
 class EmailService:
@@ -46,7 +51,7 @@ class EmailService:
     @classmethod
     def admin_reject_order_email(cls, user, order_id, data, admin):
         cls.__send_email.delay(user.email, 'admin_reject_order_email.html', {'name': user.profile.name, 'order': order_id, 'data': data, 'admin': admin,
-                                                                       'url': cls.url}, 'Order Rejected')
+                                                                             'url': cls.url}, 'Order Rejected')
 
     @classmethod
     def taken_order_email(cls, user, order_id):
@@ -63,7 +68,7 @@ class EmailService:
     @classmethod
     def employee_remove_order_email(cls, user, order_id, employee):
         cls.__send_email.delay(user.email, 'employee_remove_order_email.html', {'name': user.profile.name, 'order': order_id, 'employee': employee,
-                                                                          'url': cls.url}, 'Order Inconvenience')
+                                                                                'url': cls.url}, 'Order Inconvenience')
 
         cls.__send_email(employee.email, 'remove_employee.html', {'name': employee.profile.name, 'order_id': order_id}, 'Order Inconvenience')
 
@@ -88,5 +93,25 @@ class EmailService:
         cls.__send_email(os.environ.get('EMAIL_HOST_USER'), 'overdue_orders.html', {'orders': orders}, 'List of Overdue Orders')
 
     @classmethod
-    def order_pay_notification(cls, order, user, days_left):
-        cls.__send_email(user.email, 'order_pay_notification.html', {'order': order, 'days': days_left, 'url': cls.url, 'user': user}, 'Payment Notification')
+    def order_pay_notification(cls, order, user, days_left, deadline):
+        cls.__send_email(user.email, 'order_pay_notification.html', {'order': order, 'days': days_left, 'url': cls.url, 'user': user, 'deadline': deadline},
+        'Payment Notification')
+
+
+@app.task
+def checkOverdueOrders():
+    orders_to_notify = []
+    orders = OrderModel.objects.filter(status=6)
+    for order in orders:
+        time_difference = timezone.now().date() - order.done_at
+        if 1 <= time_difference.days < 2:
+            user = UserModel.objects.get(id=order.user_id)
+            EmailService.order_pay_notification(order.id, user, 2, order.done_at + timedelta(days=3))
+        elif 2 <= time_difference.days < 3:
+            user = UserModel.objects.get(id=order.user_id)
+            EmailService.order_pay_notification(order.id, user, 1, order.done_at + timedelta(days=3))
+        if time_difference > timedelta(days=3):
+            orders_to_notify.append(order.id)
+
+    if orders_to_notify:
+        EmailService.checked_overdue_order(orders_to_notify)

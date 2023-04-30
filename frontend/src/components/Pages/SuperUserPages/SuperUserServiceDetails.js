@@ -65,7 +65,7 @@ const SuperUserServiceDetails = () => {
                     <label>Service address</label>
                     <input type="text" {...register('address', {required: true, minLength: 2, maxLength: 50})}/>
 
-                    <button disabled={!isValid}>Update</button>
+                    <button className={'green'} disabled={!isValid}>Update</button>
                 </form>
 
                 <div className={'service-errors-div'}>

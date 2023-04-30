@@ -1032,6 +1032,14 @@ button {
     box-shadow: 0 2px 5px #93c54b;
 }
 
+.order-user-div {
+    border: 1px solid var(--text_color);
+    box-shadow: 0 1px 15px var(--text_color);
+    text-align: center;
+    margin: 1%;
+    width: 98%;
+}
+
 .service-details button:hover {
     background: var(--text_color);
     color: var(--background_color);

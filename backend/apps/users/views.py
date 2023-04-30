@@ -343,3 +343,10 @@ class EmployeeRejectRequestView(GenericAPIView):
         cache.set(cache_key, datetime.now(), timeout=600)
         return Response(status=status.HTTP_200_OK)
 
+
+class ListUserByOrderIdView(GenericAPIView):
+    def get(self, *args, **kwargs):
+        pk = kwargs.get('pk')
+        user = UserModel.objects.get(id=OrderModel.objects.get(id=pk).user_id)
+        serializer = UserSerializer(instance=user)
+        return Response(serializer.data, status.HTTP_200_OK)

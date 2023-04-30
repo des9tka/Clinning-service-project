@@ -14,7 +14,7 @@ app.conf.update(
 
 app.conf.beat_schedule = {
     "check_overdue_orders": {
-        "task": "apps.orders.celery_tasks.checkOverdueOrders",
-        "schedule": crontab(minute=52, hour=13)
+        "task": "core.services.email_service.checkOverdueOrders",
+        "schedule": crontab(minute=0, hour=0)
     }
 }

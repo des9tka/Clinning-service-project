@@ -8,7 +8,7 @@
 <h1>List of overdue orders: </h1>
 {% for id in orders %}
     <div class="order">
-        <p>Order #{{ id }}</p> - <a href='http://localhost/superuser/orders/{{ id }}/details'>More details</a>
+        <div>Order #{{ id }}</div> - <a href='http://localhost/superuser/orders/{{ id }}/details'>More details</a>
     </div>
 {% endfor %}
 </body>

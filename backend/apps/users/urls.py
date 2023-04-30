@@ -10,6 +10,7 @@ from .views import (
     GetSelfUserView,
     GetUserByTokenView,
     ListBestEmployeeView,
+    ListUserByOrderIdView,
     ListUserOrdersView,
     ProfileUpdateView,
     RetrieveDestroyUserView,
@@ -39,6 +40,7 @@ urlpatterns = [
     path('/request_of_reject/<int:pk>', EmployeeRejectRequestView.as_view()),
     path('/<int:pk>/delete', DeleteUserView.as_view()),
     path('/<int:pk>', RetrieveDestroyUserView.as_view()),
+    path('/list_by_order/<int:pk>', ListUserByOrderIdView.as_view()),
     path('get_by_token/<str:token>', GetUserByTokenView.as_view()),
 
 ]

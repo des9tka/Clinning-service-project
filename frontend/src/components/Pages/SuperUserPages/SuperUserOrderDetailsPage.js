@@ -11,15 +11,17 @@ import {order_service} from "../../../services";
 const SuperUserOrderDetailsPage = () => {
 
     const {order, loading, error} = useSelector(state => state.orderReducer)
+    const {user} = useSelector(state => state.userReducer)
     const {users} = useSelector(state => state.userReducer)
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const {id} = useParams();
 
-    useEffect(() => {
+    useEffect(async () => {
         if (!order) {
-            dispatch(orderActions.setOrderById({id}))
+            await dispatch(orderActions.setOrderById({id}))
         }
+        dispatch(userActions.setUserByOrderId({id}))
         dispatch(userActions.setOrderEmployeesByOrderId({id}))
     }, [])
 
@@ -59,6 +61,12 @@ const SuperUserOrderDetailsPage = () => {
                     {order.photos.map((photo, index) => <PhotosBuilder key={index} photo={photo}/>)}
                 </div>
 
+                <div className={'order-user-div'}>
+                    <h2>Ordered by {user?.profile?.name} {user?.profile?.surname}</h2>
+                    <h3>Phone - {user?.profile?.phone}</h3>
+                    <h3>Mail - {user?.email}</h3>
+                </div>
+
                 {order.status !== 1 && order.status !== 2 && <h3>Employees</h3>}
                 <div className={'employee-wrapper'}>
                     {order.status !== 1 && order.status !== 2 && order.employees_current[0] && users.map(employee => <EmployeesBuilder
@@ -72,6 +80,7 @@ const SuperUserOrderDetailsPage = () => {
         </div>
     )
 }
+
 
 export {
     SuperUserOrderDetailsPage
