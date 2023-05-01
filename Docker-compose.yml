@@ -14,8 +14,7 @@ services:
     depends_on:
       - db
     command: >
-      sh -c "python manage.py db_waiting && gunicorn configs.wsgi --bind 0.0.0.0:8000"
-
+      sh -c "python manage.py db_waiting && python manage.py base_setup && gunicorn configs.wsgi --bind 0.0.0.0:8000"
   db:
     image: mysql:8
     ports:
@@ -54,8 +53,8 @@ services:
     env_file:
       - .env
     depends_on:
-      db:
-        condition: service_healthy
+      - app
+      - db
     restart: on-failure
     command: >
       sh -c "celery -A configs worker -l info -B"

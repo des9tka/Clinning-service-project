@@ -21,7 +21,8 @@ const user_service = {
     addPhoto: (user_photo) => axiosService.patch(`${urls.USERS}${userAttr.add_photo}`, user_photo),
     getByToken: (token) => axiosService.get(`${urls.USERS}${userAttr.get_by_token}${token}`),
     bestEmployees: () => axiosService.get(`${urls.USERS}${userAttr.best_employees}`),
-    getUserByOrderId: (id) => axiosService.get(`${urls.USERS}${userAttr.get_by_order}${id}`)
+    getUserByOrderId: (id) => axiosService.get(`${urls.USERS}${userAttr.get_by_order}${id}`),
+    activateByToken: (token) => axiosService.patch(`${urls.USERS}${userAttr.activate_by_token}${token}`)
 }
 
 export {

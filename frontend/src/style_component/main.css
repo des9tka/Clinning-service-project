@@ -82,6 +82,7 @@ body, html {
     font-size: 2.5vw;
     margin-top: 5%;
     margin-bottom: 5%;
+    background: var(--background_color);
 }
 
 .swapLinks-div {
@@ -480,14 +481,15 @@ button {
 
 .order-select {
     text-align: center;
-    color: black;
     appearance: none;
     -webkit-appearance: none;
     border-radius: 10px;
+    color: var(--text_color);
 }
 
 .order-select option {
     text-align: center;
+    color: var(--text_color);
 }
 
 .order-select option:hover {

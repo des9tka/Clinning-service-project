@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_filters',
     'drf_yasg',
-    'django_cron',
     'django_celery_beat',
 
 
@@ -56,10 +55,6 @@ INSTALLED_APPS = [
     'apps.orders',
     'rest_framework_simplejwt.token_blacklist'
 ]
-
-# CRON_CLASSES = [
-#     'configs.cron.OrderCheck',
-# ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

@@ -40,10 +40,9 @@ const RegisterForm = () => {
             });
     }
 
-
     return (
         <form className={'register-form'} onSubmit={handleSubmit(reg)}>
-            {state && <h3>{state}</h3>}
+            {state && <h3 className={'about-text'}>{state}</h3>}
             <label>Email</label>
             <input type="text" {...register('email')}/>
             <label>Password</label>

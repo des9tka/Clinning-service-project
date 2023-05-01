@@ -29,6 +29,7 @@ class JWTService:
     @staticmethod
     def validate_token(token, token_class: TokenClass):
         try:
+            print(1111)
             token_valid = token_class(token)
             token_valid.check_blacklist()
         except (Exception,):

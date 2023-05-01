@@ -313,6 +313,23 @@ class GetUserByTokenView(GenericAPIView):
         return Response(serializer.data, status.HTTP_200_OK)
 
 
+class ActivateByTokenView(GenericAPIView):
+    """
+    Activate user by token.
+    """
+    permission_classes = AllowAny,
+
+    def patch(self, *args, **kwargs):
+        token = kwargs.get('token')
+        print(1111)
+        user = JWTService.validate_token(token, ActivateToken)
+        if not user.is_active:
+            user.is_active = True
+            user.save()
+        return Response(status=status.HTTP_200_OK)
+
+
+
 class ListBestEmployeeView(ListAPIView):
     """
     List best 5 employees.

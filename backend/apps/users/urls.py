@@ -1,6 +1,7 @@
 from django.urls import path
 
 from .views import (
+    ActivateByTokenView,
     AddOrderToUserView,
     AddUserPhotoView,
     ChangeEmployeeServiceView,
@@ -41,6 +42,6 @@ urlpatterns = [
     path('/<int:pk>/delete', DeleteUserView.as_view(), name='users_delete'),
     path('/<int:pk>', RetrieveDestroyUserView.as_view(), name='users_get_by_id'),
     path('/get_by_order/<int:pk>', GetUserByOrderIdView.as_view(), name='users_get_by_order_id'),
-    path('get_by_token/<str:token>', GetUserByTokenView.as_view(), name='users_get_by_token'),
-
+    path('/activate_by_token/<str:token>', ActivateByTokenView.as_view(), name='users_activate_by_token'),
+    path('/get_by_token/<str:token>', GetUserByTokenView.as_view(), name='users_get_by_token'),
 ]

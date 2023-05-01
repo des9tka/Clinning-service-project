@@ -1,7 +1,7 @@
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 
-import {auth_service, user_service} from "../../../services";
+import {user_service} from "../../../services";
 import {LoadingPage} from "./LoadingPage";
 
 const ActivateUserPage = () => {
@@ -10,15 +10,11 @@ const ActivateUserPage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [isActivated, setIsActivated] = useState(false);
 
+    console.log(token)
+
     useEffect(() => {
-        user_service.getByToken(token)
-            .then((user) => {
-                if (user?.data.is_active) {
-                    setIsActivated(true);
-                } else {
-                    auth_service.activate(token).then(() => setIsActivated(true));
-                }
-            })
+        user_service.activateByToken(token)
+            .then(() => setIsActivated(true))
             .catch((error) => {
                 console.error(error);
                 setIsActivated(false);

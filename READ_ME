@@ -1,6 +1,6 @@
 In order for the service to work correctly you need :
 
-- create in database 1 service, because the service id is attached to the user;
+- create in database 1 service, because the service id is attached to the user; (Service fields: -)
 
 - create in database 7 order statuses [(1)pending, (2)admin_approved, (3)user_confirmed, (4)rejected, (5)taken, (6)done, (7)paid];
 
