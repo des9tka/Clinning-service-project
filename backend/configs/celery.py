@@ -11,7 +11,6 @@ app.conf.update(
     timezone="Europe/Kiev",
 )
 
-
 app.conf.beat_schedule = {
     "check_overdue_orders": {
         "task": "core.services.email_service.checkOverdueOrders",

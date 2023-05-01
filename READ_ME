@@ -1,0 +1,8 @@
+In order for the service to work correctly you need :
+
+- create in database 1 service, because the service id is attached to the user;
+
+- create in database 7 order statuses [(1)pending, (2)admin_approved, (3)user_confirmed, (4)rejected, (5)taken, (6)done, (7)paid];
+
+- full all info in .env_file("STRIPE_SECRET_KEY" и "STRIPE_PUBLIC_KEY" get in stripe.com, Publishable key & Secret key path = stripe.com > Developers > API
+keys > Publishable key/Secret key);
