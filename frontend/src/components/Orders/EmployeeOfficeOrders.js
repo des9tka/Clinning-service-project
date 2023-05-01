@@ -15,7 +15,6 @@ const EmployeeOfficeOrders = () => {
 
     useEffect(() => {
         dispatch(orderActions.setEmployeeOrders({query, status: 3}))
-            .catch((e) => console.log(e))
     }, [query])
 
     const prev = () => {
@@ -48,7 +47,7 @@ const EmployeeOfficeOrders = () => {
 
             {button === 'done' && <div>
                 <div className={'employee-header-wrapper'}>
-                    <h2 onClick={() => buttonChange()} className={'employee-order-headers'}>TAKEN</h2>
+                    <h2 onClick={() => buttonChange()} className={'employee-order-headers about-text'}>TAKEN</h2>
                  </div>
                 <div className={'employee-office-orders-div'}>
                     {orders[0] && orders.filter(order => order.status === 5 || order.status === 3).map(order => <EmployeeOrder order={order}/>)}
@@ -57,7 +56,7 @@ const EmployeeOfficeOrders = () => {
 
             {button === 'taken' && <div>
                 <div className={'employee-header-wrapper'}>
-                    <h2 onClick={() => buttonChange()} className={'employee-order-headers'}>DONE</h2>
+                    <h2 onClick={() => buttonChange()} className={'employee-order-headers about-text'}>DONE</h2>
                 </div>
                 <div className={'employee-office-orders-div'}>
                     {orders[0] && orders.filter(order => order.status === 6 || order.status === 7).map(order => <EmployeeOrder order={order}/>)}

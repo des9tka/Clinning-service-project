@@ -87,6 +87,7 @@ const SuperUserOrders = () => {
         </div>
     )
 }
+
 export {
     SuperUserOrders
 };

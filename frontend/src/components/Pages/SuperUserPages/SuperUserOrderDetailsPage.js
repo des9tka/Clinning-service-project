@@ -81,7 +81,6 @@ const SuperUserOrderDetailsPage = () => {
     )
 }
 
-
 export {
     SuperUserOrderDetailsPage
 };

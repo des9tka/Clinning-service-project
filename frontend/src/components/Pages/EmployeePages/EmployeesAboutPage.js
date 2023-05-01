@@ -9,7 +9,7 @@ const EmployeesAboutPage = () => {
                     - List of orders that give abilities to take some of them. <br/>
                 </div>
                 <br/>
-                <h3>Office Page:</h3> <br/><br/>
+                <h3>Office Page:</h3> <br/>
                 <div>
                     - Allow to track two types of orders - "Taken" and "Done". <br/>
                     - Rate the conditions and relations to the order and employees. <br/>

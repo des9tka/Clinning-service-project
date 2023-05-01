@@ -16,7 +16,7 @@ from .serializers import ServicePhotoSerializer, ServiceSerializer
 class ServiceListCreateView(ListCreateAPIView):
     """
     get:
-        List service by Id.
+        List services.
     post:
         Create service.
     """
@@ -31,29 +31,29 @@ class ServiceListCreateView(ListCreateAPIView):
             return super().get_permissions()
 
 
-class ServiceOrdersView(ListAPIView):
-    """
-    Getting orders by service Id that equal to request user Id.
-    """
-    pagination_class = OrderPagePagination
-    serializer_class = OrderSerializer
+# class ServiceOrdersView(ListAPIView):
+#     """
+#     Getting orders by service Id that equal to request user Id.
+#     """
+#     pagination_class = OrderPagePagination
+#     serializer_class = OrderSerializer
+#
+#     def get_queryset(self):
+#         service_id = self.request.user.service.id
+#         return OrderModel.objects.filter(service=service_id)
 
-    def get_queryset(self):
-        service_id = self.request.user.service.id
-        return OrderModel.objects.filter(service=service_id)
 
-
-class ServiceOrderRetrieveView(GenericAPIView):
-    """
-    List orders by service Id.
-    """
-    permission_classes = AllowAny,
-
-    def get(self, *args, **kwargs):
-        pk = kwargs['pk']
-        orders = OrderModel.objects.filter(service=pk)
-        serializer = OrderSerializer(instance=orders, many=True)
-        return Response(serializer.data, status.HTTP_200_OK)
+# class ServiceOrderRetrieveView(GenericAPIView):
+#     """
+#     List orders by service Id.
+#     """
+#     permission_classes = AllowAny,
+#
+#     def get(self, *args, **kwargs):
+#         pk = kwargs['pk']
+#         orders = OrderModel.objects.filter(service=pk)
+#         serializer = OrderSerializer(instance=orders, many=True)
+#         return Response(serializer.data, status.HTTP_200_OK)
 
 
 class ServiceRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):

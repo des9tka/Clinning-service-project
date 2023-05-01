@@ -14,7 +14,7 @@ services:
     depends_on:
       - db
     command: >
-      sh -c "python manage.py db_waiting && python manage.py runserver 0.0.0.0:8000"
+      sh -c "python manage.py db_waiting && gunicorn configs.wsgi --bind 0.0.0.0:8000"
 
   db:
     image: mysql:8

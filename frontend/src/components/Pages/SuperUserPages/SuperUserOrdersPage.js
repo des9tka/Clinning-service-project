@@ -8,6 +8,7 @@ const SuperUserOrdersPage = () => {
         </div>
     )
 }
+
 export {
     SuperUserOrdersPage
 };

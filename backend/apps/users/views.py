@@ -77,7 +77,8 @@ class UserListCreateView(ListCreateAPIView):
                         Q(profile__surname__icontains=search_query) |
                         Q(profile__name__icontains=search_query)
                     )
-                return queryset
+                return queryset.exclude(id=self.request.user.id)
+            return queryset.exclude(id=self.request.user.id)
 
 
 class ChangeUserServiceView(GenericAPIView):
@@ -247,7 +248,7 @@ class ProfileUpdateView(UpdateAPIView):
 class RetrieveDestroyUserView(RetrieveDestroyAPIView):
     """
     get:
-        List user by id.
+        Get user by id.
     delete:
         Delete user by Id.
     """
@@ -290,7 +291,7 @@ class DeleteUserView(DestroyAPIView):
 
 class GetSelfUserView(GenericAPIView):
     """
-    List self request user.
+    Get self request user.
     """
 
     def get(self, *args, **kwargs):
@@ -344,7 +345,10 @@ class EmployeeRejectRequestView(GenericAPIView):
         return Response(status=status.HTTP_200_OK)
 
 
-class ListUserByOrderIdView(GenericAPIView):
+class GetUserByOrderIdView(GenericAPIView):
+    """
+    Get user by order Id.
+    """
     def get(self, *args, **kwargs):
         pk = kwargs.get('pk')
         user = UserModel.objects.get(id=OrderModel.objects.get(id=pk).user_id)

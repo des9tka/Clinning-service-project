@@ -81,7 +81,6 @@ class OrderListView(ListAPIView):
 
         else:
             if user.is_employee and not user.is_superuser:
-                print('qfsefse')
                 return OrderModel.objects.filter(service_id=user.service, status=user_confirmed_status, rating__lte=user.profile.rating).order_by('-rating')
             elif user.is_superuser:
                 return OrderModel.objects.all().order_by('-rating')
@@ -237,7 +236,10 @@ class EmployeeDoneOrderView(GenericAPIView):
 
 class OrderStatusListCreateView(ListCreateAPIView):
     """
-    List of order statuses.
+    get:
+        List order statuses.
+    post:
+        Create order statuses.
     """
     queryset = OrderStatusModel.objects.all()
     serializer_class = OrderStatusSerializer
@@ -299,8 +301,6 @@ class EmployeeOrdersView(ListAPIView):
         OrderModel.objects.filter(
             Q(status_id__lte=6) & (date_filter | time_filter)
         ).update(status=rejected_status)
-
-        print(search_query)
 
         try:
             query = int(search_query)

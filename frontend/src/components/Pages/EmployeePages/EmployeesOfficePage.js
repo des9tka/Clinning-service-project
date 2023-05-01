@@ -9,9 +9,9 @@ const EmployeesOfficePage = () => {
     return (
         <div>
             <div className={'office-button-wrapper'}>
-                 <button onClick={() => navigate('/employee/office/profile')}>Profile</button>
+                 <button className={'about-text'} onClick={() => navigate('/employee/office/profile')}>Profile</button>
             </div>
-            <h1>My orders</h1>
+            <h1 className={'about-text'}>My orders</h1>
             <EmployeeOfficeOrders/>
         </div>
     )
