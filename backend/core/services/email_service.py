@@ -13,7 +13,7 @@ from apps.users.models import UserModel
 
 
 class EmailService:
-    url = os.environ.get('office_link')
+    url = 'http://localhost/office'
 
     @staticmethod
     @app.task
