@@ -2,6 +2,8 @@ import {joiResolver} from "@hookform/resolvers/joi";
 import {useForm} from "react-hook-form";
 import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons';
 
 import {auth_service} from "../../../services";
 import {user_validator} from "../../../validators";
@@ -10,7 +12,10 @@ import {userActions} from "../../../redux";
 const RegisterForm = () => {
 
     const dispatch = useDispatch();
-    const [state, setState] = useState(null);
+    const [state, setState] = useState({
+        message: null,
+        hidden: false
+    });
     const {error} = useSelector(state => state.userReducer);
 
     const {register, handleSubmit, formState: {errors, isValid}} = useForm({
@@ -19,6 +24,11 @@ const RegisterForm = () => {
     })
 
     const reg = async (user) => {
+        if (!user.phone.startsWith("38") && !user.phone.startsWith("+38")) {
+            user.phone = '38' + user.phone
+        } else if (user.phone.startsWith("+")){
+            user.phone.substring(1);
+        }
         await auth_service.register({
             email: user.email,
             password: user.password,
@@ -30,23 +40,42 @@ const RegisterForm = () => {
             }
         })
             .then(() => {
-            setState('Activate you account in your mail.')
-            dispatch(userActions.setError(null))
-        })
+                setState(prevState => ({...prevState, message: 'Activate you account in your mail.'}))
+                dispatch(userActions.setError(null))
+            })
             .catch((e) => {
                 if (!error) {
+                    console.log(e)
                     dispatch(userActions.setError('User with current email Exist!'))
                 }
             });
     }
 
+    function togglePassword() {
+        const passwordInput = document.getElementById("password");
+
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            setState(prevState => ({...prevState, hidden: true}))
+        } else {
+            passwordInput.type = "password";
+            setState(prevState => ({...prevState, hidden: false}))
+        }
+    }
+
     return (
         <form className={'register-form'} onSubmit={handleSubmit(reg)}>
-            {state && <h3 className={'about-text'}>{state}</h3>}
+            {state.message && <h3 className={'about-text'}>{state.message}</h3>}
             <label>Email</label>
             <input type="text" {...register('email')}/>
+
             <label>Password</label>
-            <input type="text" {...register('password')}/>
+            <div className="password-container">
+                <input id={'password'} type="password" {...register('password')}/>
+                <span className="password-toggle" onClick={() => togglePassword()}>
+                    <FontAwesomeIcon icon={state.hidden ? faEyeSlash : faEye}/>
+                </span>
+            </div>
             <label>Name</label>
             <input type="text" {...register('name')}/>
             <label>Surname</label>
@@ -54,7 +83,7 @@ const RegisterForm = () => {
             <label>Age</label>
             <input type="number" {...register('age')}/>
             <label>Phone</label>
-            <input type="text" {...register('phone')}/><br/>
+            <input type="number" {...register('phone')}/><br/>
             <button className={'register-form-button'} disabled={!isValid}>Register</button>
 
             <div className={'register-error-div'}>
@@ -69,6 +98,7 @@ const RegisterForm = () => {
         </form>
     )
 }
+
 
 export {
     RegisterForm

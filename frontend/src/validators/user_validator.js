@@ -7,7 +7,7 @@ const user_validator = Joi.object({
     surname: Joi.string().regex(/^[a-zA-Z]{2,30}$/).required().messages({
         'string.pattern.base': 'Only litters (2-30).'
     }),
-    phone: Joi.string().regex(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/).required().messages({
+    phone: Joi.string().regex(/^(?:\+?3[80]|0)\d{9,12}$/).required().messages({
         'string.pattern.base': 'Invalid phone number.'
     }),
     age: Joi.string().regex(/^(1[4-9]|[2-9]\d)$/).required().messages({
@@ -20,7 +20,6 @@ const user_validator = Joi.object({
         'string.pattern.base': '8-20 chars, contains a number(0-9), contains at least one UpperCase latter, contains at least one' +
             ' LowerCase latter, contains at least one SpecialChar latter.'
     }),
-
 })
 
 const email_validator = Joi.object({

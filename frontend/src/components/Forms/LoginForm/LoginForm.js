@@ -36,9 +36,6 @@ const LoginForm = () => {
                     case 'Not active.':
                         setState((prevState) => ({...prevState, message: 'Not active.'}))
                         break
-                    case 'Incorrect password.':
-                        setState((prevState) => ({...prevState, message: 'Incorrect password.'}))
-                        break
                     default:
                         setState((prevState) => ({...prevState, message: 'Something went wrong, wait a few seconds and try again.'}))
                 }

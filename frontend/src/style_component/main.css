@@ -664,6 +664,18 @@ button {
 
 /*tools*/
 
+.password-container {
+    position: relative;
+    width: 100%;
+}
+
+.password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
 
 .img-wrap {
     width: 100%;
@@ -998,15 +1010,15 @@ form {
     margin-bottom: 20px;
 }
 
-input[type="password"] {
-    width: 100%;
-    padding: 10px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    font-size: 16px;
-    box-sizing: border-box;
-    text-align: center;
-}
+/*input[type="password"] {*/
+/*    width: 100%;*/
+/*    padding: 10px;*/
+/*    border-radius: 4px;*/
+/*    border: 1px solid #ccc;*/
+/*    font-size: 16px;*/
+/*    box-sizing: border-box;*/
+/*    text-align: center;*/
+/*}*/
 
 .submit-button {
     display: block;
