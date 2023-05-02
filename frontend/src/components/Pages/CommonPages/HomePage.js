@@ -15,6 +15,8 @@ const HomePage = () => {
         dispatch(userActions.setBestEmployee())
     }, [])
 
+    console.log(1)
+
     return (
         <div className={'home-page-div'}>
             {loading && <LoadingPage/>}
@@ -64,7 +66,6 @@ const HomePage = () => {
         </div>
     )
 }
-
 
 export {
     HomePage

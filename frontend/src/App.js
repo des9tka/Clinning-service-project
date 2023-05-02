@@ -11,7 +11,7 @@ import {
     UserAboutPage, EmployeesOrderDetailsPage,
     UserOfficePage,SuperUserServiceDetails,
     UserOrderDetailsPage, RecoveryPasswordPage,
-    UserOrderFormPage, WorkerLayout, SuperUserServicePage, UserLayout, SuperUserLayout, RecoveryPasswordRequestPage, ActivateUserPage, LoadingPage
+    UserOrderFormPage, WorkerLayout, SuperUserServicePage, UserLayout, SuperUserLayout, RecoveryPasswordRequestPage, ActivateUserPage
 } from "./components";
 
 
