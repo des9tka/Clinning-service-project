@@ -61,6 +61,7 @@ class RequestRecoveryPasswordView(GenericAPIView):
         cache_key = f"password_recovery:{user.email}"
         last_request_time = cache.get(cache_key)
         if last_request_time and (datetime.now() - last_request_time) < timedelta(minutes=10):
+            print(1)
             return Response('You can do only one request every 10 minutes.', status=status.HTTP_403_FORBIDDEN)
 
         EmailService.recovery_password_by_email(user)

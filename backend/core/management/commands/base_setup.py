@@ -19,6 +19,7 @@ class Command(BaseCommand):
                 db = True
             except OperationalError:
                 time.sleep(1)
+        call_command('makemigrations')
         call_command('migrate')
         all_tables = connection.introspection.table_names()
         table = set('my_cache_table')
