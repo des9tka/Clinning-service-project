@@ -37,9 +37,6 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         if not user.is_active:
             raise serializers.ValidationError('Not active.')
 
-        if not user.check_password(password):
-            raise serializers.ValidationError('Incorrect password.')
-
         validate_password(password, user)
 
         refresh = RefreshToken.for_user(user)

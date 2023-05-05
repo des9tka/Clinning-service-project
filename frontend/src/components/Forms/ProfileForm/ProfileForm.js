@@ -1,16 +1,18 @@
 import {useEffect, useState} from "react";
 import {joiResolver} from "@hookform/resolvers/joi";
 import {useForm} from "react-hook-form";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 import {user_service} from "../../../services";
 import {profile_validator} from "../../../validators";
 import {BASE_URL} from "../../../configs";
 import {ErrorPage, LoadingPage} from "../../Pages";
+import {userActions} from "../../../redux";
 
 const ProfileForm = () => {
 
     const formData = new FormData();
+    const dispatch = useDispatch();
     const {self} = useSelector(state => state.userReducer);
     const [previewAvatar, setPreviewAvatar] = useState(null);
 
@@ -20,13 +22,13 @@ const ProfileForm = () => {
     })
 
     useEffect(() => {
-        if (self && self.profile !== null) {
-            setValue('name', `${self.profile.name}`, {shouldValidate: true});
-            setValue('surname', `${self.profile.surname}`, {shouldValidate: true});
-            setValue('age', `${self.profile.age}`, {shouldValidate: true});
-            setValue('phone', `${self.profile.phone}`, {shouldValidate: true});
-        }
-    }, [self])
+        dispatch(userActions.setSelfUser()).then((data) => {
+            setValue('name', `${data.payload.data.profile.name}`, {shouldValidate: true});
+            setValue('surname', `${data.payload.data.profile.surname}`, {shouldValidate: true});
+            setValue('age', `${data.payload.data.profile.age}`, {shouldValidate: true});
+            setValue('phone', `${data.payload.data.profile.phone}`, {shouldValidate: true});
+        })
+    }, [])
 
     const profileUpdate = async (profile) => {
 
@@ -38,9 +40,6 @@ const ProfileForm = () => {
         await user_service.profileUpdate(profile);
 
         user_service.addPhoto(formData)
-            .then(() => {
-                window.location.reload();
-            })
             .catch((e) => {
                 return <ErrorPage error={e.response.data}/>
             })

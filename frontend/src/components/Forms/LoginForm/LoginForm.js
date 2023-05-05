@@ -31,7 +31,7 @@ const LoginForm = () => {
             const {data} = await auth_service.login(user).catch((e) => {
                 switch (e.response.data.non_field_errors[0]) {
                     case 'Not exist.':
-                        setState((prevState) => ({...prevState, message: 'User with current mail is not exist.'}))
+                        setState((prevState) => ({...prevState, message: 'Incorrect email or password.'}))
                         break
                     case 'Not active.':
                         setState((prevState) => ({...prevState, message: 'Not active.'}))

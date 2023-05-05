@@ -6,6 +6,7 @@ const ProfilePage = () => {
         <div className={'profile-page'}>
             <h1 className={'about-text'}>Profile Form</h1>
             <ProfileForm/>
+
         </div>
     )
 }

@@ -664,6 +664,21 @@ button {
 
 /*tools*/
 
+.modal-img {
+    position: fixed;
+    margin: auto;
+}
+
+.modal-img img {
+    max-width: 100vw;
+    max-height: 100vh;
+}
+
+.modal-img button {
+    color: var(--text_color);
+    background: var(--background_color);
+}
+
 .password-container {
     position: relative;
     width: 100%;
