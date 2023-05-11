@@ -1,10 +1,10 @@
 import Joi from "joi";
 
 const profile_validator = Joi.object({
-    name: Joi.string().regex(/^[a-zA-Z]{2,30}$/).messages({
+    name: Joi.string().regex(/^[a-zA-Zа-яА-Я]{2,30}$/).messages({
         'string.pattern.base': 'Name: Only letters (2-30).'
     }),
-    surname: Joi.string().regex(/^[a-zA-Z]{2,30}$/).messages({
+    surname: Joi.string().regex(/^[a-zA-Zа-яА-Я]{2,30}$/).messages({
         'string.pattern.base': 'Surname: Only letters (2-30).'
     }),
     phone: Joi.string().regex(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/).required().messages({

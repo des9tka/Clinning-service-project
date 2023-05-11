@@ -28,6 +28,7 @@ class Command(BaseCommand):
             call_command('createcachetable')
 
         if ServiceModel.objects.count() == 0:
+
             ServiceModel.objects.create(name='SetUp', address='SetUp', city='SetUp')
 
         if OrderStatusModel.objects.count() != 7:

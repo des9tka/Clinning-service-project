@@ -18,7 +18,7 @@ class OrderModel(models.Model):
         ordering = ['id']
 
     address = models.CharField(max_length=128)
-    footage = models.IntegerField()
+    footage = models.IntegerField(max_length=5)
     task_description = models.TextField(max_length=300)
     date = models.DateField()
     time = models.TimeField()

@@ -13,10 +13,9 @@ const SuperUserServices = () => {
     const {services, nextPage, prevPage, loading, error} = useSelector(state => state.serviceReducer)
     const [query, setQuery] = useSearchParams({page: '1'});
 
-
     useEffect(() => {
         dispatch(serviceActions.setAllServices({query}))
-    }, [query])
+    }, [query, dispatch])
 
     const prev = () => {
         setQuery(value => ({page: query.get('page') - 1}))
@@ -47,7 +46,6 @@ const SuperUserServices = () => {
         </div>
     )
 }
-
 
 export {
     SuperUserServices

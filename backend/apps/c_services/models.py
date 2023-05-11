@@ -11,13 +11,15 @@ class ServiceModel(models.Model):
         db_table = 'services'
         ordering = ['id']
 
-    name = models.CharField(max_length=30, validators=[
-        V.RegexValidator(RegEx.SERVICE_V.pattern, RegEx.SERVICE_V.message)
+    name = models.CharField(max_length=30, unique=True, validators=[
+        V.RegexValidator(RegEx.SERVICE_NAME.pattern, RegEx.SERVICE_NAME.message)
     ])
     city = models.CharField(max_length=30, validators=[
-        V.RegexValidator(RegEx.SERVICE_V.pattern, RegEx.SERVICE_V.message)
+        V.RegexValidator(RegEx.SERVICE_CITY.pattern, RegEx.SERVICE_CITY.message)
     ])
-    address = models.CharField(max_length=128)
+    address = models.CharField(max_length=128, unique=True, validators=[
+        V.RegexValidator(RegEx.SERVICE_ADDRESS.pattern, RegEx.SERVICE_ADDRESS.message)
+    ])
 
 
 class PhotoServiceModel(models.Model):

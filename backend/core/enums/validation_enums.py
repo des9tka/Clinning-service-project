@@ -14,7 +14,7 @@ class RegEx(Enum):
     )
 
     NAME_SURNAME = (
-        r'^[a-zA-Z]{2,30}$',
+        r'^[a-zA-Zа-яА-Я]{2,30}$',
         [
             'Name and surname demands: contain 2-30 letters.'
         ]
@@ -34,10 +34,24 @@ class RegEx(Enum):
         ]
     )
 
-    SERVICE_V = (
-        r'^[a-zA-Z]{2,30}$',
+    SERVICE_NAME = (
+        r'^[a-zA-Zа-яА-Я]{2,30}$',
         [
-            'OrderService name demands: contains 2-30 letters.'
+            'Service name demands: contains 2-30 letters.'
+        ]
+    )
+
+    SERVICE_ADDRESS = (
+        r'^[a-zA-Zа-яА-Я0-9]{2,50}$',
+        [
+            'Service address demands: contains 2-50 chars.'
+        ]
+    )
+
+    SERVICE_CITY = (
+        r'^[a-zA-Zа-яА-Я]{2,30}$',
+        [
+            'Service city demands: contains 2-30 letters.'
         ]
     )
 

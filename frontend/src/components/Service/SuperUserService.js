@@ -13,6 +13,7 @@ const SuperUserService = ({service}) => {
         </div>
     )
 }
+
 export {
     SuperUserService
 };

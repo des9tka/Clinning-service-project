@@ -1,10 +1,10 @@
 import Joi from "joi"
 
 const user_validator = Joi.object({
-    name: Joi.string().regex(/^[a-zA-Z]{2,30}$/).required().messages({
+    name: Joi.string().regex(/^[a-zA-Zа-яА-Я]{2,30}$/).required().messages({
         'string.pattern.base': 'Only litters (2-30).'
     }),
-    surname: Joi.string().regex(/^[a-zA-Z]{2,30}$/).required().messages({
+    surname: Joi.string().regex(/^[a-zA-Zа-яА-Я]{2,30}$/).required().messages({
         'string.pattern.base': 'Only litters (2-30).'
     }),
     phone: Joi.string().regex(/^(?:\+?3[80]|0)\d{9,12}$/).required().messages({

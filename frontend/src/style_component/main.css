@@ -196,6 +196,11 @@ button {
     background: var(--background_color);
 }
 
+.order-form input {
+    margin-bottom: 2%;
+    color: var(--text_color);
+}
+
 .order-form input[type="text"],
 .order-form input[type="file"] {
     padding: 10px;
@@ -242,6 +247,9 @@ button {
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.2s ease;
+}
+.order-form-button:disabled{
+    cursor: not-allowed;
 }
 
 .order-form .order-form-button:hover {
@@ -664,19 +672,28 @@ button {
 
 /*tools*/
 
+
 .modal-img {
     position: fixed;
-    margin: auto;
+    top: auto;
+    left: auto;
+    flex-wrap: wrap;
 }
 
 .modal-img img {
-    max-width: 100vw;
-    max-height: 100vh;
+    max-width: 90%;
+    max-height: 90%;
 }
 
 .modal-img button {
     color: var(--text_color);
     background: var(--background_color);
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 5px 10px;
+    font-size: 20px;
+    font-weight: bold;
 }
 
 .password-container {
@@ -807,6 +824,8 @@ button {
 .prev-button, .next-button {
     width: 100px;
     height: 30px;
+    color: var(--text_color);
+    background: var(--background_color);
 }
 
 .admin-buttons-div {
@@ -892,9 +911,6 @@ button {
 .errors {
     text-align: center;
     width: 35%;
-}
-
-.errors {
     color: red;
 }
 
@@ -944,9 +960,8 @@ button {
     margin: 1%;
 }
 
-
 label {
-    color: grey;
+    color: var(--text_color);
 }
 
 .request-recovery-password-div {
@@ -1321,6 +1336,11 @@ input[type="date"]:focus {
     background: var(--background_color);
 }
 
+.files-div {
+    color: var(--text_color);
+    background: var(--background_color);
+}
+
 .service-form input[type="text"] {
     margin-bottom: 10px;
     padding: 10px;
@@ -1331,6 +1351,10 @@ input[type="date"]:focus {
 
 .service-form input[type="file"] {
     margin-bottom: 10px;
+}
+
+.service-form input {
+    text-align: center;
 }
 
 .service-form button {

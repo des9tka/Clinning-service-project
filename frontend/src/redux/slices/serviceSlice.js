@@ -49,6 +49,9 @@ const serviceSlice = createSlice({
         },
         setPrevPage: (state, action) => {
             state.prevPage = action.payload
+        },
+        addService: (state, action) => {
+            state.services = [...state.services, action.payload]
         }
     },
     extraReducers: builder =>
@@ -82,13 +85,14 @@ const serviceSlice = createSlice({
             })
 })
 
-const {reducer: serviceReducer, actions: {setServices, setService, setNextPage, setPrevPage}} = serviceSlice;
+const {reducer: serviceReducer, actions: {setServices, setService, setNextPage, setPrevPage, addService}} = serviceSlice;
 
 const serviceActions = {
     setServices,
     setService,
     setNextPage,
     setPrevPage,
+    addService,
     setAllServices,
     setServiceById
 }

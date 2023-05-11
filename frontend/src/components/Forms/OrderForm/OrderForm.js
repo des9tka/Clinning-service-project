@@ -3,15 +3,20 @@ import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 
 import {order_service, user_service} from "../../../services";
-import {ErrorPage} from "../../Pages";
+import {UserOrdersFiles} from "../../Pages/UserPages/UserOrdersFiles";
+import {joiResolver} from "@hookform/resolvers/joi";
+import {order_validator} from "../../../validators/order_validator";
 
 const OrderForm = () => {
 
-    const {handleSubmit, register} = useForm();
+    const {handleSubmit, register, setError, formState: {isValid, errors}} = useForm({
+        mode: 'all',
+        resolver: joiResolver(order_validator)
+    });
     const [state, setState] = useState({
         files: [],
         text: '0',
-        message: null
+        message: ''
     });
     const navigate = useNavigate();
     const formData = new FormData();
@@ -24,10 +29,35 @@ const OrderForm = () => {
             time: order.time,
             footage: order.footage
         }).catch((e) => {
-            if ('address' || 'time' || 'date' || 'footage' || 'task_description' in e.response.data) {
-                setState(prevState => ({...prevState, message: 'Some forms is empty. Full it and try again!'}))
-            } else {
-                return <ErrorPage error={e.response.data}/>
+            for (let key in e.response.data) {
+                switch (String(key)) {
+                    case 'address':
+                        setError('address', {
+                            message: e.response.data[key]
+                        })
+                        break;
+                    case 'date':
+                        setError('date', {
+                            message: e.response.data[key]
+                        })
+                        break;
+                    case 'footage':
+                        setError('footage', {
+                            message: e.response.data[key]
+                        })
+                        break;
+                    case 'task_description':
+                        setError('task_description', {
+                            message: e.response.data[key]
+                        })
+                        break;
+                    case 'time':
+                        setError('time', {
+                            message: e.response.data[key]
+                        })
+                        break;
+                }
+
             }
         })
 
@@ -89,38 +119,86 @@ const OrderForm = () => {
         time.removeChild(time.firstChild);
     };
 
+    const errorEcre = (name) => {
+        const element = document.getElementById(`${name}`)
+        if (element) {
+            element.classList.add('errors');
+        }
+    }
+    const deErrorEcre = (name) => {
+        const element = document.getElementById(`${name}`)
+        if (element) {
+            element.classList.remove('errors');
+        }
+    }
+
     return (
         <form onSubmit={handleSubmit(addOrder)} className={'order-form'}>
 
-            {state.message && <label className={'errors'}>{state.message}</label>}
+            {state.message && state.message !== '' && <label className={'errors'}>{state.message}</label>}
 
+            <label id={'address-label'}>Address {errors.address ? (
+                    <>
+                        <span>{errors.address.message}</span>
+                        {errorEcre('address-label')}
+                    </>
+                )
+                : deErrorEcre('address-label')}</label>
             <input id={'address'} type="text" placeholder={'Address'} {...register('address')}/>
+
+            <label id={'date-label'}>Date {errors.date ? (
+                    <>
+                        <span>{errors.date.message}</span>
+                        {errorEcre('date-label')}
+                    </>
+                )
+                : deErrorEcre('date-label')}</label>
             <input id={'date'} type="date"  {...register('date')}/>
 
-            <select id={'time'} {...register('time')} className={'order-select'} onChange={(e) => change(e)}>
+            <label id={'time-label'}>Time {errors.time ? (
+                    <>
+                        <span>{errors.time.message}</span>
+                        {errorEcre('time-label')}
+                    </>
+                )
+                : deErrorEcre('time-label')}</label>
+            <select id={'time'} {...register('time')} defaultValue={null} className={'order-select'} onChange={(e) => change(e)}>
                 <option disabled selected value={'0'}>00:00</option>
             </select>
 
-            <input id={'footage'} type="text" placeholder={'Footage'}  {...register('footage')}/>
+            <label id={'footage-label'}>Footage {errors.footage ? (
+                <>
+                    <span>{errors.footage.message}</span>
+                    {errorEcre('footage-label')}
+                </>
+            )
+                : deErrorEcre('footage-label')}</label>
+            <input id={'footage'} type="number" {...register('footage')}/>
 
+            <label id={'task-label'}>Task description {errors.task_description ? (
+                <>
+                    <span>{errors.task_description.message}</span>
+                    {errorEcre('task-label')}
+                </>
+            )
+                : deErrorEcre('task-label')}</label>
             <label>{state.text}/300</label>
-            <input id={'task'} type="text" placeholder={'Task description'} className={'task-field'} maxLength='300' onInput={(e) => {
+            <input id={'task'} type="text" className={'task-field'} maxLength='300' onInput={(e) => {
                 setState(prevState => ({...prevState, text: e.target.value.length}))
             }} {...register('task_description')}/>
 
+            <label>Select files</label>
             <input id={'files'} type="file" className={'order-fileInput'} multiple onChange={(e) => fileUploader(e)}/>
             <div className={'files-div'}>
-                {state.files && state.files.map((file, index) => <div>
-                    {`file ${index + 1}`} - {file.name.slice(0, 10)}... <button onClick={() => remove(file)}>remove</button>
-                </div>)}
-
+                {state.files && state.files.map((file, index) => <UserOrdersFiles file={file} index={index} func={remove}/>)}
             </div>
 
-            <button className={'order-form-button'}>Save</button>
+            <button type={'submit'} disabled={!isValid} className={'order-form-button'}>Save</button>
 
         </form>
     )
 }
+
 
 export {
     OrderForm

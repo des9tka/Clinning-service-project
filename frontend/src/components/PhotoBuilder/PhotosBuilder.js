@@ -16,6 +16,7 @@ const PhotosBuilder = ({photo}) => {
     )
 }
 
+
 export {
     PhotosBuilder
 };

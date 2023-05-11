@@ -1,5 +1,5 @@
-import {useParams} from "react-router-dom";
-import {useEffect} from "react";
+import {useNavigate, useParams} from "react-router-dom";
+import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useForm} from "react-hook-form";
 import {joiResolver} from "@hookform/resolvers/joi";
@@ -13,8 +13,11 @@ import {service_validator} from "../../../validators";
 const SuperUserServiceDetails = () => {
 
     const {id} = useParams();
+    const navigate = useNavigate();
     const dispatch = useDispatch();
-    const {service, loading, error} = useSelector(state => state.serviceReducer)
+    // const [updated, setUpdated] = useState(0);
+    const {service, loading, error} = useSelector(state => state.serviceReducer);
+
 
     const {register, handleSubmit, setValue, formState: {isValid, errors}} = useForm({
         mode: 'all',
@@ -33,9 +36,9 @@ const SuperUserServiceDetails = () => {
         const prom = prompt(`Are you sure to delete service? Write "${service.name}" for confirm:`)
         if (prom === service.name) {
             await c_service_service.delete(service.id)
-                .then(() => window.location.reload())
+                .then(() => navigate('/superuser/services'))
                 .catch((err) => {
-                    return <ErrorPage/>
+                    return <ErrorPage error={err}/>
                 })
         }
     }
@@ -45,7 +48,9 @@ const SuperUserServiceDetails = () => {
     }
 
     const serviceUpdate = (data) => {
-        c_service_service.updateById(service.id, data).then(() => window.location.reload()).catch((e) => console.log(e))
+        c_service_service.updateById(service.id, data).catch((err) => {
+            return <ErrorPage error={err.response.data}/>
+        })
     }
 
     return (
@@ -56,8 +61,8 @@ const SuperUserServiceDetails = () => {
                 <form className={'service-form'} onSubmit={handleSubmit(serviceUpdate)}>
                     <label>Id - {service.id}</label>
 
-                    <label>City - {service.city}</label>
-                    <input className={'display-none'} type="text" {...register('city', {required: true, minLength: 2, maxLength: 30})}/>
+                    <label>City</label>
+                    <input type="text" {...register('city', {required: true, minLength: 2, maxLength: 30})}/>
 
                     <label>Service name</label>
                     <input type="text" {...register('name', {required: true, minLength: 2, maxLength: 30})}/>
@@ -70,6 +75,7 @@ const SuperUserServiceDetails = () => {
 
                 <div className={'service-errors-div'}>
                     <div className={'errors'}>
+                        {errors.city && <div>{errors.city.message}</div>}
                         {errors.name && <div>{errors.name.message}</div>}
                         {errors.address && <div>{errors.address.message}</div>}
                     </div>

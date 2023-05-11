@@ -55,8 +55,8 @@ const HomePage = () => {
                     office clean and tidy, consider hiring our cleaning service today. Contact us to schedule your cleaning service today!</h2>
             </div>
 
-            {users && (<div>
-                <h1 className={'about-text'}>Our best 5 employees</h1>
+            {users && users!== [] && (<div>
+                <h1 className={'about-text'}>Our best employees</h1>
                 <div className={'employee-wrap'}>
                     {users.map(user => <EmployeesBuilder employee={user}/>)}
                 </div>
