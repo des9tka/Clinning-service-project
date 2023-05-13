@@ -229,9 +229,10 @@ button {
     cursor: pointer;
 }
 
-.order-form .task-field {
+.task-field {
     height: 150px;
     resize: vertical;
+    text-indent: 10px;
 }
 
 .order-form label {

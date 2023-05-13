@@ -1,15 +1,18 @@
 import {useForm} from "react-hook-form";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
+import {joiResolver} from "@hookform/resolvers/joi";
 
 import {order_service, user_service} from "../../../services";
 import {UserOrdersFiles} from "../../Pages/UserPages/UserOrdersFiles";
-import {joiResolver} from "@hookform/resolvers/joi";
 import {order_validator} from "../../../validators/order_validator";
 
 const OrderForm = () => {
 
-    const {handleSubmit, register, setError, formState: {isValid, errors}} = useForm({
+    const navigate = useNavigate();
+    const formData = new FormData();
+
+    const {handleSubmit, register, setError, formState: {isValid, errors}, setValue, trigger} = useForm({
         mode: 'all',
         resolver: joiResolver(order_validator)
     });
@@ -18,8 +21,31 @@ const OrderForm = () => {
         text: '0',
         message: ''
     });
-    const navigate = useNavigate();
-    const formData = new FormData();
+
+    useEffect(() => {
+        const date = new Date().toISOString().slice(0, 10);
+        const select = document.querySelector('select');
+        const startTime = '09:00';
+        const endTime = '20:00';
+
+        let currentTime = startTime;
+        while (currentTime <= endTime) {
+            const option = document.createElement('option');
+            option.text = currentTime;
+            option.value = currentTime;
+            select.appendChild(option);
+
+            const [hours, minutes] = currentTime.split(':');
+            const date = new Date();
+            date.setHours(hours);
+            date.setMinutes(minutes);
+            date.setMinutes(date.getMinutes() + 5);
+            currentTime = date.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+        }
+        trigger(['address', 'date', 'time', 'footage', 'task_description']);
+        setValue('time', '09:00', {shouldValidate: true})
+        setValue('date', date, {shouldValidate: true})
+    }, [])
 
     const addOrder = async (order) => {
         const newOrder = await user_service.newOrder({
@@ -57,7 +83,6 @@ const OrderForm = () => {
                         })
                         break;
                 }
-
             }
         })
 
@@ -93,31 +118,38 @@ const OrderForm = () => {
             alert('Allow to upload 10 photos')
         }
     }
-    useEffect(() => {
-        const select = document.querySelector('select');
-        const startTime = '09:00';
-        const endTime = '20:00';
 
-        let currentTime = startTime;
-        while (currentTime <= endTime) {
-            const option = document.createElement('option');
-            option.text = currentTime;
-            option.value = currentTime;
-            select.appendChild(option);
+    const timeCheck = (e) => {
+        const currentTime = new Date().getTime();
+        const currentTimePlus3Hours = new Date(currentTime + 3 * 60 * 60 * 1000).toLocaleTimeString('uk-UA', {
+            hour12: false,
+            hour: '2-digit',
+            minute: '2-digit'
+        });
 
-            const [hours, minutes] = currentTime.split(':');
-            const date = new Date();
-            date.setHours(hours);
-            date.setMinutes(minutes);
-            date.setMinutes(date.getMinutes() + 5);
-            currentTime = date.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+        const timestamp = Date.now();
+        const date = new Date(timestamp);
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        const currentDate = `${year}-${month < 10 ? '0' + month : month}-${day}`;
+
+        const selectedDate = document.getElementById('date').value
+        if (currentDate === selectedDate && e.target.value < currentTimePlus3Hours) {
+            setError('time', {
+                message: 'is to late! Must be no later than the time now with a margin of three hours!'
+            })
+        } else {
+            setError('time', {
+                message: null
+            })
         }
-    }, [])
-
-    const change = (e) => {
-        const time = document.getElementById('time')
-        time.removeChild(time.firstChild);
     };
+
+    const dateValidCheck = (e) => {
+        // console.log(e.target.value)
+        console.log(1)
+    }
 
     const errorEcre = (name) => {
         const element = document.getElementById(`${name}`)
@@ -142,8 +174,7 @@ const OrderForm = () => {
                         <span>{errors.address.message}</span>
                         {errorEcre('address-label')}
                     </>
-                )
-                : deErrorEcre('address-label')}</label>
+                ) : deErrorEcre('address-label')}</label>
             <input id={'address'} type="text" placeholder={'Address'} {...register('address')}/>
 
             <label id={'date-label'}>Date {errors.date ? (
@@ -151,54 +182,47 @@ const OrderForm = () => {
                         <span>{errors.date.message}</span>
                         {errorEcre('date-label')}
                     </>
-                )
-                : deErrorEcre('date-label')}</label>
-            <input id={'date'} type="date"  {...register('date')}/>
+                ) : deErrorEcre('date-label')}</label>
+            <input id={'date'} type="date" onChange={(e) => dateValidCheck(e)} {...register('date')}/>
 
             <label id={'time-label'}>Time {errors.time ? (
                     <>
                         <span>{errors.time.message}</span>
                         {errorEcre('time-label')}
                     </>
-                )
-                : deErrorEcre('time-label')}</label>
-            <select id={'time'} {...register('time')} defaultValue={null} className={'order-select'} onChange={(e) => change(e)}>
-                <option disabled selected value={'0'}>00:00</option>
-            </select>
+                ) : deErrorEcre('time-label')}</label>
+            <select id={'time'} {...register('time')} defaultValue={null} className={'order-select'} onChange={(e) => timeCheck(e)}></select>
 
             <label id={'footage-label'}>Footage {errors.footage ? (
-                <>
-                    <span>{errors.footage.message}</span>
-                    {errorEcre('footage-label')}
-                </>
-            )
-                : deErrorEcre('footage-label')}</label>
-            <input id={'footage'} type="number" {...register('footage')}/>
+                    <>
+                        <span>{errors.footage.message}</span>
+                        {errorEcre('footage-label')}
+                    </>
+                ) : deErrorEcre('footage-label')}</label>
+            <input id={'footage'} type="number" onClick={(e) => dateValidCheck(e)} {...register('footage')}/>
 
             <label id={'task-label'}>Task description {errors.task_description ? (
-                <>
-                    <span>{errors.task_description.message}</span>
-                    {errorEcre('task-label')}
-                </>
-            )
-                : deErrorEcre('task-label')}</label>
+                    <>
+                        <span>{errors.task_description.message}</span>
+                        {errorEcre('task-label')}
+                    </>
+                ) : deErrorEcre('task-label')}</label>
             <label>{state.text}/300</label>
             <input id={'task'} type="text" className={'task-field'} maxLength='300' onInput={(e) => {
                 setState(prevState => ({...prevState, text: e.target.value.length}))
             }} {...register('task_description')}/>
 
-            <label>Select files</label>
+            <label id={'files-label'}>Select files {state.files[0] ? deErrorEcre('files-label') : errorEcre('files-label')}</label>
             <input id={'files'} type="file" className={'order-fileInput'} multiple onChange={(e) => fileUploader(e)}/>
             <div className={'files-div'}>
                 {state.files && state.files.map((file, index) => <UserOrdersFiles file={file} index={index} func={remove}/>)}
             </div>
 
-            <button type={'submit'} disabled={!isValid} className={'order-form-button'}>Save</button>
+            <button type={'submit'} disabled={!isValid || !state.files[0]} className={'order-form-button'}>Save</button>
 
         </form>
     )
 }
-
 
 export {
     OrderForm

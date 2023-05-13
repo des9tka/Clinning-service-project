@@ -51,6 +51,7 @@ class UserListCreateView(ListCreateAPIView):
     filterset_class = UserFilter
 
     def get_permissions(self):
+        print(1)
         if self.request.method == 'POST':
             return [AllowAny()]
         if self.request.method == 'GET':
