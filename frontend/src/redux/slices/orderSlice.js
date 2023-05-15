@@ -62,6 +62,9 @@ const orderSlice = createSlice({
         },
         setPrevPage: (state, action) => {
             state.prevPage = action.payload
+        },
+        removeOrder: (state, action) => {
+            state.orders = state.orders.filter(order => order.id !== action.payload)
         }
     },
     extraReducers: builder =>
@@ -107,13 +110,14 @@ const orderSlice = createSlice({
             })
 })
 
-const {reducer: orderReducer, actions: {setOrders, setOrder, setNextPage, setPrevPage}} = orderSlice;
+const {reducer: orderReducer, actions: {setOrders, setOrder, setNextPage, setPrevPage, removeOrder}} = orderSlice;
 
 const orderActions = {
     setOrders,
     setOrder,
     setPrevPage,
     setNextPage,
+    removeOrder,
     setAllOrders,
     setOrderById,
     setEmployeeOrders,

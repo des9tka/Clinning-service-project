@@ -142,23 +142,22 @@ class PatchTheOrderView(GenericAPIView):
 
 class RemoveEmployeeFromOrder(GenericAPIView):
     """
-    Remove employee from user order by employee and order id.
+    Remove employee from user order by employee and order Id.
     """
     permission_classes = AllowAny,
 
     def patch(self, *arks, **kwargs):
         pk = kwargs['pk']
         user_id = kwargs['user']
+        order_status = OrderStatusModel.objects.get(name='user_confirmed')
         employee = UserModel.objects.get(id=user_id)
         order = get_object_or_404(OrderModel, pk=pk)
         user = UserModel.objects.get(id=order.user_id)
-        order_status = OrderStatusModel.objects.get(name='user_confirmed')
         order.employees_current.remove(employee)
         order.status = order_status
         order.save()
-        EmailService.employee_remove_order_email(user, order.id, employee)
-        serializer = OrderSerializer(instance=order)
-        return Response(serializer.data, status.HTTP_200_OK)
+        # EmailService.employee_remove_order_email(user, order.id, employee)
+        return Response(status=status.HTTP_200_OK)
 
 
 class RejectOrderView(GenericAPIView):

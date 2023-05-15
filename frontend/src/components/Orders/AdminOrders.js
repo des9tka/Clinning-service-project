@@ -15,12 +15,7 @@ const AdminOrders = () => {
     const {orders, prevPage, nextPage} = useSelector(state => state.orderReducer);
 
     useEffect(() => {
-        if (!searcher) {
-            dispatch(orderActions.setAllOrders({page: query.get('page'), status: query.get('status'),  search: ''}))
-        } else if (searcher) {
-            dispatch(orderActions.setAllOrders({page: query.get('page'), status: query.get('status'), search: searcher}))
-        }
-
+        dispatch(orderActions.setAllOrders({page: query.get('page'), status: query.get('status'), search: (searcher ? searcher : "")}))
     }, [query, searcher])
 
 

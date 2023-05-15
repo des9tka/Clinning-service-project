@@ -14,11 +14,7 @@ const UserOrders = () => {
     const [searcher, setSearcher] = useState(null)
 
     useEffect(() => {
-        if (!searcher) {
-            dispatch(orderActions.setAllOrders({page: query.get('page'), status: query.get('status'), search: ''}))
-        } else if (searcher) {
-            dispatch(orderActions.setAllOrders({page: query.get('page'), status: query.get('status'), search: searcher}))
-        }
+        dispatch(orderActions.setAllOrders({page: query.get('page'), status: query.get('status'), search: (searcher ? searcher : "")}))
     }, [query, searcher])
 
     const prev = () => {

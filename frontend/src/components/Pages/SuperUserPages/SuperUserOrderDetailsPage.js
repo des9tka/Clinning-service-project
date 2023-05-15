@@ -11,24 +11,22 @@ import {order_service} from "../../../services";
 const SuperUserOrderDetailsPage = () => {
 
     const {order, loading, error} = useSelector(state => state.orderReducer)
-    const {user} = useSelector(state => state.userReducer)
-    const {users} = useSelector(state => state.userReducer)
+    const {user, users} = useSelector(state => state.userReducer)
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const {id} = useParams();
 
-    useEffect(async () => {
+    useEffect( () => {
         if (!order) {
-            await dispatch(orderActions.setOrderById({id}))
+            dispatch(orderActions.setOrderById({id}))
         }
         dispatch(userActions.setUserByOrderId({id}))
         dispatch(userActions.setOrderEmployeesByOrderId({id}))
     }, [])
 
     const deleteOrder = async () => {
-        await order_service.delete(id)
+        await order_service.delete(id).then(() => dispatch(orderActions.removeOrder({id})))
         navigate('/superuser/orders')
-        window.location.reload()
     }
 
     if (!order) {

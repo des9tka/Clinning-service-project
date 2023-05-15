@@ -18,11 +18,11 @@ const AdminOrderDetailsPage = () => {
     const dispatch = useDispatch();
     const {register, handleSubmit} = useForm();
     const [state, setState] = useState({
-        'button': false,
-        'message': '',
-        'price': null,
-        'employees': null
-
+        button: false,
+        message: '',
+        price: null,
+        employees: null,
+        removed: 0
     });
     const {order, loading, error} = useSelector(state => state.orderReducer)
     const {users} = useSelector(state => state.userReducer)
@@ -33,9 +33,11 @@ const AdminOrderDetailsPage = () => {
     }
 
     useEffect(() => {
-        dispatch(orderActions.setOrderById({id}))
+        if (!order) {
+            dispatch(orderActions.setOrderById({id}))
+        }
         dispatch(userActions.setOrderEmployeesByOrderId({id}))
-    }, [])
+    }, [state.removed])
 
     if (!order) {
         return (
@@ -72,7 +74,7 @@ const AdminOrderDetailsPage = () => {
                 {order.status !== 1 && <div>Employees need: {order.employees_quantity}</div>}
                 {order.status !== 1 && <div>Employees now: </div>}
                 <div className={'employees-wrapper'}>
-                    {order.status !== 1 && users && order.employees_current[0] && users.map(user => <EmployeesBuilder employee={user} order_id={order.id}
+                    {order.status !== 1 && users && order.employees_current[0] && users.map(user => <EmployeesBuilder setState={setState} employee={user} order_id={order.id}
                                                                                                                       status={order.status}/>)}
                 </div>
 
@@ -98,7 +100,6 @@ const AdminOrderDetailsPage = () => {
                     <br/>
                     <button className={'reject-button'} disabled={state.message === ''} onClick={() => reject()}>Reject</button>
                 </div>}
-                <hr/>
             </div>
         </div>
     )

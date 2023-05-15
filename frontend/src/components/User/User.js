@@ -3,7 +3,7 @@ import {useSelector} from "react-redux";
 import {AdminUserButtons} from "./AdminUserButtons";
 import {SuperUserButtons} from "./SuperUserButtons";
 
-const User = ({user}) => {
+const User = ({user, setState}) => {
 
     const {self: worker} = useSelector(state => state.userReducer)
 
@@ -22,7 +22,7 @@ const User = ({user}) => {
             <div>SuperUser: {user.is_superuser.toString()}</div>
 
             {worker && worker.is_staff && !worker.is_superuser && worker.id !== user.id && <AdminUserButtons user={user}/>}
-            {worker && worker.is_superuser && worker.id !== user.id && <SuperUserButtons user={user}/>}
+            {worker && worker.is_superuser && worker.id !== user.id && <SuperUserButtons setState={setState} user={user}/>}
         </div>
     )
 }

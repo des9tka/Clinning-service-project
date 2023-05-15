@@ -2,30 +2,42 @@ import {useNavigate} from "react-router-dom";
 
 import {user_service} from "../../services";
 
-const SuperUserButtons = ({user}) => {
+const SuperUserButtons = ({user, setState}) => {
 
     const navigate = useNavigate();
 
     const activate = () => {
-        user_service.activate(user.id).then(() => window.location.reload())
+        user_service.activate(user.id).then(() => setState((prevState) => {
+            return prevState + 1
+        }))
     }
     const deactivate = () => {
-        user_service.deactivate(user.id).then(() => window.location.reload())
+        user_service.deactivate(user.id).then(() => setState((prevState) => {
+            return prevState + 1
+        }))
     }
     const toUser = () => {
-        user_service.toUser(user.id).then(() => window.location.reload())
+        user_service.toUser(user.id).then(() => setState((prevState) => {
+            return prevState + 1
+        }))
     }
     const toAdmin = () => {
-        user_service.toAdmin(user.id).then(() => window.location.reload())
+        user_service.toAdmin(user.id).then(() => setState((prevState) => {
+            return prevState + 1
+        }))
     }
     const toEmployee = () => {
-        user_service.toEmployee(user.id).then(() => window.location.reload())
+        user_service.toEmployee(user.id).then(() => setState((prevState) => {
+            return prevState + 1
+        }))
     }
 
     const userDelete = () => {
         const confirm = prompt(`Are you sure to delete this user? Write '${user.profile?.name}' to confirm.`)
         if (confirm === user.profile?.name) {
-            user_service.delete(user.id).then(() => window.location.reload())
+            user_service.delete(user.id).then(() => setState((prevState) => {
+                return prevState + 1
+            }))
         }
     }
 

@@ -2,7 +2,6 @@ import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useSearchParams} from "react-router-dom";
 
-import {order_service} from "../../services";
 import {orderActions} from "../../redux";
 import {SuperUserOrder} from "../Order";
 
@@ -16,11 +15,7 @@ const SuperUserOrders = () => {
 
 
     useEffect(() => {
-        if (!searcher) {
-            dispatch(orderActions.setAllOrders({page: query.get('page'), status: query.get('status'), search: ''}))
-        } else if (searcher) {
-            dispatch(orderActions.setAllOrders({page: query.get('page'), status: query.get('status'), search: searcher}))
-        }
+        dispatch(orderActions.setAllOrders({page: query.get('page'), status: query.get('status'), search: (searcher ? searcher : "")}))
     }, [query, searcher])
 
     const prev = () => {

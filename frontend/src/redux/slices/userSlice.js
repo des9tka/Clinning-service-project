@@ -107,6 +107,9 @@ const userSlice = createSlice({
         },
         setSelf: (state, action) => {
             state.self = action.payload
+        },
+        removeUser: (state, action) => {
+            state.users = state.users.splice(state.users.findIndex(user => user.id === action.payload), 1)
         }
     },
     extraReducers: builder =>
@@ -195,7 +198,7 @@ const userSlice = createSlice({
             })
 })
 
-const {reducer: userReducer, actions: {setUsers, setUser, setNextPage, setPrevPage, setError, setSelf}} = userSlice;
+const {reducer: userReducer, actions: {setUsers, setUser, setNextPage, setPrevPage, setError, setSelf, removeUser}} = userSlice;
 
 const userActions = {
     setUsers,
@@ -204,6 +207,7 @@ const userActions = {
     setPrevPage,
     setError,
     setSelf,
+    removeUser,
     setUserById,
     setAllUsers,
     setSelfUser,

@@ -4,7 +4,7 @@ const AdminOrderButtons = ({status, employee, order_id, setState, state}) => {
 
     const deleteEmployee = async () => {
         await order_service.removeEmployee(order_id, employee.id)
-        window.location.reload()
+        setState((prevState) => ({...prevState, removed: prevState.removed + 1 }));
     }
 
     const rejectOrder = () => {

@@ -112,7 +112,7 @@ const OrderForm = () => {
                 setState(prevState => ({...prevState, files: [...state.files, file[0]]}))
             } else {
                 alert('This photo already added!!!')
-                same = []
+                same  = []
             }
         } else {
             alert('Allow to upload 10 photos')
@@ -199,7 +199,7 @@ const OrderForm = () => {
                         {errorEcre('footage-label')}
                     </>
                 ) : deErrorEcre('footage-label')}</label>
-            <input id={'footage'} type="number" onClick={(e) => dateValidCheck(e)} {...register('footage')}/>
+            <input id={'footage'} type="number" onChange={(e) => dateValidCheck(e)} {...register('footage')}/>
 
             <label id={'task-label'}>Task description {errors.task_description ? (
                     <>
