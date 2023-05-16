@@ -21,7 +21,7 @@ const User = ({user, setState}) => {
             <div>Admin: {user.is_staff.toString()}</div>
             <div>SuperUser: {user.is_superuser.toString()}</div>
 
-            {worker && worker.is_staff && !worker.is_superuser && worker.id !== user.id && <AdminUserButtons user={user}/>}
+            {worker && worker.is_staff && !worker.is_superuser && worker.id !== user.id && <AdminUserButtons setState={setState} user={user}/>}
             {worker && worker.is_superuser && worker.id !== user.id && <SuperUserButtons setState={setState} user={user}/>}
         </div>
     )

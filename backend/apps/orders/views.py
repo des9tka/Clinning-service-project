@@ -49,7 +49,6 @@ class OrderListView(ListAPIView):
         date_filter = Q(date__lt=date)
         time_filter = Q(date__exact=date, time__lte=time)
 
-        # Checking for invalid orders by date/time.
         OrderModel.objects.filter(
             Q(status_id__lte=6) & (date_filter | time_filter)
         ).update(status=rejected_status)
@@ -100,21 +99,21 @@ class AddUserOrderToEmployeeView(GenericAPIView):
         employee = self.request.user
         order = self.get_object()
         user = UserModel.objects.get(id=order.user_id)
-
-        order.employees_current.add(employee)
-        order.save()
-
         order_status_user_confirmed = OrderStatusModel.objects.get(name='user_confirmed')
         order_status_taken = OrderStatusModel.objects.get(name='taken')
         employees_quantity = order.employees_quantity
-        employees_current = OrderModel.objects.filter(id=order.id).values('employees_current').count()
+        employees_current = OrderModel.objects.filter(id=order.id).values('employees_current')
 
-        if employees_current == employees_quantity and order.status == order_status_user_confirmed:
+        if (employees_current.count() < employees_quantity or employees_current[0]['employees_current'] is None) and order.status == order_status_user_confirmed:
+            order.employees_current.add(employee)
+            order.save()
+
+        if employees_current.count() == employees_quantity and order.status == order_status_user_confirmed:
             order.status = order_status_taken
             order.save()
 
             for e in order.employees_current.all():
-                EmailService.employee_order_taken(e, order)
+                EmailService.employee_order_taken(e, order.id)
             EmailService.taken_order_email(user, order.id)
 
         serializer = OrderSerializer(instance=order)
@@ -156,7 +155,7 @@ class RemoveEmployeeFromOrder(GenericAPIView):
         order.employees_current.remove(employee)
         order.status = order_status
         order.save()
-        # EmailService.employee_remove_order_email(user, order.id, employee)
+        EmailService.employee_remove_order_email(user, order.id, employee)
         return Response(status=status.HTTP_200_OK)
 
 
@@ -376,4 +375,3 @@ class GetOrderEmployeeView(GenericAPIView):
         employees = order.employees_current.all()
         serializer = UserSerializer(instance=employees, many=True)
         return Response(serializer.data, status.HTTP_200_OK)
-

@@ -1,26 +1,18 @@
 import {user_service} from "../../services";
 
-const AdminUserButtons = ({user}) => {
+const AdminUserButtons = ({user, setState}) => {
 
-    const toUser =  () => {
-         user_service.toUser(user.id).then((response) => {
-            window.location.reload()
-        }).catch((err) => console.log(err))
+    const toUser = () => {
+        user_service.toUser(user.id).then(() => setState((prevState) => prevState + 1)).catch((err) => console.log(err))
     }
     const toEmployee = async () => {
-        await user_service.toEmployee(user.id).then((response) => {
-            window.location.reload()
-        }).catch((err) => console.log(err))
+        await user_service.toEmployee(user.id).then(() => setState((prevState) => prevState + 1)).catch((err) => console.log(err))
     }
     const activate = async () => {
-        await user_service.activate(user.id).then((response) => {
-            window.location.reload()
-        }).catch((err) => console.log(err))
+        await user_service.activate(user.id).then(() => setState((prevState) => prevState + 1)).catch((err) => console.log(err)).catch((err) => console.log(err))
     }
-    const deactivate =  () => {
-         user_service.deactivate(user.id).then((response) => {
-            window.location.reload()
-        }).catch((err) => console.log(err))
+    const deactivate = () => {
+        user_service.deactivate(user.id).then(() => setState((prevState) => prevState + 1)).catch((err) => console.log(err)).catch((err) => console.log(err))
     }
 
     return (

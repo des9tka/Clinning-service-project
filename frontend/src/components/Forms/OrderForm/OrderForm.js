@@ -112,7 +112,7 @@ const OrderForm = () => {
                 setState(prevState => ({...prevState, files: [...state.files, file[0]]}))
             } else {
                 alert('This photo already added!!!')
-                same  = []
+                same = []
             }
         } else {
             alert('Allow to upload 10 photos')
@@ -120,8 +120,9 @@ const OrderForm = () => {
     }
 
     const timeCheck = (e) => {
-        const currentTime = new Date().getTime();
+        const currentTime = new Date();
         const currentTimePlus3Hours = new Date(currentTime + 3 * 60 * 60 * 1000).toLocaleTimeString('uk-UA', {
+            timeZone: 'Europe/Kiev',
             hour12: false,
             hour: '2-digit',
             minute: '2-digit'
@@ -139,17 +140,8 @@ const OrderForm = () => {
             setError('time', {
                 message: 'is to late! Must be no later than the time now with a margin of three hours!'
             })
-        } else {
-            setError('time', {
-                message: null
-            })
         }
     };
-
-    const dateValidCheck = (e) => {
-        // console.log(e.target.value)
-        console.log(1)
-    }
 
     const errorEcre = (name) => {
         const element = document.getElementById(`${name}`)
@@ -170,43 +162,43 @@ const OrderForm = () => {
             {state.message && state.message !== '' && <label className={'errors'}>{state.message}</label>}
 
             <label id={'address-label'}>Address {errors.address ? (
-                    <>
-                        <span>{errors.address.message}</span>
-                        {errorEcre('address-label')}
-                    </>
-                ) : deErrorEcre('address-label')}</label>
+                <>
+                    <span>{errors.address.message}</span>
+                    {errorEcre('address-label')}
+                </>
+            ) : deErrorEcre('address-label')}</label>
             <input id={'address'} type="text" placeholder={'Address'} {...register('address')}/>
 
             <label id={'date-label'}>Date {errors.date ? (
-                    <>
-                        <span>{errors.date.message}</span>
-                        {errorEcre('date-label')}
-                    </>
-                ) : deErrorEcre('date-label')}</label>
-            <input id={'date'} type="date" onChange={(e) => dateValidCheck(e)} {...register('date')}/>
+                <>
+                    <span>{errors.date.message}</span>
+                    {errorEcre('date-label')}
+                </>
+            ) : deErrorEcre('date-label')}</label>
+            <input id={'date'} type="date" {...register('date')}/>
 
             <label id={'time-label'}>Time {errors.time ? (
-                    <>
-                        <span>{errors.time.message}</span>
-                        {errorEcre('time-label')}
-                    </>
-                ) : deErrorEcre('time-label')}</label>
+                <>
+                    <span>{errors.time.message}</span>
+                    {errorEcre('time-label')}
+                </>
+            ) : deErrorEcre('time-label')}</label>
             <select id={'time'} {...register('time')} defaultValue={null} className={'order-select'} onChange={(e) => timeCheck(e)}></select>
 
             <label id={'footage-label'}>Footage {errors.footage ? (
-                    <>
-                        <span>{errors.footage.message}</span>
-                        {errorEcre('footage-label')}
-                    </>
-                ) : deErrorEcre('footage-label')}</label>
-            <input id={'footage'} type="number" onChange={(e) => dateValidCheck(e)} {...register('footage')}/>
+                <>
+                    <span>{errors.footage.message}</span>
+                    {errorEcre('footage-label')}
+                </>
+            ) : deErrorEcre('footage-label')}</label>
+            <input id={'footage'} type="number" {...register('footage')}/>
 
             <label id={'task-label'}>Task description {errors.task_description ? (
-                    <>
-                        <span>{errors.task_description.message}</span>
-                        {errorEcre('task-label')}
-                    </>
-                ) : deErrorEcre('task-label')}</label>
+                <>
+                    <span>{errors.task_description.message}</span>
+                    {errorEcre('task-label')}
+                </>
+            ) : deErrorEcre('task-label')}</label>
             <label>{state.text}/300</label>
             <input id={'task'} type="text" className={'task-field'} maxLength='300' onInput={(e) => {
                 setState(prevState => ({...prevState, text: e.target.value.length}))

@@ -67,7 +67,11 @@ class EmailService:
 
     @classmethod
     def employee_remove_order_email(cls, user, order_id, employee):
-        cls.__send_email.delay(user.email, 'employee_remove_order_email.html', {'name': user.profile.name, 'order': order_id, 'employee': employee,
+        employee_data = {
+            'name': employee.profile.name,
+            'surname': employee.profile.surname,
+        }
+        cls.__send_email.delay(user.email, 'employee_remove_order_email.html', {'name': user.profile.name, 'order': order_id, 'employee': employee_data,
                                                                                 'url': cls.url}, 'Order Inconvenience')
 
         cls.__send_email(employee.email, 'remove_employee.html', {'name': employee.profile.name, 'order_id': order_id}, 'Order Inconvenience')

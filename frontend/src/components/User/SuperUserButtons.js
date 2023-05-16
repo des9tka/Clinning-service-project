@@ -7,29 +7,19 @@ const SuperUserButtons = ({user, setState}) => {
     const navigate = useNavigate();
 
     const activate = () => {
-        user_service.activate(user.id).then(() => setState((prevState) => {
-            return prevState + 1
-        }))
+        user_service.activate(user.id).then(() => setState((prevState) => prevState + 1))
     }
     const deactivate = () => {
-        user_service.deactivate(user.id).then(() => setState((prevState) => {
-            return prevState + 1
-        }))
+        user_service.deactivate(user.id).then(() => setState((prevState) => prevState + 1))
     }
     const toUser = () => {
-        user_service.toUser(user.id).then(() => setState((prevState) => {
-            return prevState + 1
-        }))
+        user_service.toUser(user.id).then(() => setState((prevState) => prevState + 1))
     }
     const toAdmin = () => {
-        user_service.toAdmin(user.id).then(() => setState((prevState) => {
-            return prevState + 1
-        }))
+        user_service.toAdmin(user.id).then(() => setState((prevState) => prevState + 1))
     }
     const toEmployee = () => {
-        user_service.toEmployee(user.id).then(() => setState((prevState) => {
-            return prevState + 1
-        }))
+        user_service.toEmployee(user.id).then(() => setState((prevState) => prevState + 1))
     }
 
     const userDelete = () => {

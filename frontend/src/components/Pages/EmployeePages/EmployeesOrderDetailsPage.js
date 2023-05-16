@@ -1,6 +1,6 @@
 import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 
 import {ErrorPage, LoadingPage} from "../CommonPages";
 import {PhotosBuilder} from "../../PhotoBuilder";
@@ -14,11 +14,12 @@ const EmployeesOrderDetailsPage = () => {
     const dispatch = useDispatch();
     const {self, users} = useSelector(state => state.userReducer)
     const {loading, error, order} = useSelector(state => state.orderReducer)
+    const [change, setChange] = useState(0)
 
     useEffect(() => {
         dispatch(orderActions.setOrderById({id}))
         dispatch(userActions.setOrderEmployeesByOrderId({id}))
-    }, [])
+    }, [change])
 
     if (!order) {
         return (
@@ -53,7 +54,7 @@ const EmployeesOrderDetailsPage = () => {
                     {users && users.map(employee => <EmployeesBuilder employee={employee}/>)}
                 </div>
 
-                <EmployeeOrderButtons order={order} user={self}/>
+                <EmployeeOrderButtons setChange={setChange} order={order} user={self}/>
                 <hr/>
             </div>
         </div>

@@ -4,7 +4,7 @@ import {useNavigate} from "react-router-dom";
 import {order_service, user_service} from "../../services";
 import {ErrorPage} from "../Pages";
 
-const EmployeeOrderButtons = ({order, user}) => {
+const EmployeeOrderButtons = ({order, user, setChange}) => {
 
     const taken = order.employees_current.includes(user?.id)
 
@@ -40,7 +40,8 @@ const EmployeeOrderButtons = ({order, user}) => {
 
     const done = () => {
         order_service.done(order.id, state.rate).then(() => {
-            window.location.reload()
+            setChange((prevState) => prevState + 1)
+            navigate('/employee/office')
         }).catch((err) => {
             return <ErrorPage error={err}/>
         })
