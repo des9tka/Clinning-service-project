@@ -1,5 +1,5 @@
 import {useForm} from "react-hook-form";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useDispatch} from "react-redux";
 import {joiResolver} from "@hookform/resolvers/joi";
 
@@ -13,7 +13,7 @@ const ServiceForm = () => {
     const [files, setFiles] = useState([]);
     const dispatch = useDispatch();
 
-    const {register, handleSubmit, formState: {isValid, errors, }, setError, reset} = useForm({
+    const {register, handleSubmit, formState: {isValid, errors,}, setError, reset} = useForm({
         mode: 'all',
         resolver: joiResolver(service_validator)
     });
@@ -34,7 +34,7 @@ const ServiceForm = () => {
                     c_service_service.delete(service?.data.id)
                 }
                 for (let err in e.response.data) {
-                    switch (String(err)){
+                    switch (String(err)) {
                         case 'address':
                             setError('address', {
                                 message: 'Service with exact address is already exist!'
@@ -73,20 +73,21 @@ const ServiceForm = () => {
         <div>
             <form className={'service-form'} onSubmit={handleSubmit(serviceConfirm)} encType="multipart/form-data">
 
-                <label>Service Name</label>
+                <label>{errors.name ? <div className={'errors'}>✖ {errors.name.message}</div> : 'Service Name'}</label>
                 <input type="text" {...register('name', {required: true, minLength: 2, maxLength: 30})}/>
 
-                <label>Service Address</label>
+                <label>{errors.address ? <div className={'errors'}>✖ {errors.address.message}</div> : 'Service Address'}</label>
                 <input type="text" {...register('address', {required: true, minLength: 2, maxLength: 50})}/>
 
-                <label>Service City</label>
+                <label>{errors.city ? <div className={'errors'}>✖ {errors.city.message}</div> : 'Service City'}</label>
                 <input type="text" {...register('city', {required: true, minLength: 2, maxLength: 30})}/>
 
                 <input id={'input-file'} className={'hide'} type="file" multiple onChange={(e) => fileUploader(e)}/>
 
                 <div className={'upload-photo-div'} onClick={() => {
                     document.getElementById('input-file').click()
-                }}>Upload photo</div>
+                }}>Upload photo
+                </div>
 
                 <div className={'photo-preview-div'}>
                     {files && files.map((file, index) => <SuperUserServiceFiles func={remove} file={file} index={index}/>)}
@@ -95,11 +96,6 @@ const ServiceForm = () => {
                 <button type={'submit'} disabled={!isValid && !files[0]}>Create</button>
 
                 <div className={'service-errors-div'}>
-                    <div className={'errors'}>
-                        {errors.name && <div>{errors.name.message}</div>}
-                        {errors.address && <div>{errors.address.message}</div>}
-                        {errors.city && <div>{errors.city.message}</div>}
-                    </div>
                 </div>
             </form>
         </div>

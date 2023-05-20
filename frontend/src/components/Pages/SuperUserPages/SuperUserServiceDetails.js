@@ -9,13 +9,13 @@ import {ErrorPage, LoadingPage} from "../CommonPages";
 import {c_service_service} from "../../../services";
 import {PhotosBuilder} from "../../PhotoBuilder";
 import {service_validator} from "../../../validators";
+import {ServiceModalDelete} from "../../Modals/ServiceModalDelete";
 
 const SuperUserServiceDetails = () => {
 
     const {id} = useParams();
-    const navigate = useNavigate();
     const dispatch = useDispatch();
-    // const [updated, setUpdated] = useState(0);
+    const [state, setState] = useState(false);
     const {service, loading, error} = useSelector(state => state.serviceReducer);
 
 
@@ -32,17 +32,6 @@ const SuperUserServiceDetails = () => {
         })
     }, [])
 
-    const deleteService = async () => {
-        const prom = prompt(`Are you sure to delete service? Write "${service.name}" for confirm:`)
-        if (prom === service.name) {
-            await c_service_service.delete(service.id)
-                .then(() => navigate('/superuser/services'))
-                .catch((err) => {
-                    return <ErrorPage error={err}/>
-                })
-        }
-    }
-
     if (!service) {
         return <LoadingPage/>
     }
@@ -57,6 +46,7 @@ const SuperUserServiceDetails = () => {
         <div className={'service-details-div'}>
             {loading && <LoadingPage/>}
             {error && <ErrorPage/>}
+            {state && <ServiceModalDelete setState={setState} service={service}/>}
             <div className={'service-details'}>
                 <form className={'service-form'} onSubmit={handleSubmit(serviceUpdate)}>
                     <label>Id - {service.id}</label>
@@ -84,7 +74,7 @@ const SuperUserServiceDetails = () => {
                 <div className={'service_photo_wrap'}>
                     {service.photos.map(photo => <PhotosBuilder photo={photo}/>)}
                 </div>
-                <button onClick={() => deleteService()}>Delete {service.name}</button>
+                <button onClick={() => setState(true)}>Delete {service.name}</button>
             </div>
         </div>
     )

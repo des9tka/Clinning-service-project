@@ -5,7 +5,7 @@ from rest_framework import status
 
 class ErrorEnum(Enum):
     JWT = (
-        {'Details': 'Token invalid or expired.'},
+        {'details': 'Token invalid or expired.'},
         status.HTTP_400_BAD_REQUEST
     )
 

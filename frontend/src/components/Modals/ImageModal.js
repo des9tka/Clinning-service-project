@@ -10,6 +10,7 @@ const ImageModal = ({url, setIsActive}) => {
     )
 }
 
+
 export {
     ImageModal
 };

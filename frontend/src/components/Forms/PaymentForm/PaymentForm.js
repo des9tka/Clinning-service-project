@@ -1,9 +1,10 @@
 import {CardElement, useStripe, useElements} from "@stripe/react-stripe-js";
 import {useEffect, useState} from "react";
-import {useNavigate, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 
 import {order_service} from "../../../services";
 import {ErrorPage} from "../../Pages";
+import {PaymentModal} from "../../Modals/PaymentModal";
 
 const checkoutFormOptions = {
     style: {
@@ -22,15 +23,20 @@ const checkoutFormOptions = {
 }
 
 const PaymentForm = ({success = () => {}}) => {
+
     const stripe = useStripe();
     const elements = useElements();
     const {id: url, rate} = useParams();
-    const [amount, setAmount] = useState();
-    const navigate = useNavigate();
+    const [state, setState] = useState({
+        amount: 0,
+        check: false
+    });
 
     useEffect(() => {
         order_service.getById(url).then((response) => {
-            setAmount((response.data.price) * 100)
+            setState((prevState) =>
+                ({...prevState, amount: (response.data.price) * 100})
+            )
         })
     }, [])
 
@@ -46,11 +52,10 @@ const PaymentForm = ({success = () => {}}) => {
             const {id} = paymentMethod
 
             try {
-                await order_service.payment(id, amount, url, rate)
+                await order_service.payment(id, state.amount, url, rate)
 
                 success()
-                alert('Succeed payment!')
-                navigate('/office')
+                setState((prevState) => ({...prevState, check: true}))
 
             } catch ({message, response}) {
                 return <ErrorPage error={response ? response.data : message}/>
@@ -60,6 +65,7 @@ const PaymentForm = ({success = () => {}}) => {
 
     return (
         <form onSubmit={handleSubmit} className={"checkout-form"} style={{maxWidth: '500px'}}>
+            {state.check && <PaymentModal/>}
             <CardElement options={checkoutFormOptions} style={{base: {fontSize: '16px'}}}/>
             <button>Pay</button>
         </form>

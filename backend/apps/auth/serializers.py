@@ -1,10 +1,13 @@
+from requests import Response
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer, authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from django.contrib.auth import get_user_model
+from django.contrib.auth.hashers import check_password
 from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
 
-from rest_framework import serializers, status
+from rest_framework import serializers
 
 from apps.users.models import UserModel as User
 
@@ -32,12 +35,19 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         try:
             user = User.objects.get(email=email)
         except User.DoesNotExist:
-            raise serializers.ValidationError('Not exist.')
+            raise serializers.ValidationError('User does not exist.')
 
         if not user.is_active:
-            raise serializers.ValidationError('Not active.')
+            raise serializers.ValidationError('User is not active.')
 
-        validate_password(password, user)
+        try:
+            validate_password(password, user)
+        except ValidationError as e:
+            raise serializers.ValidationError(str(e))
+
+        old_password = user.password
+        if not check_password(password, old_password):
+            raise ValidationError('Incorrect email or password.')
 
         refresh = RefreshToken.for_user(user)
 

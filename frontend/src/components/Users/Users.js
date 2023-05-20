@@ -12,7 +12,10 @@ const Users = () => {
     const {users, loading, error, prevPage, nextPage} = useSelector(state => state.userReducer);
     const [query, setQuery] = useSearchParams({page: '1'});
     const [searcher, setSearcher] = useState('');
-    const [state, setState] = useState(0)
+    const [state, setState] = useState({
+        update: 0,
+        delUser: false
+    })
 
     useEffect(() => {
         dispatch(userActions.setAllUsers({query, searcher}));
@@ -38,7 +41,7 @@ const Users = () => {
                 <button className={'next-button'} disabled={!nextPage} onClick={() => next()}>Next</button>
             </div>
             <div className={'users-div'}>
-                {users && users.map(user => <User setState={setState} user={user}/>)}
+                {users && users.map(user => <User state={state} setState={setState} user={user}/>)}
             </div>
         </div>
     )

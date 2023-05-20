@@ -673,17 +673,79 @@ button {
 
 /*tools*/
 
+.modal-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--background_color);
+    box-shadow: 0 2px 4px var(--text_color);
+}
+
+.modal-content {
+    background-color: var(--background_color);
+    color: var(--text_color);
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px var(--text_color);
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.modal-content h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.modal-content button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: var(--background_color);
+    color: var(--text_color);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px var(--text_color);
+}
+
+.modal-content button:hover {
+    background-color: var(--text_color);
+    color: var(--background_color);
+}
 
 .modal-img {
-    position: fixed;
-    top: auto;
-    left: auto;
-    flex-wrap: wrap;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 9999;
+}
+
+.modal-img button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: white;
+  background-color: transparent;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
 }
 
 .modal-img img {
-    max-width: 90%;
-    max-height: 90%;
+  max-width: 100%;
+  max-height: 100%;
+  margin: 20px;
 }
 
 .modal-img button {
@@ -751,7 +813,11 @@ button {
 .phone, .contacts {
     font-size: 24px;
     margin-right: 5%;
-    color: var(--text_color)
+    color: var(--text_color);
+}
+
+.contacts {
+    width: 15%;
 }
 
 .head {
@@ -885,6 +951,11 @@ button {
     font-size: 14px;
 }
 
+input {
+    color: var(--text_color);
+    background: var(--background_color);
+}
+
 .employees-buttons {
     font-size: 16px;
     color: var(--text_color);
@@ -911,8 +982,11 @@ button {
 
 .errors {
     text-align: center;
-    width: 35%;
     color: red;
+}
+
+.errors div {
+    margin: 1%;
 }
 
 .prev-button:disabled, .next-button:disabled {
@@ -1079,6 +1153,7 @@ button:disabled {
     color: red;
     font-size: 14px;
     margin-bottom: 5px;
+
 }
 
 .message {

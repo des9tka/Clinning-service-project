@@ -39,7 +39,7 @@ class OrderListView(ListAPIView):
         user = self.request.user
         tz = pytz.timezone('Europe/Kiev')
         queryset = OrderModel.objects.all()
-        search_query = self.request.GET.get('search')
+        search_query = self.request.GET.get('search', '')
         rejected_status = OrderStatusModel.objects.get(name='rejected')
         user_confirmed_status = OrderStatusModel.objects.get(name='user_confirmed')
 
@@ -50,8 +50,12 @@ class OrderListView(ListAPIView):
         time_filter = Q(date__exact=date, time__lte=time)
 
         OrderModel.objects.filter(
-            Q(status_id__lte=6) & (date_filter | time_filter)
+            Q(status_id__lte=3) & (date_filter | time_filter)
         ).update(status=rejected_status)
+
+        print(OrderModel.objects.filter(
+            Q(status_id__lte=3) & (date_filter | time_filter)
+        ))
 
         if search_query and search_query != '':
             if search_query.isnumeric():

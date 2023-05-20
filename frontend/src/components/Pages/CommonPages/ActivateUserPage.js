@@ -10,8 +10,6 @@ const ActivateUserPage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [isActivated, setIsActivated] = useState(false);
 
-    console.log(token)
-
     useEffect(() => {
         user_service.activateByToken(token)
             .then(() => setIsActivated(true))

@@ -26,25 +26,28 @@ const LoginForm = () => {
     })
 
     const log = async (user) => {
+
         try {
             auth_service.deleteTokens()
-            const {data} = await auth_service.login(user).catch((e) => {
-                switch (e.response.data.non_field_errors[0]) {
-                    case 'Not exist.':
-                        setState((prevState) => ({...prevState, message: 'Incorrect email or password.'}))
-                        break
-                    case 'Not active.':
-                        setState((prevState) => ({...prevState, message: 'Not active.'}))
-                        break
-                    default:
-                        setState((prevState) => ({...prevState, message: 'Something went wrong, wait a few seconds and try again.'}))
-                }
-            })
+            const {data} = await auth_service.login(user)
             auth_service.setTokens(data)
             setState((prevState) => ({...prevState, message: null}))
             navigate('/')
-        } catch (err) {
-            console.log('Error')
+        } catch (e) {
+            console.log(e.response.data.non_field_errors[0])
+            switch (e.response.data.non_field_errors[0]) {
+                case 'User does not exist.':
+                    setState((prevState) => ({...prevState, message: 'Incorrect email or password.'}))
+                    break
+                case 'Not active.':
+                    setState((prevState) => ({...prevState, message: 'Not active.'}))
+                    break
+                case 'Incorrect email or password.':
+                    setState((prevState) => ({...prevState, message: 'Incorrect email or password.'}))
+                    break
+                default:
+                    setState((prevState) => ({...prevState, message: 'Something went wrong, wait a few seconds and try again.'}))
+            }
         }
     }
 
@@ -75,6 +78,7 @@ const LoginForm = () => {
         </form>
     )
 }
+
 
 export {
     LoginForm

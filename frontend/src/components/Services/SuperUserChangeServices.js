@@ -31,8 +31,8 @@ const SuperUserChangeServices = () => {
             {loading && <LoadingPage/>}
             {error && <ErrorPage error={error}/>}
 
-            <button disabled={!prevPage} onClick={() => prev()}>Prev</button>
-            <button disabled={!nextPage} onClick={() => next()}>Next</button>
+            <button disabled={!prevPage} className={'prev-button'} onClick={() => prev()}>Prev</button>
+            <button disabled={!nextPage} className={'next-button'} onClick={() => next()}>Next</button>
 
             {services && services.map(service => <SuperUserChangeService service={service} id={id}/>)}
         </div>

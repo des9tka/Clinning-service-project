@@ -2,8 +2,9 @@ import {useSelector} from "react-redux";
 
 import {AdminUserButtons} from "./AdminUserButtons";
 import {SuperUserButtons} from "./SuperUserButtons";
+import {UserModalDelete} from "../Modals/UserModalDelete";
 
-const User = ({user, setState}) => {
+const User = ({user, setState, state}) => {
 
     const {self: worker} = useSelector(state => state.userReducer)
 
@@ -20,9 +21,10 @@ const User = ({user, setState}) => {
             <div>Employee: {user.is_employee.toString()}</div>
             <div>Admin: {user.is_staff.toString()}</div>
             <div>SuperUser: {user.is_superuser.toString()}</div>
+            {state.delUser && <UserModalDelete state={state} setState={setState} user={user}/>}
 
             {worker && worker.is_staff && !worker.is_superuser && worker.id !== user.id && <AdminUserButtons setState={setState} user={user}/>}
-            {worker && worker.is_superuser && worker.id !== user.id && <SuperUserButtons setState={setState} user={user}/>}
+            {worker && worker.is_superuser && worker.id !== user.id && <SuperUserButtons setState={setState} state={state} user={user}/>}
         </div>
     )
 }

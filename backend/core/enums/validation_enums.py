@@ -1,21 +1,4 @@
-import re
 from enum import Enum
-
-from django.core.exceptions import ValidationError
-from django.utils import timezone
-
-current_year = timezone.now().year
-next_year = current_year + 1
-year_regex = f"^(?:{current_year}|{next_year})-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\\d|3[01])$"
-
-
-def validate_order_date(value):
-    if not re.match(year_regex, value):
-        raise ValidationError("Order date must be in the format YYYY-MM-DD.")
-
-    selected_date = timezone.datetime.strptime(value, "%Y-%m-%d")
-    if selected_date.date() < timezone.now().date():
-        raise ValidationError("Order date cannot be earlier than the current date.")
 
 
 class RegEx(Enum):
@@ -76,20 +59,6 @@ class RegEx(Enum):
         r'^[a-zA-Zа-яА-Я]{2,30}$',
         [
             'Order address demands: contains 2-30 letters.'
-        ]
-    )
-
-    ORDER_DATE = (
-        validate_order_date,
-        [
-            'Order date must be in the format YYYY-MM-DD and cannot be earlier than the current date.'
-        ]
-    )
-
-    ORDER_TIME = (
-        r'^([01]\d|2[0-3]):[0-5]\d$',
-        [
-            'Order time demands: format  HH-MM.'
         ]
     )
 

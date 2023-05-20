@@ -7,14 +7,13 @@ const UserHeader = () => {
     return (
         <div className={'header'}>
             <NavLink to={'/home'}>Home</NavLink>
-            <NavLink to={'/office'}>My cabinet</NavLink>
+            <NavLink to={'/office?page=1&status=1'}>My cabinet</NavLink>
             <NavLink to={'/about'}>About</NavLink>
             <NavLink to={'/auth/login'}>Exit</NavLink>
             <Toggle/>
         </div>
     )
 }
-
 
 export {
     UserHeader
