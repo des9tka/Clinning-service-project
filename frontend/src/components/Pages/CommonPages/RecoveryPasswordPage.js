@@ -1,11 +1,11 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useForm} from "react-hook-form";
 import {joiResolver} from "@hookform/resolvers/joi/dist/joi";
+import {useState} from "react";
 
 import {password_validator} from "../../../validators";
 import {auth_service} from "../../../services";
-import {PasswordExpiredTokenModal} from "../../Modals/PasswordExpiredTokenModal";
-import {useState} from "react";
+import {PasswordExpiredTokenModal} from "../../Modals";
 
 const RecoveryPasswordPage = () => {
 

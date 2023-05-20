@@ -9,7 +9,7 @@ import {ErrorPage, LoadingPage} from "../CommonPages";
 import {c_service_service} from "../../../services";
 import {PhotosBuilder} from "../../PhotoBuilder";
 import {service_validator} from "../../../validators";
-import {ServiceModalDelete} from "../../Modals/ServiceModalDelete";
+import {ServiceModalDelete} from "../../Modals";
 
 const SuperUserServiceDetails = () => {
 

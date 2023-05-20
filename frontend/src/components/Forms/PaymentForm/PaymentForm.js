@@ -4,7 +4,7 @@ import {useParams} from "react-router-dom";
 
 import {order_service} from "../../../services";
 import {ErrorPage} from "../../Pages";
-import {PaymentModal} from "../../Modals/PaymentModal";
+import {PaymentModal} from "../../Modals";
 
 const checkoutFormOptions = {
     style: {

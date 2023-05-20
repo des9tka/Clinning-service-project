@@ -2,7 +2,7 @@ import {useSelector} from "react-redux";
 
 import {AdminUserButtons} from "./AdminUserButtons";
 import {SuperUserButtons} from "./SuperUserButtons";
-import {UserModalDelete} from "../Modals/UserModalDelete";
+import {UserModalDelete} from "../Modals";
 
 const User = ({user, setState, state}) => {
 
