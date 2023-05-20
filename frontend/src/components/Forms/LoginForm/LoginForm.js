@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
 
-import {auth_service} from "../../../services";
+import {auth_service, user_service} from "../../../services";
 import {userActions} from "../../../redux";
 
 const LoginForm = () => {
@@ -28,13 +28,26 @@ const LoginForm = () => {
     const log = async (user) => {
 
         try {
-            auth_service.deleteTokens()
+            await auth_service.deleteTokens()
             const {data} = await auth_service.login(user)
-            auth_service.setTokens(data)
-            setState((prevState) => ({...prevState, message: null}))
-            navigate('/')
+            await auth_service.setTokens(data)
+            user_service.getPerm().then((response) => {
+                switch (response.data) {
+                    case 'user':
+                        navigate('/')
+                        break;
+                    case 'employee':
+                        navigate('/employee/home')
+                        break;
+                    case 'admin':
+                        navigate('/admin/home')
+                        break;
+                    case 'superuser':
+                        navigate('/superuser/home')
+                        break;
+                }
+            })
         } catch (e) {
-            console.log(e.response.data.non_field_errors[0])
             switch (e.response.data.non_field_errors[0]) {
                 case 'User does not exist.':
                     setState((prevState) => ({...prevState, message: 'Incorrect email or password.'}))

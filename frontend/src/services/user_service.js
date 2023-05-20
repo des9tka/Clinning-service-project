@@ -22,7 +22,8 @@ const user_service = {
     getByToken: (token) => axiosService.get(`${urls.USERS}${userAttr.get_by_token}${token}`),
     bestEmployees: () => axiosService.get(`${urls.USERS}${userAttr.best_employees}`),
     getUserByOrderId: (id) => axiosService.get(`${urls.USERS}${userAttr.get_by_order}${id}`),
-    activateByToken: (token) => axiosService.patch(`${urls.USERS}${userAttr.activate_by_token}${token}`)
+    activateByToken: (token) => axiosService.patch(`${urls.USERS}${userAttr.activate_by_token}${token}`),
+    getPerm: () => axiosService.get(`${urls.USERS}${userAttr.get_perm}`)
 }
 
 export {

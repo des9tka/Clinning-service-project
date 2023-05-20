@@ -16,7 +16,8 @@ const userAttr = {
     get_by_token: '/get_by_token/',
     request_of_reject: '/request_of_reject/',
     get_by_order: '/get_by_order/',
-    activate_by_token: '/activate_by_token/'
+    activate_by_token: '/activate_by_token/',
+    get_perm: '/get_perm'
 };
 
 const serviceAttr = {

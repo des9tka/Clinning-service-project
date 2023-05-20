@@ -300,6 +300,23 @@ class GetSelfUserView(GenericAPIView):
         return Response(serializer.data, status.HTTP_200_OK)
 
 
+class GetPermissionView(GenericAPIView):
+    """
+    Get permissions of user.
+    """
+
+    def get(self, *args, **kwargs):
+        user = self.request.user
+        if user.is_staff and not user.is_superuser:
+            return Response('admin')
+        if user.is_employee and not user.is_superuser:
+            return Response('employee')
+        if user.is_staff and user.is_superuser and user.is_employee:
+            return Response('superuser')
+        if not user.is_staff and not user.is_superuser and not user.is_employee:
+            return Response('user')
+
+
 class GetUserByTokenView(GenericAPIView):
     """
     List user by token.
@@ -329,7 +346,6 @@ class ActivateByTokenView(GenericAPIView):
         return Response(status=status.HTTP_200_OK)
 
 
-
 class ListBestEmployeeView(ListAPIView):
     """
     List best 5 employees.
@@ -346,6 +362,7 @@ class EmployeeRejectRequestView(GenericAPIView):
     """
     Request for reject order from employee side.
     """
+
     def post(self, *args, **kwargs):
         pk = kwargs.get('pk')
         message = self.request.data.get('reason', None)
@@ -366,6 +383,7 @@ class GetUserByOrderIdView(GenericAPIView):
     """
     Get user by order Id.
     """
+
     def get(self, *args, **kwargs):
         pk = kwargs.get('pk')
         user = UserModel.objects.get(id=OrderModel.objects.get(id=pk).user_id)
