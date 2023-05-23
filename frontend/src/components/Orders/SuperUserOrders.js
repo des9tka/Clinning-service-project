@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useSearchParams} from "react-router-dom";
 
-import {orderActions} from "../../redux";
+import {orderActions, userActions} from "../../redux";
 import {SuperUserOrder} from "../Order";
 
 
@@ -15,7 +15,10 @@ const SuperUserOrders = () => {
 
 
     useEffect(() => {
-        dispatch(orderActions.setAllOrders({page: query.get('page'), status: query.get('status'), search: (searcher ? searcher : "")}))
+        setTimeout(() => {
+            dispatch(orderActions.setAllOrders({page: query.get('page'), status: query.get('status'), search: (searcher ? searcher : "")}))
+            console.log(1)
+        }, 3000)
     }, [query, searcher])
 
     const prev = () => {
@@ -74,7 +77,13 @@ const SuperUserOrders = () => {
             <hr/>
 
             <div className={'searcher-div'}>
-                <input className={'searcher'} type="text" id={'searcher'} placeholder={'search...'} onChange={(e) => search(e)} value={searcher}/>
+                <input className={'searcher'} type="text" id={'searcher'} placeholder={'search...'} onChange={(e) => {
+                    dispatch(orderActions.setLoading(true))
+                    setTimeout(() => {
+                        search(e)
+                        dispatch(orderActions.setLoading(false))
+                    }, 2000)
+                }}/>
             </div>
             <div className={'user-orders-div'}>
                 {orders && orders.map(order => <SuperUserOrder key={order.id} order={order}/>)}

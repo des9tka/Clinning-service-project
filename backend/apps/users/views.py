@@ -60,24 +60,16 @@ class UserListCreateView(ListCreateAPIView):
         queryset = UserModel.objects.all()
         if self.request.method == 'GET':
             search_query = self.request.GET.get('searcher', '')
-
             if search_query and search_query != '':
                 if search_query.isnumeric():
-                    queryset = queryset.filter(
-                        Q(id__exact=int(search_query)) |
-                        Q(service_id__exact=int(search_query)) |
-                        Q(profile__age__lte=int(search_query)) |
-                        Q(profile__phone__exact=int(search_query)) |
-                        Q(profile__rating__exact=float(search_query))
-                    )
+                    return queryset.filter(profile__phone__icontains=search_query).exclude(id=self.request.user.id)
                 else:
-                    queryset = queryset.filter(
+                    return queryset.filter(
                         Q(email__icontains=search_query) |
                         Q(profile__name__icontains=search_query) |
                         Q(profile__surname__icontains=search_query) |
                         Q(profile__name__icontains=search_query)
-                    )
-                return queryset.exclude(id=self.request.user.id)
+                    ).exclude(id=self.request.user.id)
             return queryset.exclude(id=self.request.user.id)
 
 

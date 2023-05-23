@@ -53,10 +53,6 @@ class OrderListView(ListAPIView):
             Q(status_id__lte=3) & (date_filter | time_filter)
         ).update(status=rejected_status)
 
-        print(OrderModel.objects.filter(
-            Q(status_id__lte=3) & (date_filter | time_filter)
-        ))
-
         if search_query and search_query != '':
             if search_query.isnumeric():
                 queryset = queryset.filter(
@@ -173,7 +169,6 @@ class RejectOrderView(GenericAPIView):
     def patch(self, *args, **kwargs):
         order = self.get_object()
         user = self.request.user
-        print(user.is_staff)
         order_status = OrderStatusModel.objects.get(name='rejected')
         order.status = order_status
         order.save()
@@ -196,7 +191,6 @@ class UserConfirmOrderView(GenericAPIView):
         pk = kwargs['pk']
         order = get_object_or_404(OrderModel, pk=pk)
         order_status = OrderStatusModel.objects.get(name='user_confirmed')
-        print(order_status)
         order.status = order_status
         order.save()
         serializer = OrderSerializer(instance=order)
@@ -306,7 +300,6 @@ class EmployeeOrdersView(ListAPIView):
 
         try:
             query = int(search_query)
-            print(type(query))
             queryset = OrderModel.objects.filter(
                 Q(price__exact=query) |
                 Q(rating__exact=query) |

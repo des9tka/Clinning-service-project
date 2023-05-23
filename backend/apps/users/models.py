@@ -44,10 +44,9 @@ class ProfileModel(models.Model):
     age = models.IntegerField(validators=[
         V.RegexValidator(RegEx.AGE.pattern, RegEx.AGE.message)
     ])
-    phone = models.BigIntegerField(validators=[
+    phone = models.CharField(max_length=12, validators=[
         V.RegexValidator(RegEx.PHONE.pattern, RegEx.PHONE.message)
     ])
     rating = models.FloatField(default=4)
     user_photo = models.ImageField(upload_to=upload_users_photos, max_length=500, blank=True)
     user = models.OneToOneField(UserModel, on_delete=models.CASCADE, related_name='profile')
-

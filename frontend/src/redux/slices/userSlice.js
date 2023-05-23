@@ -110,6 +110,9 @@ const userSlice = createSlice({
         },
         removeUser: (state, action) => {
             state.users = state.users.splice(state.users.findIndex(user => user.id === action.payload), 1)
+        },
+        setLoading: (state, action) => {
+            state.loading = action.payload
         }
     },
     extraReducers: builder =>
@@ -198,7 +201,7 @@ const userSlice = createSlice({
             })
 })
 
-const {reducer: userReducer, actions: {setUsers, setUser, setNextPage, setPrevPage, setError, setSelf, removeUser}} = userSlice;
+const {reducer: userReducer, actions: {setUsers, setUser, setNextPage, setPrevPage, setError, setSelf, removeUser, setLoading}} = userSlice;
 
 const userActions = {
     setUsers,
@@ -208,6 +211,7 @@ const userActions = {
     setError,
     setSelf,
     removeUser,
+    setLoading,
     setUserById,
     setAllUsers,
     setSelfUser,

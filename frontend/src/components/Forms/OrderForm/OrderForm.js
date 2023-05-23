@@ -33,10 +33,45 @@ const OrderForm = () => {
     });
 
     const dateFuncInst = () => {
+        //     const select = document.querySelector('select');
+        //     const currentHour = new Date().getHours();
+        //     let currentMinute = Math.ceil(new Date().getMinutes() / 10) * 10;
+        //     const startTime = currentHour >= 9 && document.getElementById('date').value === currentDate ? (currentHour + 3).toString().padStart(2, '0') + `:${currentMinute.toString().padStart(2, '0')}` : '09:00';
+        //     const endTime = '20:00';
+        //
+        //     let currentTime = startTime;
+        //     while (currentTime <= endTime) {
+        //         const option = document.createElement('option');
+        //         option.text = currentTime;
+        //         option.value = currentTime;
+        //         select.appendChild(option);
+        //
+        //         const [hours, minutes] = currentTime.split(':');
+        //         const date = new Date();
+        //         date.setHours(hours);
+        //         date.setMinutes(minutes);
+        //         date.setMinutes(date.getMinutes() + 5);
+        //         currentTime = date.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+        //     }
+        //     setValue('time', startTime, {shouldValidate: true});
+        // }
+
         const select = document.querySelector('select');
-        const currentHour = new Date().getHours();
+        let currentHour = new Date().getHours();
         let currentMinute = Math.ceil(new Date().getMinutes() / 10) * 10;
-        const startTime = currentHour >= 9 && document.getElementById('date').value === currentDate ? (currentHour + 3).toString().padStart(2, '0') + `:${currentMinute.toString().padStart(2, '0')}` : '09:00';
+
+        // Adjust currentMinute if it exceeds 59
+        if (currentMinute > 59) {
+            currentMinute = 0;
+            currentHour += 1;
+        }
+
+        const startTime =
+            currentHour >= 9 && document.getElementById('date').value === currentDate
+                ? `${String(currentHour + 3).padStart(2, '0')}:${String(
+                    currentMinute
+                ).padStart(2, '0')}`
+                : '09:00';
         const endTime = '20:00';
 
         let currentTime = startTime;
@@ -54,7 +89,7 @@ const OrderForm = () => {
             currentTime = date.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
         }
         setValue('time', startTime, {shouldValidate: true});
-    }
+    };
 
     useEffect(() => {
         setValue('date', currentDate, {shouldValidate: true});
@@ -160,7 +195,7 @@ const OrderForm = () => {
             {state.message && state.message !== '' && <label className={'errors'}>{state.message}</label>}
 
             <label id={'address-label'}>{errors.address ? <div className={'errors'}>✖ {errors.address.message}</div> : 'Address'}</label>
-            <input id={'address'} type="text" placeholder={'Address'} {...register('address')}/>
+            <input id={'address'} type="text" {...register('address')}/>
 
             <label id={'date-label'}>{errors.date ? <div className={'errors'}>✖ {errors.date.message}</div> : 'Date'}</label>
             <input id={'date'} type="date" {...register('date')} onChange={() => dateFuncInst()} min={currentDate} max={nextYear}/>
@@ -171,7 +206,8 @@ const OrderForm = () => {
             <label id={'footage-label'}>{errors.footage ? <div className={'errors'}>✖ {errors.footage.message}</div> : 'Footage'}</label>
             <input id={'footage'} type="number" {...register('footage')}/>
 
-            <label id={'task-label'}>{errors.task_description ? <div className={'errors'}>✖ {errors.task_description.message}</div> : 'Task description'}</label>
+            <label id={'task-label'}>{errors.task_description ?
+                <div className={'errors'}>✖ {errors.task_description.message}</div> : 'Task description'}</label>
             <label>{state.text}/300</label>
             <input id={'task'} type="text" className={'task-field'} maxLength='300' onInput={(e) => {
                 setState(prevState => ({...prevState, text: e.target.value.length}))

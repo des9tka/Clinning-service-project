@@ -4,17 +4,18 @@ import {useSearchParams} from "react-router-dom";
 
 import {UserOrder} from "../Order";
 import {orderActions} from "../../redux";
+import {LoadingPage} from "../Pages";
 
 
 const UserOrders = () => {
 
     const dispatch = useDispatch();
-    const {orders, nextPage, prevPage} = useSelector(state => state.orderReducer)
+    const {orders, loading, nextPage, prevPage} = useSelector(state => state.orderReducer)
     const [query, setQuery] = useSearchParams({page: '1', status: '1'});
     const [searcher, setSearcher] = useState(null)
 
     useEffect(() => {
-        dispatch(orderActions.setAllOrders({page: query.get('page'), status: query.get('status'), search: (searcher ? searcher : "")}))
+            dispatch(orderActions.setAllOrders({page: query.get('page'), status: query.get('status'), search: (searcher ? searcher : "")}))
     }, [query, searcher])
 
     const prev = () => {
@@ -51,6 +52,7 @@ const UserOrders = () => {
 
     return (
         <div>
+            {loading && <LoadingPage/>}
             <hr/>
             <div className={'pagination-buttons-div'}>
                 {!search && <button className={'office-buttons'} disabled={!prevPage} onClick={() => prev()}>Prev</button>}
@@ -67,11 +69,16 @@ const UserOrders = () => {
                 {!search && <button className={'office-buttons'} disabled={!nextPage} onClick={() => next()}>Next</button>}
                 {search && <button className={'office-buttons'} disabled={!nextPage} onClick={() => searchNext()}>Next</button>}
             </div>
-
             <hr/>
 
             <div className={'searcher-div'}>
-                <input type="text" className={'searcher'} id={'searcher'} placeholder={'search...'} onChange={(e) => search(e)} value={searcher}/>
+                <input type="text" className={'searcher'} id={'searcher'} placeholder={'search...'} onChange={(e) => {
+                    dispatch(orderActions.setLoading(true))
+                    setTimeout(() => {
+                        search(e)
+                        dispatch(orderActions.setLoading(false))
+                    }, 2000)
+                }}/>
             </div>
 
             <div className={'user-orders-div'}>

@@ -18,7 +18,6 @@ const AdminOrders = () => {
         dispatch(orderActions.setAllOrders({page: query.get('page'), status: query.get('status'), search: (searcher ? searcher : "")}))
     }, [query, searcher])
 
-
     const prev = () => {
         setQuery(value => ({page: value.get('page') - 1, status: value.get('status')}))
     }
@@ -76,7 +75,13 @@ const AdminOrders = () => {
             </div>
 
             <div>
-                <input className={'order-searcher'} type="text" id={'searcher'} placeholder={'search...'} onChange={(e) => search(e)} value={searcher}/>
+                <input className={'order-searcher'} type="text" id={'searcher'} placeholder={'search...'} onChange={(e) => {
+                    dispatch(orderActions.setLoading(true))
+                    setTimeout(() => {
+                        search(e)
+                        dispatch(orderActions.setLoading(false))
+                    }, 2000)
+                }}/>
                 <div className={'admin-orders-div'}>
                     {orders && orders.map(order => <AdminOrder key={order.id} order={order}/>)}
                 </div>

@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 
-import {orderActions} from "../../redux";
+import {orderActions, userActions} from "../../redux";
 import {EmployeeOrder} from "../Order";
 import {ErrorPage, LoadingPage} from "../Pages";
 import {useSearchParams} from "react-router-dom";
@@ -42,7 +42,13 @@ const EmployeeOrders = () => {
 
             <div className={'buttons-wrap'}>
                 <button className={'prev-button'} onClick={() => prev()} disabled={!prevPage}>Prev</button>
-                <input className={'employee-order-searcher'}placeholder={'search...'} type="text" id={'searcher'} onChange={(e) => setSearch(e.target.value)}/>
+                <input className={'employee-order-searcher'} placeholder={'search...'} type="text" id={'searcher'} onChange={(e) => {
+                    dispatch(orderActions.setLoading(true))
+                    setTimeout(() => {
+                        setSearch(e.target.value)
+                        dispatch(orderActions.setLoading(false))
+                    }, 2000)
+                }}/>
                 <button className={'next-button'} onClick={() => next()} disabled={!nextPage}>Next</button>
             </div>
 

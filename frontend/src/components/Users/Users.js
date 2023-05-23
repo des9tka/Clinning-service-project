@@ -4,7 +4,7 @@ import {useSearchParams} from "react-router-dom";
 
 import {ErrorPage, LoadingPage} from "../Pages";
 import {User} from "../User";
-import {userActions} from "../../redux";
+import {userActions, userReducer} from "../../redux";
 
 const Users = () => {
 
@@ -37,7 +37,13 @@ const Users = () => {
 
             <div className={'buttons-wrap'}>
                 <button className={'prev-button'} disabled={!prevPage} onClick={() => prev()}>Prev</button>
-                <input className={'searcher'} placeholder={'search...'} type="text" id={'searcher'} onChange={(e) => setSearcher(e.target.value)} value={searcher}/>
+                <input className={'searcher'} placeholder={'search...'} type="text" id={'searcher'} onChange={(e) => {
+                    dispatch(userActions.setLoading(true))
+                    setTimeout(() => {
+                        setSearcher(e.target.value)
+                        dispatch(userActions.setLoading(false))
+                    }, 2000)
+                }}/>
                 <button className={'next-button'} disabled={!nextPage} onClick={() => next()}>Next</button>
             </div>
             <div className={'users-div'}>
