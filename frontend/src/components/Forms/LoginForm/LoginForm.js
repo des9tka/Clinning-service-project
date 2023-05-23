@@ -48,11 +48,12 @@ const LoginForm = () => {
                 }
             })
         } catch (e) {
+            console.log(e.response.data.non_field_errors[0])
             switch (e.response.data.non_field_errors[0]) {
                 case 'User does not exist.':
                     setState((prevState) => ({...prevState, message: 'Incorrect email or password.'}))
                     break
-                case 'Not active.':
+                case 'User is not active.':
                     setState((prevState) => ({...prevState, message: 'Not active.'}))
                     break
                 case 'Incorrect email or password.':
@@ -83,7 +84,7 @@ const LoginForm = () => {
             }}/>
             <br/>
             <label htmlFor={'login-password'}>Password</label>
-            <input type="text" className={'login-password login-items'} {...register('password')} onChange={(e) => {
+            <input type="password" className={'login-password login-items'} {...register('password')} onChange={(e) => {
                 setState((prevState) => ({...prevState, password: e.target.value}))
             }}/>
             <br/>
